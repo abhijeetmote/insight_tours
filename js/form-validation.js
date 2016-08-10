@@ -343,9 +343,11 @@ function check_isemail(obj,event) {
         $("#" + emailid +"_errorlabel").html("Please enter valid email id");
         $("#" + emailid).focus();
         event.preventDefault();
+        $("button[type=submit]").prop('disabled', true);
         return false;
     } else {
         //do Nothing
+        $("button[type=submit]").prop('disabled', false);
         return true;
     }
 }
@@ -365,9 +367,11 @@ function check_ispan(obj,event) {
         $("#" + panid +"_errorlabel").html("Please enter valid Pan number");
         $("#" + panid).focus();
         event.preventDefault();
+        $("button[type=submit]").prop('disabled', true);
         return false;
     } else {
         //do Nothing
+        $("button[type=submit]").prop('disabled', false);
         return true;
     }
 }
@@ -379,7 +383,9 @@ function bulk_isemail(email) {
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
     if (!emailReg.test(email)) {
         return 1;
+        $("button[type=submit]").prop('disabled', true);
     } else {
+        $("button[type=submit]").prop('disabled', false);
        return 0;
     }
 } 
