@@ -284,7 +284,11 @@ class Driver extends MX_Controller {
  	public function driverAttend(){
 
         $this->header->index();
-		$this->load->view('driverAttend');
+         
+		$select = 'driver_id,driver_fname,driver_lname';
+		$tableName = 'driver_master';
+		$data['driverdetails'] = $this->helper_model->selectAll($select, $tableName);
+		$this->load->view('driverAttend',$data);
 		$this->footer->index();
  	}
 }

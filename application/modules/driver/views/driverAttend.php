@@ -8,9 +8,9 @@
 				</li>
 
 				<li>
-					<a href="#">Staff</a>
+					<a href="#">Driver</a>
 				</li>
-				<li class="active">Add Staff Attendance</li>
+				<li class="active">Add Driver Attendance</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -27,7 +27,7 @@
 			
 			<div class="page-header">
 				<h1>
-					Add Staff Attendance
+					Add Driver Attendance
 				</h1>
 			</div><!-- /.page-header -->
 
@@ -37,10 +37,10 @@
 					<!-- PAGE CONTENT BEGINS -->
 					<form class="form-horizontal" role="form" id="staffatten">						
 					<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right">Select Staff First Name</label>
+							<label class="col-sm-2 no-padding-right">Select Driver</label>
 								
 							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="staff_f_name" id="form-field-select-3" data-placeholder="Choose a Staff...">
+								<select class="chosen-select form-control" name="driver_name" id="driver_name" data-placeholder="Choose a Driver...">
 									<?php
 										foreach ($staffdata as $val) 
 										{
@@ -58,25 +58,7 @@
 								</select>
 							</div>	
 					</div>
-					<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right">Select Staff Last Name</label>
-
-							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="staff_l_name" id="form-field-select-3" data-placeholder="Choose a Staff LastName...">
-									<?php 
-										foreach ($staffDrop as $val) 
-										{
-											if($val->staff_id == $staff[0]->staff_id){
-												echo '<option selected value="'.$val->staff_last_name.'">'.$val->staff_last_name.'</option>';
-											}else{
-												echo '<option value="'.$val->staff_last_name.'">'.$val->staff_last_name.'</option>';
-											}
-										}
-									?>
-									
-								</select>
-							</div>	
-					</div>
+					 
 					<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Enter Check In*</label>
 
@@ -92,21 +74,7 @@
 								</span>
 							</div>
 					</div> 
-					<!--<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Enter Check Out</label>
-
-							<div class="col-sm-9">
-								 
-								<input type="text" id="staff_out_dt" data-date-format="dd-mm-yyyy" name="staff_out_dt" placeholder="Enter Attendence Date" class="date-picker col-xs-10 col-sm-5" 
-								value="<?php //if(isset($staff)): echo $staff[0]->staff_dob; endif; ?>" />
-								<span style="width:10px;height:35px;" class="input-group-addon">
-									<i class="fa fa-calendar bigger-110"></i>
-								</span>
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="staff_out_dt_errorlabel"></span>
-								</span>
-							</div>
-					</div>-->
+					 
 					<div class="form-group">
 				<label class="col-sm-2 control-label no-padding-right">Select Staff Check-In-Check-Out</label>
 				<div class="col-sm-4">
