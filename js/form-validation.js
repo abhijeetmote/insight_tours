@@ -328,7 +328,7 @@ function check_ismobile(e,obj){
        return false;
     }
   
-}
+} 
 
 // This function check the values for Email address 
   
