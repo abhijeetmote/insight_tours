@@ -8,6 +8,12 @@ class Booking_model extends CI_Model {
 		$this->load->model('helper/helper_model');
 	}
 
+	public function getVehicleList($data,$table){
+
+		$result = $this->helper_model->selectAll($data,$table);
+		return $result;
+	}
+
 	public function saveData($tableName,$data){
 		$result = $this->helper_model->insertid($tableName,$data);
 		return $result;
@@ -26,12 +32,6 @@ class Booking_model extends CI_Model {
 	public function getGroupId($select,$tableName,$context,$entity_type,$where){
 
 		$result = $this->helper_model->selectGroupId($select,$tableName,$where);
-		return $result;
-	}
-
-	public function getVendorLit($data,$table){
-
-		$result = $this->helper_model->selectAll($data,$table);
 		return $result;
 	}
 
