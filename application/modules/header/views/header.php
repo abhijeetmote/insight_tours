@@ -592,6 +592,45 @@
 						</ul>
 					</li>
 
+
+
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-desktop"></i>
+							<span class="menu-text">
+								Booking
+							</span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							
+							<li class="">
+								<a href="<?php echo base_url(); ?>booking/bookingMaster">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Add Booking
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="<?php echo base_url(); ?>booking/bookingList">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Booking list
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+
 				</ul><!-- /.nav-list -->
 
 				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
