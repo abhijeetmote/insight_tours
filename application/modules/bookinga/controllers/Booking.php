@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Booking extends MX_Controller {
+class booking extends MX_Controller {
 
 	function __construct() {
 	    parent::__construct();
@@ -11,30 +11,13 @@ class Booking extends MX_Controller {
 		$this->load->model('helper/helper_model');
 	}
 
+	
+
 	public function bookingMaster()
 	{
 		$this->header->index();
 		$this->load->view('BookingAdd');
 		$this->footer->index();
-	}
-
-	public function addSlip()
-	{
-		$select = 'vehicle_id,vehicle_no';
-		$tableName = 'vehicle_master';
-		$data['vehicleList'] = $this->Booking_model->getVehicleList($select,$tableName);
-		$select = 'driver_id,driver_fname,driver_lname';
-		$tableName = 'driver_master';
-		$data['driverList'] = $this->Booking_model->getVehicleList($select,$tableName);
-		//echo "<pre>"; print_r($data); exit();
-		$this->header->index();
-		$this->load->view('DutySlip', $data);
-		$this->footer->index();
-	}
-
-	public function addDutySlip()
-	{
-		echo json_encode($_POST);
 	}
 	public function addvendor()
 	{	
