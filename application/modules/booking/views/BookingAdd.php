@@ -8,7 +8,7 @@
 				</li>
 
 				<li>
-					<a href="#">Booking</a>
+					<a href="#"> Booking</a>
 				</li>
 				<li class="active">Add Booking</li>
 			</ul><!-- /.breadcrumb -->
@@ -35,88 +35,37 @@
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" id="<?php if(isset($vendor)): echo "vendor_update"; else: echo "vendormaster"; endif; ?>">						
+					<form class="form-horizontal" role="form" id="<?php if(isset($booking)): echo "booking_update"; else: echo "bookingmaster"; endif; ?>">						
 						
 						<div class="form-group">
-							<label class="col-sm-2  no-padding-right" for="">Booking Date</label>
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Booking Date*</label>
 
-							<div class="col-sm-9">
-								<input type="text" data-date-format="dd-mm-yyyy" id="booking_date" name="booking_date" value="<?php if(isset($booking)): echo $booking[0]->booking_date; endif; ?>" class="date-picker col-xs-10 col-sm-5"/>
-								<span style="width:10px;height:35px;" class="input-group-addon">
-									<i class="fa fa-calendar bigger-110"></i>
+							<div class="col-sm-4">
+							 
+								
+								<div class="input-group">
+								<input type="text" class="form-control mandatory-field" id="date-timepicker1" name="booking_date" placeholder="Enter User Booking Date" value="<?php if(isset($booking)): echo $booking[0]->booking_date; endif; ?>">
+								<span class="input-group-addon">
+									<i class="fa fa-clock-o bigger-110"></i>
 								</span>
+
+								</div>
 								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="booking_dateerrorlabel"></span>
-								</span>
-							</div>
-						</div>	
-
-
-						<div class="form-group">
-                            <label class="col-sm-2 no-padding-right" for="form-field-2">Customer</label>
-
-                            <div class="col-sm-4">
-                                <select data-placeholder="Active/Inactive" name="customer_id" id="customer_id" class="chosen-select form-control mandatory-field" style="display: none;">
-                                    <option value="1">Admin</option>
-                                    <option value="0">Super Admin</option>
-                                    
-                                </select>
-                                <span class="help-inline col-xs-12 col-sm-7">
-                                    <span class="middle input-text-error" id="customer_id_errorlabel"></span>
-                                </span>
-                            </div>
-                        </div>	
-
-                        <div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Pickup Address*</label>
-
-							<div class="col-sm-9">
-								<textarea id="pickup_address" name="pickup_address" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" >
-									<?php if(isset($booking)): echo trim($booking[0]->pickup_location); endif; ?>
-								</textarea>
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="pickup_address_errorlabel"></span>
+									<span class="middle input-text-error" id="booking_date_errorlabel"></span>
 								</span>
 							</div>
 						</div>
-
-
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Drop Address*</label>
-
-							<div class="col-sm-9">
-								<textarea id="drop_address" name="drop_address" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" >
-									<?php if(isset($booking)): echo trim($booking[0]->drop_location); endif; ?>
-								</textarea>
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="drop_address_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-
-
-
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> No of person*</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="no_of_person" name="no_of_person" value="<?php if(isset($booking)): echo $booking[0]->no_of_person; endif; ?>" placeholder="Enter no of person"  class="col-xs-10 col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="no_of_person_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-
-						<input type="hidden" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_id; endif; ?>" name="id">
-						<input type="hidden" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_ledger_id; endif; ?>" name="vendor_ledger_id">
 
 						<div class="form-group">
                             <label class="col-sm-2 no-padding-right" for="form-field-2">Vehicale Type</label>
 
                             <div class="col-sm-4">
-                                <select data-placeholder="vehicale type" name="vehicale_type" id="vehicale_type" class="chosen-select form-control mandatory-field" style="display: none;">
-                                    <option value="1">Admin</option>
-                                    <option value="0">Super Admin</option>
+                                <select data-placeholder="vehicale type" name="vehicale_type" id="vehicale_type" class="chosen-select form-control" style="display: none;">
+                                     <?php
+										foreach ($vechileTList as $val) {
+											echo '<option value="'.$val->cat_id.'">'.$val->cat_name.'</option>';
+										}
+									?>
                                     
                                 </select>
                                 <span class="help-inline col-xs-12 col-sm-7">
@@ -129,17 +78,102 @@
                             <label class="col-sm-2 no-padding-right" for="form-field-2">Travel Type</label>
 
                             <div class="col-sm-4">
-                                <select data-placeholder="Active/Inactive" name="travel_type" id="travel_type" class="chosen-select form-control mandatory-field" style="display: none;">
-                                    <option value="1">Admin</option>
-                                    <option value="0">Super Admin</option>
+                                <select data-placeholder="Active/Inactive" name="travel_type" id="travel_type" class="chosen-select form-control" style="display: none;">
+                                     <option value="Local">Local</option>
+                                    <option value="Outstation">Outstation</option>
                                     
                                 </select>
                                 <span class="help-inline col-xs-12 col-sm-7">
                                     <span class="middle input-text-error" id="travel_type_errorlabel"></span>
                                 </span>
                             </div>
+                        </div>	
+
+
+						<div class="form-group">
+                            <label class="col-sm-2 no-padding-right" for="form-field-2">Customer</label>
+
+                            <div class="col-sm-4">
+                                <select data-placeholder="Active/Inactive" name="customer_id" id="customer_id" class="chosen-select form-control" style="display: none;">
+                                    <?php
+										foreach ($customerList as $val) {
+											echo '<option value="'.$val->cust_id.'">'.$val->cust_firstname.' '.$val->cust_lastname.'</option>';
+										}
+									?>
+                                    
+                                </select>
+                                <span class="help-inline col-xs-12 col-sm-7">
+                                    <span class="middle input-text-error" id="customer_id_errorlabel"></span>
+                                </span>
+                            </div>
                         </div>
+
+
+                        <div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="form-field-2">PickUp / Dropp Address*</label>
+								
+							<div class="col-sm-8">
+								<div class="col-sm-6">   
+								<textarea id="pickup_address" style="width: 100%; height: 40px;" name="pickup_address" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($booking)): echo trim($booking[0]->pickup_location); endif; ?></textarea>
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="pickup_address_errorlabel"></span>
+								</span>
+								</div>
+								<div class="col-sm-6">   
+								 <textarea id="drop_address" style="width: 100%; height: 40px;" name="drop_address" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($booking)): echo trim($booking[0]->drop_location); endif; ?></textarea>
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="drop_address_errorlabel"></span>
+								</span>
+								</div>
+								 
+							</div>
+					
+						</div>
+ 
+
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="form-field-2">person*</label>
+							<button class="btn btn-info" id="add_new_person" type="button" style="margin-left: 10px; margin-right: 20px;">
+									<i class="iconcategory"></i>Add</button>
+								
+							<div class="col-sm-8">
+								<div class="col-sm-6">   
+								<input type="text" id="passenger_name" value="<?php if(isset($passenger)): echo $passenger[0]->passenger_name; endif; ?>" name="passenger_name" placeholder="Enter Passenger Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);" />
+								<span class="help-inline col-xs-12 col-sm-10">
+									<span class="middle input-text-error" id="passenger_name_errorlabel"></span>
+								</span>
+								</div>
+								<div class="col-sm-6">   
+								<input type="text" id="passenger_number" value="<?php if(isset($passenger)): echo $passenger[0]->passenger_number; endif; ?>" name="passenger_number" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" />
+								<span class="help-inline col-xs-12 col-sm-10">
+									<span class="middle input-text-error" id="passenger_number_errorlabel"></span>
+								</span>
+								</div>
+							</div>
+							
+
+							<div class="col-sm-8" style="margin-left:16.5%;">
+								<div class="col-sm-6">   
+								<textarea id="pass_pickup_address" style="width: 100%; height: 40px;" name="pass_pickup_address" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($passenger)): echo trim($passenger[0]->pickup_location); endif; ?></textarea>
+								<span class="help-inline col-xs-12 col-sm-10">
+									<span class="middle input-text-error" id="pass_pickup_address_errorlabel"></span>
+								</span>
+								</div>
+								<div class="col-sm-6">   
+								<textarea id="pass_drop_address" style="width: 100%; height: 40px;" name="pass_drop_address" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($passenger)): echo trim($passenger[0]->drop_location); endif; ?></textarea>
+								<span class="help-inline col-xs-12 col-sm-10">
+									<span class="middle input-text-error" id="pass_drop_address_errorlabel"></span>
+								</span>
+								</div>
+							</div>
+
 						
+
+
+						</div>
+
+						 
+						 
 
 						
 						<div class="clearfix form-actions">
@@ -208,7 +242,16 @@
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
+
+
 	jQuery(function($) {
+
+		add_new_person
+
+		$('#add_new_person').on('click', function() {
+			 alert("ff");
+		});
+
 		$('#id-disable-check').on('click', function() {
 			var inp = $('#form-input-readonly').get(0);
 			if(inp.hasAttribute('disabled')) {

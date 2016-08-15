@@ -29,6 +29,12 @@ class Booking_model extends CI_Model {
 
 	}
 
+	public function listData($data,$table){
+		$result = $this->helper_model->selectAll($data,$table);
+		return $result;
+
+	}
+
 	public function getGroupId($select,$tableName,$context,$entity_type,$where){
 
 		$result = $this->helper_model->selectGroupId($select,$tableName,$where);

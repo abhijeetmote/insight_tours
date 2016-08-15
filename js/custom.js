@@ -12,6 +12,9 @@ var array = [
 	{name: "vendor_update", value: baseUrl + "vendor/vendorUpdate"},
 	{name: "useradd", value: baseUrl + "user/adduser"},
 	{name: "user_update", value: baseUrl + "user/Userupdate"},
-	{name: "userList", value: baseUrl + "user/userDelete"}
+	{name: "userList", value: baseUrl + "user/userDelete"},
+	{name: "bookingmaster", value: baseUrl + "booking/addbooking"},
+	{name: "booking_update", value: baseUrl + "booking/Bookingupdate"},
+	{name: "bookingList", value: baseUrl + "booking/bookingDelete"}
 ];
 

@@ -13,8 +13,18 @@ class Booking extends MX_Controller {
 
 	public function bookingMaster()
 	{
+
+		$select = 'cust_id,cust_firstname,cust_lastname';
+		$tableName = 'customer_master';
+		$column = "isactive";
+		$value = "1";
+		$data['customerList'] = $this->Booking_model->getData($select, $tableName, $column, $value);
+		$select = 'cat_id,cat_name';
+		$tableName = 'vehicle_category';
+		$data['vechileTList'] = $this->Booking_model->getData($select, $tableName, $column, $value);
+		//echo "<pre>"; print_r($data); exit();
 		$this->header->index();
-		$this->load->view('BookingAdd');
+		$this->load->view('BookingAdd',$data);
 		$this->footer->index();
 	}
 
@@ -36,9 +46,9 @@ class Booking extends MX_Controller {
 	{
 		echo json_encode($_POST);
 	}
-	public function addvendor()
+	public function addbooking()
 	{	
-		
+		echo "eee";exit;
 		
 		 $vendor_name = isset($_POST['vendor_name']) ? $_POST['vendor_name'] : "";
 		 $vendor_mobile_number = isset($_POST['vendor_contact_number']) ? $_POST['vendor_contact_number'] : "";
