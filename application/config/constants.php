@@ -20,6 +20,8 @@ define('DIR_WRITE_MODE', 0777);
 define('DRIVER_TABLE', 'driver_master');
 define('VENDOR_TABLE', 'vendors_master');
 define('LEDGER_TABLE', 'ledger_master');
+define('BOOKING_TABLE', 'booking_master');
+define('PASSENGER_TABLE', 'passenger_details');
 define('REPORT_HEAD_INCOME', 'income');
 define('REPORT_HEAD_EXPENSE', 'expense');
 define('DRIVER_CONTEXT', 'driver');
