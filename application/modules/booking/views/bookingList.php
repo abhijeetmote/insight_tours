@@ -49,7 +49,7 @@
 							<!-- div.table-responsive -->
 
 							<!-- div.dataTables_borderWrap -->
-							<form class="form" id="vendorList"></form>
+							<form class="form" id="bookingList"></form>
 							<div>
 								<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 									<thead>
