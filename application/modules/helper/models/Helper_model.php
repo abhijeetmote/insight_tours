@@ -87,6 +87,12 @@ class Helper_model extends CI_Model {
 		return $newDate;
 	}
 
+	public function dbDatetime($originalDate){
+		$newDate = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $originalDate)));
+		return $newDate;
+	}
+	
+
 	public function do_upload($file,$tmpfile,$allowsize,$newname,$username){
 
      $filename=basename($file);

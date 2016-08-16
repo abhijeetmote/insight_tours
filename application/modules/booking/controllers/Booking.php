@@ -57,6 +57,10 @@ class Booking extends MX_Controller {
 		 $pickup_location = isset($_POST['pickup_address']) ? $_POST['pickup_address'] : "";
 		 $drop_location = isset($_POST['drop_address']) ? $_POST['drop_address'] : "";
 
+		 //bdate conversion
+		 if(isset($booking_date) && !empty($booking_date)){
+		 	$booking_date = $this->helper_model->dbDatetime($booking_date);
+		 }
 
 		 //passenger data
 		 $passenger_name = isset($_POST['passenger_name']) ? $_POST['passenger_name'] : "";
