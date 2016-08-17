@@ -153,7 +153,7 @@
 							<button class="btn edit_person" name="<?php echo $passenger->id;?>" id="edit_person_<?php echo $i;?>" type="button"><i class="ace-icon fa fa-pencil bigger-130"></i></button>
 								
 							<div class="col-sm-8">
-								<div class="col-sm-6">   
+								<div class="col-sm-6">    
 								<input type="text" disabled id="passenger_name<?php echo $i;?>" value="<?php if(isset($passenger)): echo $passenger->passenger_name; endif; ?>" name="passenger_name[]" placeholder="Enter Passenger Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);" />
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="passenger_name<?php echo $i;?>_errorlabel"></span>
