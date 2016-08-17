@@ -223,6 +223,9 @@ class Booking extends MX_Controller {
 		 $travel_type = isset($_POST['travel_type']) ? $_POST['travel_type'] : "";
 		 $pickup_location = isset($_POST['pickup_address']) ? $_POST['pickup_address'] : "";
 		 $drop_location = isset($_POST['drop_address']) ? $_POST['drop_address'] : "";
+		 $booking_status = isset($_POST['booking_status']) ? $_POST['booking_status'] : "";
+		 $cancel_comment = isset($_POST['cancel_comment']) ? $_POST['cancel_comment'] : "";
+		 
 		 //echo $booking_date;
 		 //bdate conversion
 		 if(isset($booking_date) && !empty($booking_date)){
@@ -230,22 +233,29 @@ class Booking extends MX_Controller {
 		 }
 		// echo $booking_date;exit;
 
-		 //passenger data
+		 //passenger new data
 		 $passenger_name = isset($_POST['passenger_name']) ? $_POST['passenger_name'] : "";
 		 $passenger_number = isset($_POST['passenger_number']) ? $_POST['passenger_number'] : "";
 		 $pickup_address = isset($_POST['pass_pickup_address']) ? $_POST['pass_pickup_address'] : "";
 		 $drop_address = isset($_POST['pass_drop_address']) ? $_POST['pass_drop_address'] : "";
+
+		 //passenger edit data
+		 $passenger_name_edit = isset($_POST['passenger_name_edit']) ? $_POST['passenger_name_edit'] : "";
+		 $passenger_number_edit = isset($_POST['passenger_number_edit']) ? $_POST['passenger_number_edit'] : "";
+		 $pickup_address_edit = isset($_POST['pass_pickup_address_edit']) ? $_POST['pass_pickup_address_edit'] : "";
+		 $drop_address_edit = isset($_POST['pass_drop_address_edit']) ? $_POST['pass_drop_address_edit'] : "";
 		 //$no_of_persons = count($passenger_name);
 
 		 $booking_data = array(
-			'booking_date' => $booking_date,
+			'new_booking_date' => $booking_date,
 			'booked_on' => date('Y-m-d h:i:s'),
 			'cust_id' => $cust_id,
 			'vehicle_type' => $vehicle_type,
 			'travel_type' => $travel_type,
 			'pickup_location' => $pickup_location,
 			'drop_location' => $drop_location,
-			'booking_status' => '1',
+			'booking_status' => $booking_status,
+			'cancel_comment' => $cancel_comment,
 			'updated_by' => '1',
 			'updated_on' => date('Y-m-d h:i:s')
 		);
@@ -260,7 +270,8 @@ class Booking extends MX_Controller {
 	  
 
  	//passenger data insertion start
- 	if(isset($booking_id) && !empty($booking_id) && isset($passenger_number) && !empty($passenger_number)) {
+ 	if(isset($booking_id) && !empty($booking_id)) {
+ 		if(isset($passenger_number) && !empty($passenger_number)) {
 		 $i=0;
 		 foreach($passenger_number as $val) {
 	 		
@@ -291,18 +302,57 @@ class Booking extends MX_Controller {
  	 			$this->db->trans_commit();
 				$response['success'] = true;
 				$response['error'] = false;
-				$response['successMsg'] = "Vendor Added Successfully";
+				$response['successMsg'] = "Booking Updated Successfully";
  	 		}
 		 	$i++;
  		 }
+ 		}
 
- 	 	
+ 		if(isset($passenger_number_edit) && !empty($passenger_number_edit)) {
+ 		 foreach($passenger_number_edit as $key=>$val) {
+	 		
+	 		 $passenger_name_edit[$key] = isset($passenger_name_edit[$key]) ? $passenger_name_edit[$key] : "";
+	 		 $pickup_address_edit[$key] = isset($pickup_address_edit[$key]) ? $pickup_address_edit[$key] : "";
+	 		 $drop_address_edit[$key] = isset($drop_address_edit[$key]) ? $drop_address_edit[$key] : "";
+
+	 		$val = isset($val) ? $val : $val;
+
+		 	$passdata = array(
+			'passenger_name' => $passenger_name_edit[$key],
+			'passenger_number' => $val,	
+			'pickup_address' =>  $pickup_address_edit[$key],
+			'drop_address' => $drop_address_edit[$key],
+			'booking_id' => $booking_id,
+			'updated_by' => '1',
+			'updated_on' => date('Y-m-d h:i:s'));
+		 	//Insert Ledger data with Deriver Id
+		 	$passtable =  PASSENGER_TABLE;
+		 	$pass_column = "id";
+		 	 $pass_id = $key;
+		 	 $result = $this->Booking_model->updateData($passtable, $passdata, $pass_column, $pass_id);
+		 	
+		 	if(!isset($result) || empty($result)){
+ 	 		$this->db->trans_rollback();
+ 	 		$response['error'] = true;
+ 	 		$response['success'] = false;
+			$response['errorMsg'] = "Error!!! Please contact IT Dept";
+			echo json_encode($response);exit;	
+ 	 		} else {
+
+ 	 			$this->db->trans_commit();
+				$response['success'] = true;
+				$response['error'] = false;
+				$response['successMsg'] = "Booking updated Successfully";
+ 	 		}
+		 	 
+ 		 }
+ 	 	}
 
  	} else {
  		$this->db->trans_commit();
 		$response['success'] = true;
 		$response['error'] = false;
-		$response['successMsg'] = "Vendor Added Successfully";
+		$response['successMsg'] = "Booking updated Successfully";
  	}
 
  	 

@@ -136,7 +136,38 @@
 							</div>
 					
 						</div>
- 
+
+						<?php if(isset($passenger) && !empty($passenger)) { ?>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Booking Status*</label>
+								
+							<div class="col-sm-8">
+								<div class="col-sm-6">
+                                <select  data-placeholder="Select Status" name="booking_status" id="booking_status" class="chosen-select form-control" style="display: none;">
+                                    <option <?php if(isset($booking) && $booking[0]->booking_status == 1) { echo "selected"; }?> value="1">Pending</option>
+                                    <option value="2" <?php if(isset($booking) &&  $booking[0]->booking_status == 2) { echo "selected"; }?>>Start Tour</option>
+                                    <option value="3" <?php if(isset($booking) &&  $booking[0]->booking_status == 3) { echo "selected"; }?>>End Tour</option>
+                                    <option <?php if(isset($booking) && $booking[0]->booking_status == 4) { echo "selected"; }?> value="4">Cancel</option>
+                                    <option <?php if(isset($booking) && $booking[0]->travel_type == 5) { echo "selected"; }?> value="5">UnPaid</option>
+                                    <option value="6" <?php if(isset($booking) &&  $booking[0]->booking_status == 6) { echo "selected"; }?>>Paid</option>
+                                    
+                                </select>
+                                <span class="help-inline col-xs-12 col-sm-7">
+                                    <span class="middle input-text-error" id="booking_status_errorlabel"></span>
+                                </span>
+                            	</div>
+                            	 
+                            	<div style="display:none;" class="col-sm-6" id="cancel_reason">
+                                <input type="text" class="form-control" id="cancel_comment" name="cancel_comment" placeholder="Enter Cancel Reason" value="<?php if(isset($booking)): echo  $booking[0]->cancel_comment; endif; ?>">
+                                <span class="help-inline col-xs-12 col-sm-7">
+                                    <span class="middle input-text-error" id="cancel_reason_errorlabel"></span>
+                                </span>
+                            	</div>
+								  
+							</div>
+					
+						</div>
+ 						<?php } ?>
  						
  						<br>
  						<div id="passenger_div">
@@ -152,17 +183,17 @@
 							<label class="col-sm-2 no-padding-right" for="form-field-2">Passenger Details <?php echo $i;?> *</label>
 							<?php if($i == $count) {?><button class="btn btn-success add_new_person" name="<?php echo $passenger->id;?>" id="add_new_person_<?php echo $i;?>" type="button"><i class="iconcategory"></i><b style="color:black;">+</b></button><?php } ?>
 							<button class="btn btn-danger remove_person" name="<?php echo $passenger->id;?>" id="remove_person_<?php echo $i;?>" type="button"><i class="iconcategory"></i><b style="color:black;">-</b></button>
-							<button class="btn edit_person" name="<?php echo $passenger->id;?>" id="edit_person_<?php echo $i;?>" type="button"><i class="ace-icon fa fa-pencil bigger-130"></i></button>
+							
 								
 							<div class="col-sm-8">
 								<div class="col-sm-6">    
-								<input type="text" disabled id="passenger_name<?php echo $i;?>" value="<?php if(isset($passenger)): echo $passenger->passenger_name; endif; ?>" name="passenger_name[]" placeholder="Enter Passenger Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);" />
+								<input type="text"  id="passenger_name<?php echo $i;?>" value="<?php if(isset($passenger)): echo $passenger->passenger_name; endif; ?>" name="passenger_name_edit[<?php echo $passenger->id;?>]" placeholder="Enter Passenger Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);" />
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="passenger_name<?php echo $i;?>_errorlabel"></span>
 								</span>
 								</div>
 								<div class="col-sm-6">   
-								<input type="text" disabled id="passenger_number<?php echo $i;?>" value="<?php if(isset($passenger)): echo $passenger->passenger_number; endif; ?>" name="passenger_number[]" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" />
+								<input type="text"  id="passenger_number<?php echo $i;?>" value="<?php if(isset($passenger)): echo $passenger->passenger_number; endif; ?>" name="passenger_number_edit[<?php echo $passenger->id;?>]" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" />
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="passenger_number<?php echo $i;?>_errorlabel"></span>
 								</span>
@@ -172,13 +203,13 @@
 							
 							<div class="col-sm-8" style="margin-left:16.5%;">
 								<div class="col-sm-6">   
-								<textarea disabled id="pass_pickup_address<?php echo $i;?>" style="width: 100%; height: 40px;" name="pass_pickup_address[]" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($passenger)): echo trim($passenger->pickup_address); endif; ?></textarea>
+								<textarea  id="pass_pickup_address<?php echo $i;?>" style="width: 100%; height: 40px;" name="pass_pickup_address_edit[<?php echo $passenger->id;?>]" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($passenger)): echo trim($passenger->pickup_address); endif; ?></textarea>
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="pass_pickup_address<?php echo $i;?>_errorlabel"></span>
 								</span>
 								</div>
 								<div class="col-sm-6">   
-								<textarea disabled  id="pass_drop_address<?php echo $i;?>" style="width: 100%; height: 40px;" name="pass_drop_address[]" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($passenger)): echo trim($passenger->drop_address); endif; ?></textarea>
+								<textarea   id="pass_drop_address<?php echo $i;?>" style="width: 100%; height: 40px;" name="pass_drop_address_edit[<?php echo $passenger->id;?>]" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($passenger)): echo trim($passenger->drop_address); endif; ?></textarea>
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="pass_drop_address<?php echo $i;?>_errorlabel"></span>
 								</span>
@@ -311,6 +342,20 @@
 			 $("#"+id).remove();
 
 		});
+
+		$(document).on('change','#booking_status', function() {
+			 $('#cancel_reason').hide();
+			 var id = $(this).val();
+			 //alert(id);
+			 if(id == 4) {
+			 	//alert("aa");
+			 	$('#cancel_reason').show();
+			 }
+			 
+
+		});
+
+		
 
 		$(document).on('click','.remove_person', function() {
 			 

@@ -90,7 +90,9 @@
 												<td><?php echo $val->cat_name; ?></td>
 												<td><?php echo $val->travel_type; ?></td>
 												<td><?php echo isset($val->duty_slip_id) ? $val->duty_slip_id : "Not Generated"; ?></td>
-												<td><?php echo $val->booking_status; ?></td>
+												<td><?php if($val->booking_status == 1){echo "Pending";}else if($val->booking_status == 2){echo "Start Tour";}
+														else if($val->booking_status == 3){echo "End Tour";}else if($val->booking_status == 4){echo "Cancel";}
+														else if($val->booking_status == 5){echo "UnPaid";}else if($val->booking_status == 6){echo "Paid";} ?></td>
 
 												<td>
 													<div class="hidden-sm hidden-xs action-buttons">
