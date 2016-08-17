@@ -526,6 +526,21 @@ $(document).ready(function () {
             });
         }
     });
+    
+    var i = 1;
+    $(document).on('click','#add', function(e){
+        e.preventDefault();
+        i++;
+        $('.files').last().after('<div class="form-group files">\
+                            <label class="col-sm-3 control-label no-padding-right" for=""></label>\
+                            <div class="col-sm-4">\
+                                <input name="vehichleImage'+i+'" type="file" />\
+                                <span class="help-inline col-xs-12 col-sm-7">\
+                                    <span class="middle input-text-error" id="tpermit_exp_errorlabel"></span>\
+                                </span>\
+                            </div>\
+                        </div>');
+    });
 });
 
 function defaultFail(req, error) {

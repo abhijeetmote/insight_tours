@@ -41,8 +41,26 @@ class Booking_model extends CI_Model {
 		return $result;
 	}
 
+	public function getwheredata($select,$tableName,$where){
+
+		$result = $this->helper_model->selectwhere($select,$tableName,$where);
+		return $result;
+	}
+
 	public function getData($select, $tableName, $column, $value) {
 		$result = $this->helper_model->select($select, $tableName, $column, $value);
+		return $result;
+	}
+
+	public function getBookingLit($data,$table){
+
+		$result = $this->helper_model->selectAll($data,$table);
+		return $result;
+	}
+
+	public function getDutySlip($data,$table){
+
+		$result = $this->helper_model->selectAll($data,$table);
 		return $result;
 	}
 

@@ -119,7 +119,8 @@
 							<label class="col-sm-3 control-label no-padding-right" for="">Enter Insurance Expiry Date*</label>
 
 							<div class="col-sm-9">
-								<input type="text" id="insurance_exp" name="insurance_exp" placeholder="Enter Insurance Expiry Date" class="col-xs-10 col-sm-5 mandatory-field date-picker" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_insuexpdate; endif; ?>" />
+								<input type="hidden" name="insuranceid" value="<?php if(isset($insurance) && (!empty($insurance) || $insurance == 0)): echo $vehicleDetails[$insurance]['vldetail_id']; endif; ?>">
+								<input type="text" id="insurance_exp" name="insurance_exp" placeholder="Enter Insurance Expiry Date" class="col-xs-10 col-sm-5 date-picker" value="<?php if(isset($insurance) && (!empty($insurance) || $insurance == 0)): echo $vehicleDetails[$insurance]['vehicle_exp_value']; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="insurance_exp_errorlabel"></span>
 								</span>
@@ -129,7 +130,8 @@
 							<label class="col-sm-3 control-label no-padding-right" for="">Enter PUC Expiry Date*</label>
 
 							<div class="col-sm-9">
-								<input type="text" id="puc_exp" name="puc_exp" placeholder="Enter PUC Expiry Date" class="col-xs-10 col-sm-5 mandatory-field date-picker" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_pucexpdate; endif; ?>" />
+								<input type="hidden" name="pucid" value="<?php if(isset($puc) && (!empty($puc) || $puc == 0)): echo $vehicleDetails[$puc]['vldetail_id']; endif; ?>">
+								<input type="text" id="puc_exp" name="puc_exp" placeholder="Enter PUC Expiry Date" class="col-xs-10 col-sm-5 date-picker" value="<?php if(isset($puc) && (!empty($puc) || $puc == 0)): echo $vehicleDetails[$puc]['vehicle_exp_value']; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="puc_exp_errorlabel"></span>
 								</span>
@@ -139,13 +141,36 @@
 							<label class="col-sm-3 control-label no-padding-right" for="">Enter Tpermit Expiry Date*</label>
 
 							<div class="col-sm-9">
-								<input type="text" id="tpermit_exp" name="tpermit_exp" placeholder="Enter Tpermit Expiry Date" class="col-xs-10 col-sm-5 mandatory-field date-picker" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_Tpermitexpdate; endif; ?>" />
+								<input type="hidden" name="tpermitid" value="<?php if(isset($tpermit) && (!empty($tpermit) || $tpermit == 0)): echo $vehicleDetails[$tpermit]['vldetail_id']; endif; ?>">
+								<input type="text" id="tpermit_exp" name="tpermit_exp" placeholder="Enter Tpermit Expiry Date" class="col-xs-10 col-sm-5 date-picker" value="<?php if(isset($tpermit) && (!empty($tpermit) || $tpermit == 0)): echo $vehicleDetails[$tpermit]['vehicle_exp_value']; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="tpermit_exp_errorlabel"></span>
 								</span>
 							</div>
 						</div>
-						<!-- <div class="form-group files">
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" for="">Enter Oil change Date*</label>
+
+							<div class="col-sm-9">
+								<input type="hidden" name="oil_changeid" value="<?php if(isset($oilchange) && (!empty($oilchange) || $oilchange == 0)): echo $vehicleDetails[$oilchange]['vldetail_id']; endif; ?>">
+								<input type="text" id="oil_change" name="oil_change" placeholder="Enter Oil Change Date" class="col-xs-10 col-sm-5 date-picker" value="<?php if(isset($oilchange) && (!empty($oilchange) || $oilchange == 0)): echo $vehicleDetails[$oilchange]['vehicle_exp_value']; endif; ?>" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="oil_change_errorlabel"></span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label no-padding-right" for="">Enter Oil Change Km*</label>
+
+							<div class="col-sm-9">
+								<input type="hidden" name="oil_changekmid" value="<?php if(isset($oilchangekm) && (!empty($oilchangekm) || $oilchangekm == 0)): echo $vehicleDetails[$oilchangekm]['vldetail_id']; endif; ?>">
+								<input type="text" id="oil_changekm" name="oil_changekm" placeholder="Enter Tpermit Expiry Date" class="col-xs-10 col-sm-5" value="<?php if(isset($oilchangekm) && (!empty($oilchangekm) || $oilchangekm == 0)): echo $vehicleDetails[$oilchangekm]['vehicle_exp_value']; endif; ?>" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="oil_changekm_errorlabel"></span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group files">
 							<label class="col-sm-3 control-label no-padding-right" for="">Select Image</label>
 
 							<div class="col-sm-4">
@@ -164,7 +189,7 @@
 									Add Photo
 								</button>
 							</div>
-						</div> -->
+						</div>
 						
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">

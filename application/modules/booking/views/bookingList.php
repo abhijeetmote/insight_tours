@@ -8,9 +8,9 @@
 				</li>
 
 				<li>
-					<a href="#">Vendor</a>
+					<a href="#">Booking</a>
 				</li>
-				<li class="active">Vendor Lists</li>
+				<li class="active">Booking Lists</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -27,7 +27,7 @@
 			
 			<div class="page-header">
 				<h1>
-					Vendor List
+					Booking List
 				</h1>
 			</div><!-- /.page-header -->
 
@@ -56,84 +56,59 @@
 										<tr>
 											<th class="center">
 												<label class="pos-rel">
-													<input type="checkbox" class="ace" />
+													<!--<input type="checkbox" class="ace" />-->
 													<span class="lbl"></span>
 												</label>
 											</th>
-											<th>Vendor Name</th>
-											<th>Mobile No</th>
-											<th>Contact No</th>
-											<th>Address</th>
-											<th>Email id</th>
-											<th>Pan no</th>
-											<th>Payee Name</th>
-											<th></th>
+											<th>Booking ID</th>
+											<th>Booking Date/Time</th>
+											<th>Booked Date</th>
+											<th>Customer Name</th>
+											<th>Vehicale Type</th>
+											<th>Travel Type</th>
+											<th>Duty Sleep Id</th>
+											<th>Status</th>
+											<th>Action</th>
+
 										</tr>
 									</thead>
 
 									<tbody>
-										<?php foreach ($list as $val): ?>
-											<tr>
+										<?php foreach ($booking_list as $val): ?>
+											 <tr>
 												<td class="center">
 													<label class="pos-rel">
-														<input type="checkbox" class="ace" />
+														<!--<input type="checkbox" class="ace" />-->
 														<span class="lbl"></span>
 													</label>
 												</td>
 
-												<td><?php echo $val->vendor_name; ?></td>
-												<td><?php echo $val->vendor_contact_number; ?></td>
-												<td><?php echo $val->vendor_address; ?></td>
-												<td><?php echo $val->vendor_email; ?></td>
-												<td><?php echo $val->vendor_pan_num; ?></td>
-												<td><?php echo $val->vendor_payee_name; ?></td>
+												<td><?php echo $val->booking_id; ?></td>
+												<td><?php echo $val->booking_date; ?></td>
+												<td><?php echo $val->booked_on; ?></td>
+												<td><?php echo $val->cust_firstname . " " .$val->cust_lastname; ?></td>
+												<td><?php echo $val->cat_name; ?></td>
+												<td><?php echo $val->travel_type; ?></td>
+												<td><?php echo isset($val->duty_slip_id) ? $val->duty_slip_id : "Not Generated"; ?></td>
+												<td><?php echo $val->booking_status; ?></td>
 
 												<td>
 													<div class="hidden-sm hidden-xs action-buttons">
 														
 
-														<a class="green" href="<?php echo base_url().'vendor/update/'.$val->vendor_id; ?>">
+														<a class="green" href="<?php echo base_url().'booking/update/'.$val->booking_id; ?>">
 															<i class="ace-icon fa fa-pencil bigger-130"></i>
 														</a>
 
-														<a class="red delete" href="#" id="<?php echo $val->vendor_id; ?>">
+														<a class="red delete" href="#" id="<?php echo $val->booking_id; ?>">
 															<i class="ace-icon fa fa-trash-o bigger-130"></i>
+														</a>
+														<a class="blue" href="#modal-table" id="<?php echo $val->booking_id; ?>" data-toggle="modal">
+															<i class="ace-icon fa fa-eye bigger-130 b_details" id="<?php echo $val->booking_id; ?>"></i>
 														</a>
 													</div>
 
-													<div class="hidden-md hidden-lg">
-														<div class="inline pos-rel">
-															<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-																<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-															</button>
-
-															<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-																<li>
-																	<a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-																		<span class="blue">
-																			<i class="ace-icon fa fa-search-plus bigger-120"></i>
-																		</span>
-																	</a>
-																</li>
-
-																<li>
-																	<a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-																		<span class="green">
-																			<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																		</span>
-																	</a>
-																</li>
-
-																<li>
-																	<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-																		<span class="red">
-																			<i class="ace-icon fa fa-trash-o bigger-120"></i>
-																		</span>
-																	</a>
-																</li>
-															</ul>
-														</div>
-													</div>
+													 
 												</td>
 											</tr>
 										<?php endforeach; ?>
@@ -149,7 +124,44 @@
 </div><!-- /.main-content -->
 
 <!-- basic scripts -->
+<div id="modal-table" class="modal fade" tabindex="-1">
+	<div class="modal-dialog" style="margin-top:10%;">
+		<div class="modal-content">
+			<div class="modal-header no-padding">
+				<div class="table-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						<span class="white">&times;</span>
+					</button>
+					Passenger Details
+				</div>
+			</div>
 
+			<div class="modal-body no-padding">
+				<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Number</th>
+							<th>Pickup Address</th>
+							<th>Drop Address</th>
+						</tr>
+					</thead>
+
+					<tbody class="detailsBody" id="pass_data">
+						
+					</tbody>
+				</table>
+			</div>
+
+			<div class="modal-footer no-margin-top">
+				<button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+					<i class="ace-icon fa fa-times"></i>
+					Close
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
 <!--[if !IE]> -->
 <script src="<?php echo base_url(); ?>js/jquery.min.js"></script>
 
@@ -211,7 +223,7 @@
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null,null, null, null, null,
+					  null, null,null, null, null, null,null,null,
 					  { "bSortable": false }
 					],
 					"aaSorting": [],
@@ -436,3 +448,45 @@
 			
 			})
 		</script>
+
+		<script type="text/javascript">
+	$(document).on('click','.b_details', function(e){
+	    e.preventDefault();
+	    
+        var id = $(this).attr('id');
+        
+        var obj = array.filter(function(obj){
+            return obj.name === 'passenger-detail-view'
+        })[0];
+
+        var uri = obj['value'];
+
+        jobject = {
+            'id' : id
+        }
+
+        var point = $(this);
+        
+        $.ajax({
+            url: uri,
+            method: 'POST',
+            crossDomain: true,
+            data: jobject,
+            dataType: 'json',
+            beforeSend: function (xhr) {
+                //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
+            },
+            success: function (data) {
+                if(data.success == true){
+                	$('#pass_data').html(data.successMsg);
+
+                }else{
+
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError);
+            }
+        });
+	});
+</script>

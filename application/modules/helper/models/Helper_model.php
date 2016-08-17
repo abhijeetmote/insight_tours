@@ -19,6 +19,12 @@ class Helper_model extends CI_Model {
 		 return $insert_id;
 	}
 
+	public function insertBatch($tableName,$data)
+	{
+		$this->db->insert_batch($tableName, $data);
+		return $this->db->insert_id();
+	}
+
 	public function update($tableName,$data,$columnName,$value)
 	{
 		$this->db->where($columnName, $value);
@@ -30,6 +36,15 @@ class Helper_model extends CI_Model {
 		$this->db->select($select);
 		$this->db->from($tableName);
 		$this->db->where($columnName, $value);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function selectwhere($select,$tableName,$where)
+	{
+		$this->db->select($select);
+		$this->db->from($tableName);
+		$this->db->where($where);
 		$query = $this->db->get();
 		return $query->result();
 	}

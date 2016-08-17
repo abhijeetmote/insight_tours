@@ -23,6 +23,7 @@
 		<link rel="stylesheet" href="<?php echo base_url(); ?>components/bootstrap-daterangepicker/daterangepicker.min.css" />
 		<link rel="stylesheet" href="<?php echo base_url(); ?>components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 		<link rel="stylesheet" href="<?php echo base_url(); ?>components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" />
+		<!-- page specific plugin styles -->
 
 		<!-- text fonts -->
 		<!-- <link rel="stylesheet" href="<?php echo base_url(); ?>css/googleapi.css" /> -->
@@ -624,6 +625,42 @@
 									<i class="menu-icon fa fa-caret-right"></i>
 
 									Booking list
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
+
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-desktop"></i>
+							<span class="menu-text">
+								Customer
+							</span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							
+							<li class="">
+								<a href="<?php echo base_url(); ?>customer/customerMaster">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Add Customer
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="<?php echo base_url(); ?>customer/customerList">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Customer list
 								</a>
 
 								<b class="arrow"></b>
