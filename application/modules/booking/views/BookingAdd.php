@@ -37,6 +37,7 @@
 
 					<!-- PAGE CONTENT BEGINS -->
 					<form class="form-horizontal" role="form" id="<?php if(isset($booking)): echo "booking_update"; else: echo "bookingmaster"; endif; ?>">						
+						<input type="hidden" value="<?php if(isset($booking)): echo $booking[0]->booking_id; endif; ?>" name="id">
 						
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="form-field-2">Booking Date*</label>
@@ -139,6 +140,7 @@
  						
  						<br>
  						<div id="passenger_div">
+
  						<?php if(isset($passenger) && !empty($passenger)) { 
  								$i = 1;
  								$count = count($passenger);
@@ -312,13 +314,54 @@
 
 		$(document).on('click','.remove_person', function() {
 			 
-			 var id = $(this).attr('id');
+			 var div_id = $(this).attr('id');
 			 var name = $(this).attr('name');
 			alert(name);
+
 			 if(name != "" && name!=undefined) {
-			 	alert("kkk");
-			 }
-			 var tabId = id.split("_").pop();
+
+			 	if(confirm("Are you sure you want to delete!")){
+			 		var id = name;
+        
+			        var obj = array.filter(function(obj){
+			            return obj.name === 'passenger-detail-delete'
+			        })[0];
+
+			        var uri = obj['value'];
+
+			        jobject = {
+			            'id' : id
+			        }
+
+			        var point = $(this);
+			        
+			        $.ajax({
+			            url: uri,
+			            method: 'POST',
+			            crossDomain: true,
+			            data: jobject,
+			            dataType: 'json',
+			            beforeSend: function (xhr) {
+			                //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
+			            },
+			            success: function (data) {
+			                if(data.success == true){
+			                	$('#pass_data').html(data.successMsg);
+
+			                }else{
+
+			                }
+			            },
+			            error: function (xhr, ajaxOptions, thrownError) {
+			                console.log(thrownError);
+			            }
+			        });
+			     } else {
+			     	return false;
+			     }   
+			 } 
+
+			 var tabId = div_id.split("_").pop();
 			 //alert(tabId);
 			 $("#passenger_details"+tabId).remove();
 

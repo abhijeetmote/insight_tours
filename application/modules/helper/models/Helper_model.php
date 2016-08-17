@@ -103,8 +103,10 @@ class Helper_model extends CI_Model {
 	}
 
 	public function dbDatetime($originalDate){
-		$newDate = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $originalDate)));
-		return $newDate;
+		/*$newDate = date('Y-m-d H:i:s', strtotime($originalDate));
+		return $newDate;*/
+		$date1 = strtr($originalDate, '/', '-');
+ 		return date('Y-m-d H:i:s', strtotime($date1));
 	}
 	
 

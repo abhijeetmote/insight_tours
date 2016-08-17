@@ -21,6 +21,8 @@ var array = [
 	{name: "passenger-detail-view", value: baseUrl + "booking/passengerList"},
 	{name: "customermaster", value: baseUrl + "customer/addcustomer"},
 	{name: "dutySlip", value: baseUrl + "booking/addDutySlip"},
-	{name: "updateDutySlip", value: baseUrl + "booking/updateDuty"}
+	{name: "updateDutySlip", value: baseUrl + "booking/updateDuty"},
+	{name: "passenger-detail-delete", value: baseUrl + "booking/passengerDelete"}
+	
 ];
 
