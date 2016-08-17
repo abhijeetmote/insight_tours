@@ -167,6 +167,117 @@ class Booking extends MX_Controller {
         
  	}
 
+
+ 	public function update($id){
+
+ 		$select = 'cust_id,cust_firstname,cust_lastname';
+		$tableName = 'customer_master';
+		$column = "isactive";
+		$value = "1";
+		$data['customerList'] = $this->Booking_model->getData($select, $tableName, $column, $value);
+		$select = 'cat_id,cat_name';
+		$tableName = 'vehicle_category';
+		$data['vechileTList'] = $this->Booking_model->getData($select, $tableName, $column, $value);
+
+        $select = '*';
+		$tableName = BOOKING_TABLE;
+		$column = 'booking_id';
+		$value = $id;
+		$data['booking'] = $this->Booking_model->getData($select, $tableName, $column, $value);
+
+		$booking_id = $id;
+ 		$tableName =  PASSENGER_TABLE;
+ 		$select = '*';
+ 		$where =  "booking_id = '$booking_id'";
+ 		$data['passenger'] = $this->Booking_model->getwheredata($select,$tableName,$where);
+
+		$data['update'] = true;
+		$this->header->index();
+		$this->load->view('BookingAdd', $data);
+		$this->footer->index();
+ 	}
+
+ 	public function vendorUpdate(){        
+
+ 		$vendor_name = isset($_POST['vendor_name']) ? $_POST['vendor_name'] : "";
+		 $vendor_mobile_number = isset($_POST['vendor_contact_number']) ? $_POST['vendor_contact_number'] : "";
+		 $vendor_phone_number = isset($_POST['vendor_phone_number']) ? $_POST['vendor_phone_number'] : "";
+		 $vendor_email = isset($_POST['vendor_email']) ? $_POST['vendor_email'] : "";
+		 $vendor_notes = isset($_POST['vendor_notes']) ? $_POST['vendor_notes'] : "";
+		 $vendor_service_regn = isset($_POST['vendor_service_regn']) ? $_POST['vendor_service_regn'] : "";
+		 $vendor_pan_num = isset($_POST['vendor_pan_num']) ? $_POST['vendor_pan_num'] : "";
+		 $vendor_section_code = isset($_POST['vendor_section_code']) ? $_POST['vendor_section_code'] : "";
+		 $vendor_payee_name = isset($_POST['vendor_payee_name']) ? $_POST['vendor_payee_name'] : "";
+		 $vendor_address = isset($_POST['vendor_address']) ? $_POST['vendor_address'] : "";
+
+		 $vendor_vat = isset($_POST['vendor_vat']) ? $_POST['vendor_vat'] : "";
+		 $vendor_cst = isset($_POST['vendor_cst']) ? $_POST['vendor_cst'] : "";
+		 $vendor_gst = isset($_POST['vendor_gst']) ? $_POST['vendor_gst'] : "";
+
+		 $vendor_ledger_id = isset($_POST['vendor_ledger_id']) ? $_POST['vendor_ledger_id'] : "";
+
+		 $vendor_update = array(
+			'vendor_name' => $vendor_name,
+			'vendor_contact_number' => $vendor_mobile_number,
+			'vendor_phone_number' => $vendor_phone_number,
+			'vendor_email' => $vendor_email,
+			'vendor_notes' => $vendor_notes,
+			'vendor_service_regn' => $vendor_service_regn,
+			'vendor_pan_num' => $vendor_pan_num,
+			'vendor_section_code' => $vendor_section_code,
+			'vendor_payee_name' => $vendor_payee_name,
+			'vendor_address' => $vendor_address,
+			'vendor_vat' => $vendor_vat,
+			'vendor_cst' => $vendor_cst,
+			'vendor_gst' => $vendor_gst,
+			'status' => '1',
+			'updated_by' => '1',
+			'updated_on' => date('Y-m-d h:i:s')
+		);
+     
+		$this->db->trans_begin();
+		$vendor_table = VENDOR_TABLE;
+		$vendor_column = 'vendor_id';
+		$vendor_id = $_POST['id'];
+
+		$result = $this->Vendor_model->updateData($vendor_table, $vendor_update, $vendor_column, $vendor_id);
+
+		if(isset($result) && $result == true) {
+			$ledgertable = LEDGER_TABLE;
+			$ledger_column = 'ledger_account_id';
+			$ledger_update = array(
+			'ledger_account_name' => $vendor_name."_".$vendor_id,
+			'status' => '1',
+			'updated_by' => '1',
+			'updated_on' => date('Y-m-d h:i:s')
+			);
+
+			$ledger_result = $this->Vendor_model->updateData($ledgertable, $ledger_update, $ledger_column, $vendor_ledger_id);
+
+			if(empty($ledger_result) || $ledger_result == false) {
+
+				$this->db->trans_rollback();
+	 	 		$response['error'] = true;
+	 	 		$response['success'] = false;
+				$response['errorMsg'] = "Error!!! Please contact IT Dept";
+
+			} else{
+				$this->db->trans_commit();
+				$response['success'] = true;
+				$response['error'] = false;
+				$response['successMsg'] = "Vendor Updated Successfully";
+			}
+		} else {
+
+			$this->db->trans_rollback();
+ 	 		$response['error'] = true;
+ 	 		$response['success'] = false;
+			$response['errorMsg'] = "Error!!! Please contact IT Dept";
+		}
+
+        echo json_encode($response);
+ 	}
+
 	public function addSlip()
 	{
 		$booking_id = 3;
@@ -292,96 +403,5 @@ class Booking extends MX_Controller {
  	}
 
 
- 	public function update($id){        
-        $select = '*';
-		$tableName = VENDOR_TABLE;
-		$column = 'vendor_id';
-		$value = $id;
-		$data['vendor'] = $this->Vendor_model->getData($select, $tableName, $column, $value);
-		$data['update'] = true;
-		$this->header->index();
-		$this->load->view('VendorAdd', $data);
-		$this->footer->index();
- 	}
-
- 	public function vendorUpdate(){        
-
- 		$vendor_name = isset($_POST['vendor_name']) ? $_POST['vendor_name'] : "";
-		 $vendor_mobile_number = isset($_POST['vendor_contact_number']) ? $_POST['vendor_contact_number'] : "";
-		 $vendor_phone_number = isset($_POST['vendor_phone_number']) ? $_POST['vendor_phone_number'] : "";
-		 $vendor_email = isset($_POST['vendor_email']) ? $_POST['vendor_email'] : "";
-		 $vendor_notes = isset($_POST['vendor_notes']) ? $_POST['vendor_notes'] : "";
-		 $vendor_service_regn = isset($_POST['vendor_service_regn']) ? $_POST['vendor_service_regn'] : "";
-		 $vendor_pan_num = isset($_POST['vendor_pan_num']) ? $_POST['vendor_pan_num'] : "";
-		 $vendor_section_code = isset($_POST['vendor_section_code']) ? $_POST['vendor_section_code'] : "";
-		 $vendor_payee_name = isset($_POST['vendor_payee_name']) ? $_POST['vendor_payee_name'] : "";
-		 $vendor_address = isset($_POST['vendor_address']) ? $_POST['vendor_address'] : "";
-
-		 $vendor_vat = isset($_POST['vendor_vat']) ? $_POST['vendor_vat'] : "";
-		 $vendor_cst = isset($_POST['vendor_cst']) ? $_POST['vendor_cst'] : "";
-		 $vendor_gst = isset($_POST['vendor_gst']) ? $_POST['vendor_gst'] : "";
-
-		 $vendor_ledger_id = isset($_POST['vendor_ledger_id']) ? $_POST['vendor_ledger_id'] : "";
-
-		 $vendor_update = array(
-			'vendor_name' => $vendor_name,
-			'vendor_contact_number' => $vendor_mobile_number,
-			'vendor_phone_number' => $vendor_phone_number,
-			'vendor_email' => $vendor_email,
-			'vendor_notes' => $vendor_notes,
-			'vendor_service_regn' => $vendor_service_regn,
-			'vendor_pan_num' => $vendor_pan_num,
-			'vendor_section_code' => $vendor_section_code,
-			'vendor_payee_name' => $vendor_payee_name,
-			'vendor_address' => $vendor_address,
-			'vendor_vat' => $vendor_vat,
-			'vendor_cst' => $vendor_cst,
-			'vendor_gst' => $vendor_gst,
-			'status' => '1',
-			'updated_by' => '1',
-			'updated_on' => date('Y-m-d h:i:s')
-		);
-     
-		$this->db->trans_begin();
-		$vendor_table = VENDOR_TABLE;
-		$vendor_column = 'vendor_id';
-		$vendor_id = $_POST['id'];
-
-		$result = $this->Vendor_model->updateData($vendor_table, $vendor_update, $vendor_column, $vendor_id);
-
-		if(isset($result) && $result == true) {
-			$ledgertable = LEDGER_TABLE;
-			$ledger_column = 'ledger_account_id';
-			$ledger_update = array(
-			'ledger_account_name' => $vendor_name."_".$vendor_id,
-			'status' => '1',
-			'updated_by' => '1',
-			'updated_on' => date('Y-m-d h:i:s')
-			);
-
-			$ledger_result = $this->Vendor_model->updateData($ledgertable, $ledger_update, $ledger_column, $vendor_ledger_id);
-
-			if(empty($ledger_result) || $ledger_result == false) {
-
-				$this->db->trans_rollback();
-	 	 		$response['error'] = true;
-	 	 		$response['success'] = false;
-				$response['errorMsg'] = "Error!!! Please contact IT Dept";
-
-			} else{
-				$this->db->trans_commit();
-				$response['success'] = true;
-				$response['error'] = false;
-				$response['successMsg'] = "Vendor Updated Successfully";
-			}
-		} else {
-
-			$this->db->trans_rollback();
- 	 		$response['error'] = true;
- 	 		$response['success'] = false;
-			$response['errorMsg'] = "Error!!! Please contact IT Dept";
-		}
-
-        echo json_encode($response);
- 	}
+ 	
 }

@@ -34,6 +34,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
+
 					<!-- PAGE CONTENT BEGINS -->
 					<form class="form-horizontal" role="form" id="<?php if(isset($booking)): echo "booking_update"; else: echo "bookingmaster"; endif; ?>">						
 						
@@ -42,7 +43,7 @@
 
 							<div class="col-sm-4">
 								<div class="input-group">
-								<input type="text" class="form-control mandatory-field" id="date-timepicker1" name="booking_date" placeholder="Enter User Booking Date" value="<?php if(isset($booking)): echo $booking[0]->booking_date; endif; ?>">
+								<input type="text" class="form-control mandatory-field" id="date-timepicker1" name="booking_date" placeholder="Enter User Booking Date" value="<?php if(isset($booking)): echo $newDateTime = date('d/m/Y h:i A', strtotime($booking[0]->booking_date)); endif; ?>">
 								<span class="input-group-addon">
 									<i class="fa fa-clock-o bigger-110"></i>
 								</span>
@@ -57,9 +58,14 @@
 
                             <div class="col-sm-4">
                                 <select data-placeholder="Active/Inactive" name="customer_id" id="customer_id" class="chosen-select form-control" style="display: none;">
-                                    <?php
+                                    
+									<?php 
 										foreach ($customerList as $val) {
-											echo '<option value="'.$val->cust_id.'">'.$val->cust_firstname.' '.$val->cust_lastname.'</option>';
+											if($val->cust_id == $booking[0]->cust_id){
+												echo '<option selected value="'.$val->cust_id.'">'.$val->cust_firstname." " . $val->cust_lastname.'</option>';
+											}else{
+												echo '<option value="'.$val->cust_id.'">'.$val->cust_firstname." " . $val->cust_lastname.'</option>';
+											}
 										}
 									?>
                                     
@@ -75,9 +81,14 @@
 
                             <div class="col-sm-4">
                                 <select data-placeholder="vehicale type" name="vehicale_type" id="vehicale_type" class="chosen-select form-control" style="display: none;">
-                                     <?php
+                                     
+									<?php 
 										foreach ($vechileTList as $val) {
-											echo '<option value="'.$val->cat_id.'">'.$val->cat_name.'</option>';
+											if($val->cat_id == $booking[0]->vehicle_type){
+												echo '<option selected value="'.$val->cat_id.'">'.$val->cat_name.'</option>';
+											}else{
+												echo '<option value="'.$val->cat_id.'">'.$val->cat_name.'</option>';
+											}
 										}
 									?>
                                     
@@ -89,8 +100,9 @@
                             <label class="col-sm-1 no-padding-right" for="form-field-2">Travel Type</label>
                             <div class="col-sm-4">
                                 <select data-placeholder="Active/Inactive" name="travel_type" id="travel_type" class="chosen-select form-control" style="display: none;">
-                                     <option value="Local">Local</option>
-                                    <option value="Outstation">Outstation</option>
+                                    <option <?php if(isset($booking) && $booking[0]->travel_type == "Local") { echo "selected"; }?> value="Local">Local</option>
+                                    <option value="Outstation" <?php if(isset($booking) &&  $booking[0]->travel_type == "Outstation") { echo "selected"; }?>>Outstation</option>
+                                     
                                     
                                 </select>
                                 <span class="help-inline col-xs-12 col-sm-7">
@@ -126,7 +138,57 @@
  
  						
  						<br>
-						<div id="passenger_div">
+ 						<div id="passenger_div">
+ 						<?php if(isset($passenger) && !empty($passenger)) { 
+ 								$i = 1;
+ 								$count = count($passenger);
+ 								foreach ($passenger as $passenger) {
+ 								?>
+
+ 						
+						<div class="form-group" id="passenger_details<?php echo $i;?>">
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Passenger Details <?php echo $i;?> *</label>
+							<?php if($i == $count) {?><button class="btn btn-success add_new_person" name="<?php echo $passenger->id;?>" id="add_new_person_<?php echo $i;?>" type="button"><i class="iconcategory"></i><b style="color:black;">+</b></button><?php } ?>
+							<button class="btn btn-danger remove_person" name="<?php echo $passenger->id;?>" id="remove_person_<?php echo $i;?>" type="button"><i class="iconcategory"></i><b style="color:black;">-</b></button>
+							<button class="btn edit_person" name="<?php echo $passenger->id;?>" id="edit_person_<?php echo $i;?>" type="button"><i class="ace-icon fa fa-pencil bigger-130"></i></button>
+								
+							<div class="col-sm-8">
+								<div class="col-sm-6">   
+								<input type="text" disabled id="passenger_name<?php echo $i;?>" value="<?php if(isset($passenger)): echo $passenger->passenger_name; endif; ?>" name="passenger_name[]" placeholder="Enter Passenger Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);" />
+								<span class="help-inline col-xs-12 col-sm-10">
+									<span class="middle input-text-error" id="passenger_name<?php echo $i;?>_errorlabel"></span>
+								</span>
+								</div>
+								<div class="col-sm-6">   
+								<input type="text" disabled id="passenger_number<?php echo $i;?>" value="<?php if(isset($passenger)): echo $passenger->passenger_number; endif; ?>" name="passenger_number[]" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" />
+								<span class="help-inline col-xs-12 col-sm-10">
+									<span class="middle input-text-error" id="passenger_number<?php echo $i;?>_errorlabel"></span>
+								</span>
+								</div>
+							</div>
+							
+							
+							<div class="col-sm-8" style="margin-left:16.5%;">
+								<div class="col-sm-6">   
+								<textarea disabled id="pass_pickup_address<?php echo $i;?>" style="width: 100%; height: 40px;" name="pass_pickup_address[]" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($passenger)): echo trim($passenger->pickup_address); endif; ?></textarea>
+								<span class="help-inline col-xs-12 col-sm-10">
+									<span class="middle input-text-error" id="pass_pickup_address<?php echo $i;?>_errorlabel"></span>
+								</span>
+								</div>
+								<div class="col-sm-6">   
+								<textarea disabled  id="pass_drop_address<?php echo $i;?>" style="width: 100%; height: 40px;" name="pass_drop_address[]" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($passenger)): echo trim($passenger->drop_address); endif; ?></textarea>
+								<span class="help-inline col-xs-12 col-sm-10">
+									<span class="middle input-text-error" id="pass_drop_address<?php echo $i;?>_errorlabel"></span>
+								</span>
+								</div>
+							</div>
+						</div>
+
+						 
+
+ 						<?php $i ++ ;} 
+ 						}else { ?>
+						
 						<div class="form-group" id="passenger_details">
 							<label class="col-sm-2 no-padding-right" for="form-field-2">Passenger Details 1 *</label>
 							<button class="btn btn-success add_new_person" id="add_new_person_1" type="button"><i class="iconcategory"></i><b style="color:black;">+</b></button>
@@ -164,10 +226,10 @@
 							</div>
 						</div>
 
-						 </div>
 						 
+						 <?php } ?>
 
-						
+						</div>
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 								<button class="btn btn-info test" type="submit">
@@ -240,7 +302,7 @@
 			 
 			 var id = $(this).attr('id');
 			 var tabId = id.split("_").pop();
-			 alert(tabId);
+			 //alert(tabId);
 			 tabId =parseInt(tabId)+1;
 			 var htmlString = '<div class="form-group" id="passenger_details'+tabId+'"><label class="col-sm-2 no-padding-right" for="form-field-2">Passenger Details '+tabId+'*</label><button class="btn btn-success add_new_person" id="add_new_person_'+tabId+'" type="button"><i class="iconcategory"></i><b style="color:black;">+</b></button><div class="col-sm-8"><div class="col-sm-6"><input type="text" id="passenger_name'+tabId+'"  name="passenger_name[]" placeholder="Enter Passenger Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);" /><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="passenger_name'+tabId+'_errorlabel"></span></span></div><div class="col-sm-6"><input type="text" id="passenger_number'+tabId+'"  name="passenger_number[]" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" /><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="passenger_number'+tabId+'_errorlabel"></span></span></div></div><button class="btn btn-danger remove_person" id="remove_person_'+tabId+'" type="button"><i class="iconcategory"></i><b style="color:black;">-</b></button><div class="col-sm-8" style="margin-left:16.5%;"><div class="col-sm-6">   <textarea id="pass_pickup_address'+tabId+'" style="width: 100%; height: 40px;" name="pass_pickup_address[]" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" ></textarea><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="pass_pickup_address'+tabId+'_errorlabel"></span></span></div><div class="col-sm-6"><textarea id="pass_drop_address'+tabId+'" style="width: 100%; height: 40px;" name="pass_drop_address[]" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" ></textarea><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="pass_drop_address'+tabId+'_errorlabel"></span></span></div></div></div>';
 			 $('#passenger_div').append(htmlString);
@@ -251,8 +313,13 @@
 		$(document).on('click','.remove_person', function() {
 			 
 			 var id = $(this).attr('id');
+			 var name = $(this).attr('name');
+			alert(name);
+			 if(name != "" && name!=undefined) {
+			 	alert("kkk");
+			 }
 			 var tabId = id.split("_").pop();
-			 alert(tabId);
+			 //alert(tabId);
 			 $("#passenger_details"+tabId).remove();
 
 			 
@@ -594,6 +661,7 @@
 		
 		if(!ace.vars['old_ie']) $('#date-timepicker1').datetimepicker({
 		 //format: 'MM/DD/YYYY h:mm:ss A',//use this option to display seconds
+		 format: 'DD/MM/YYYY h:mm A',//use this option to display seconds
 		 icons: {
 			time: 'fa fa-clock-o',
 			date: 'fa fa-calendar',
@@ -609,7 +677,7 @@
 			$(this).prev().focus();
 		});
 		
-	
+		//$("#date-timepicker1").val('<?php if(isset($booking)): echo $newDateTime = date('d/m/Y h:i A', strtotime($booking[0]->booking_date)); endif; ?>');
 		$('#colorpicker1').colorpicker();
 		//$('.colorpicker').last().css('z-index', 2000);//if colorpicker is inside a modal, its z-index should be higher than modal'safe
 	
