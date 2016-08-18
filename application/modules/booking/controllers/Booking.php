@@ -361,13 +361,13 @@ class Booking extends MX_Controller {
 
 	public function addSlip()
 	{
-		$booking_id = 3;
+		$booking_id = $this->uri->segment(3);
 		if($booking_id == ""){
 			redirect('dashboard');
 		}else{
 			$select = '*';
 			$tableName = 'duty_sleep_master';
-			$column = 'duty_sleep_id';
+			$column = 'booking_id';
 			$value = $booking_id;
 			$dutySleepExist = $this->Booking_model->getData($select, $tableName, $column, $value);
 			if(empty($dutySleepExist)){
@@ -389,6 +389,19 @@ class Booking extends MX_Controller {
 				print_r($data);
 				exit();*/
 			}
+
+			$tableName =  'booking_master b , vehicle_category v ';
+	 		$select = 'b.duty_slip_id,b.booked_by,b.added_on,b.pickup_location,v.cat_name';
+	 		$where =  'b.vehicle_type = v.cat_id';
+	 		$data['bookingDetails'] = $this->Booking_model->getwheredata($select,$tableName,$where);
+
+	 		$tableName =  'passenger_details';
+	 		$select = 'passenger_name,passenger_number,pickup_address,pickup_time,added_on';
+			$column = 'booking_id';
+			$value = $booking_id;
+			$data['passengerDetails'] = $this->Booking_model->getData($select, $tableName, $column, $value);
+	 		//echo "<pre>"; print_r($data); exit();
+
 			$select = 'vehicle_id,vehicle_no';
 			$tableName = 'vehicle_master';
 			$data['vehicleList'] = $this->Booking_model->getVehicleList($select,$tableName);
@@ -426,9 +439,21 @@ class Booking extends MX_Controller {
 		);
 
 		$tableName = 'duty_sleep_master';
-		$result = $this->helper_model->insert($tableName,$dutySlip);
-		$response['success'] = true;
-		$response['successMsg'] = "Successfully Submit";
+		$result = $this->Booking_model->saveData($tableName,$dutySlip);
+		if($result != false){
+			$data = array(
+				'duty_slip_id' => $result
+			);
+			$tableName = 'booking_master';
+			$columnName = 'booking_id';
+			$value = $_POST['booking_id'];
+			$this->Booking_model->updateData($tableName,$data,$columnName,$value);
+			$response['success'] = true;
+			$response['successMsg'] = "Successfully Submit";
+		}else{
+			$response['success'] = false;
+			$response['successMsg'] = "Something went wrong please try again later";
+		}
 
 		echo json_encode($response);
 	}
@@ -461,7 +486,7 @@ class Booking extends MX_Controller {
 		$result = $this->Booking_model->updateData($duty_table, $updatdDutySlip, $duty_column, $duty_sleep_id);
 		$response['success'] = true;
 		$response['successMsg'] = "Successfully Updated";
-		$response['data'] = $updatdDutySlip;
+		$response['redirect'] = base_url()."booking/bookingList";
 
 		echo json_encode($response);
 	}

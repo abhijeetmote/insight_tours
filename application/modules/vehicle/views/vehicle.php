@@ -37,10 +37,10 @@
 					<!-- PAGE CONTENT BEGINS -->
 					<form class="form-horizontal" role="form" method="post" id="<?php if(isset($vehicle)): echo "vehicle_update"; else: echo "vehicle"; endif; ?>" enctype="multipart/form-data">						
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Enter Vehicle No*</label>
+							<label class="col-sm-2 no-padding-right" for="">Enter Vehicle No*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vehicle_no" name="vehicle_no" placeholder="Enter Vehicle Number" class="col-xs-10 col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_no; endif; ?>" />
+							<div class="col-sm-4">
+								<input type="text" id="vehicle_no" name="vehicle_no" placeholder="Enter Vehicle Number" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_no; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vehicle_no_errorlabel"></span>
 								</span>
@@ -49,19 +49,22 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right" for="">Enter Vehicle Type*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vehicle_type" name="vehicle_type" placeholder="Enter Vehicle Type" class="col-xs-10 col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_type; endif; ?>" />
+							<label class="col-sm-2 no-padding-right" for="">Enter Vehicle Type*</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="vehicle_type" name="vehicle_type" placeholder="Enter Vehicle Type" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_type; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vehicle_type_errorlabel"></span>
 								</span>
 							</div>
+
 						</div>
 						<input type="hidden" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_id; endif; ?>" name="id">
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Enter Vehicle Model*</label>
+							<label class="col-sm-2 no-padding-right" for="">Enter Vehicle Model*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vehicle_model" name="vehicle_model" placeholder="Enter Vehicle Model" class="col-xs-10 col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_model; endif; ?>" />
+							<div class="col-sm-4">
+								<input type="text" id="vehicle_model" name="vehicle_model" placeholder="Enter Vehicle Model" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_model; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vehicle_model_errorlabel"></span>
 								</span>
@@ -70,25 +73,29 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right" for="">Enter Fuel Type*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="fuel_type" name="fuel_type" placeholder="Enter Fuel Type" class="col-xs-10 col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->fuel_type; endif; ?>"/>
+							<label class="col-sm-2 no-padding-right" for="">Enter Fuel Type*</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="fuel_type" name="fuel_type" placeholder="Enter Fuel Type" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->fuel_type; endif; ?>"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="fuel_type_errorlabel"></span>
 								</span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Enter Passenger Capacity*</label>
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Enter Passenger Capacity*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="passenger_capacity" name="passenger_capacity" placeholder="Enter Passenger Capacity" class="col-xs-10 col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->passanger_capacity; endif; ?>" />
+							<div class="col-sm-4">
+								<input type="text" id="passenger_capacity" name="passenger_capacity" placeholder="Enter Passenger Capacity" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->passanger_capacity; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="passenger_capacity_errorlabel"></span>
 								</span>
 							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right">Enter Vehicle Category</label>
+
+							<label class="col-sm-2 no-padding-right">Enter Vehicle Category</label>
 
 							<div class="col-sm-4">
 								<select class="chosen-select form-control" name="vehicle_category" id="form-field-select-3" data-placeholder="Choose a State...">
@@ -106,10 +113,13 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Enter Vehicle Features*</label>
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Enter Vehicle Features*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vehicle_features" name="vehicle_features" placeholder="Enter vehicle Features" class="col-xs-10 col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_features; endif; ?>" />
+							<div class="col-sm-4">
+								<input type="text" id="vehicle_features" name="vehicle_features" placeholder="Enter vehicle Features" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_features; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vehicle_features_errorlabel"></span>
 								</span>
@@ -118,20 +128,25 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right" for="">Enter Insurance Expiry Date*</label>
 
-							<div class="col-sm-9">
+							<label class="col-sm-2 no-padding-right" for="">Enter Insurance Expiry Date*</label>
+
+							<div class="col-sm-4">
 								<input type="hidden" name="insuranceid" value="<?php if(isset($insurance) && (!empty($insurance) || $insurance == 0)): echo $vehicleDetails[$insurance]['vldetail_id']; endif; ?>">
-								<input type="text" id="insurance_exp" name="insurance_exp" placeholder="Enter Insurance Expiry Date" class="col-xs-10 col-sm-5 date-picker" value="<?php if(isset($insurance) && (!empty($insurance) || $insurance == 0)): echo $vehicleDetails[$insurance]['vehicle_exp_value']; endif; ?>" />
+								<input type="text" id="insurance_exp" name="insurance_exp" placeholder="Enter Insurance Expiry Date" class="col-xs-10 form-control col-sm-5 date-picker" value="<?php if(isset($insurance) && (!empty($insurance) || $insurance == 0)): echo $vehicleDetails[$insurance]['vehicle_exp_value']; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="insurance_exp_errorlabel"></span>
 								</span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Enter PUC Expiry Date*</label>
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Enter PUC Expiry Date*</label>
 
-							<div class="col-sm-9">
+							<div class="col-sm-4">
 								<input type="hidden" name="pucid" value="<?php if(isset($puc) && (!empty($puc) || $puc == 0)): echo $vehicleDetails[$puc]['vldetail_id']; endif; ?>">
-								<input type="text" id="puc_exp" name="puc_exp" placeholder="Enter PUC Expiry Date" class="col-xs-10 col-sm-5 date-picker" value="<?php if(isset($puc) && (!empty($puc) || $puc == 0)): echo $vehicleDetails[$puc]['vehicle_exp_value']; endif; ?>" />
+								<input type="text" id="puc_exp" name="puc_exp" placeholder="Enter PUC Expiry Date" class="col-xs-10 form-control col-sm-5 date-picker" value="<?php if(isset($puc) && (!empty($puc) || $puc == 0)): echo $vehicleDetails[$puc]['vehicle_exp_value']; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="puc_exp_errorlabel"></span>
 								</span>
@@ -140,20 +155,25 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right" for="">Enter Tpermit Expiry Date*</label>
 
-							<div class="col-sm-9">
+							<label class="col-sm-2 no-padding-right" for="">Enter Tpermit Expiry Date*</label>
+
+							<div class="col-sm-4">
 								<input type="hidden" name="tpermitid" value="<?php if(isset($tpermit) && (!empty($tpermit) || $tpermit == 0)): echo $vehicleDetails[$tpermit]['vldetail_id']; endif; ?>">
-								<input type="text" id="tpermit_exp" name="tpermit_exp" placeholder="Enter Tpermit Expiry Date" class="col-xs-10 col-sm-5 date-picker" value="<?php if(isset($tpermit) && (!empty($tpermit) || $tpermit == 0)): echo $vehicleDetails[$tpermit]['vehicle_exp_value']; endif; ?>" />
+								<input type="text" id="tpermit_exp" name="tpermit_exp" placeholder="Enter Tpermit Expiry Date" class="col-xs-10 form-control col-sm-5 date-picker" value="<?php if(isset($tpermit) && (!empty($tpermit) || $tpermit == 0)): echo $vehicleDetails[$tpermit]['vehicle_exp_value']; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="tpermit_exp_errorlabel"></span>
 								</span>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Enter Oil change Date*</label>
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Enter Oil change Date*</label>
 
-							<div class="col-sm-9">
+							<div class="col-sm-4">
 								<input type="hidden" name="oil_changeid" value="<?php if(isset($oilchange) && (!empty($oilchange) || $oilchange == 0)): echo $vehicleDetails[$oilchange]['vldetail_id']; endif; ?>">
-								<input type="text" id="oil_change" name="oil_change" placeholder="Enter Oil Change Date" class="col-xs-10 col-sm-5 date-picker" value="<?php if(isset($oilchange) && (!empty($oilchange) || $oilchange == 0)): echo $vehicleDetails[$oilchange]['vehicle_exp_value']; endif; ?>" />
+								<input type="text" id="oil_change" name="oil_change" placeholder="Enter Oil Change Date" class="col-xs-10 form-control col-sm-5 date-picker" value="<?php if(isset($oilchange) && (!empty($oilchange) || $oilchange == 0)): echo $vehicleDetails[$oilchange]['vehicle_exp_value']; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="oil_change_errorlabel"></span>
 								</span>
@@ -162,16 +182,21 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right" for="">Enter Oil Change Km*</label>
 
-							<div class="col-sm-9">
+							<label class="col-sm-2 no-padding-right" for="">Enter Oil Change Km*</label>
+
+							<div class="col-sm-4">
 								<input type="hidden" name="oil_changekmid" value="<?php if(isset($oilchangekm) && (!empty($oilchangekm) || $oilchangekm == 0)): echo $vehicleDetails[$oilchangekm]['vldetail_id']; endif; ?>">
-								<input type="text" id="oil_changekm" name="oil_changekm" placeholder="Enter Tpermit Expiry Date" class="col-xs-10 col-sm-5" value="<?php if(isset($oilchangekm) && (!empty($oilchangekm) || $oilchangekm == 0)): echo $vehicleDetails[$oilchangekm]['vehicle_exp_value']; endif; ?>" />
+								<input type="text" id="oil_changekm" name="oil_changekm" placeholder="Enter Tpermit Expiry Date" class="col-xs-10 form-control col-sm-5" value="<?php if(isset($oilchangekm) && (!empty($oilchangekm) || $oilchangekm == 0)): echo $vehicleDetails[$oilchangekm]['vehicle_exp_value']; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="oil_changekm_errorlabel"></span>
 								</span>
 							</div>
 						</div>
+						<div class="form-group">
+							
+						</div>
 						<div class="form-group files">
-							<label class="col-sm-3 control-label no-padding-right" for="">Select Image</label>
+							<label class="col-sm-3 no-padding-right" for="">Select Image</label>
 
 							<div class="col-sm-4">
 								<input type="file" name="vehichleImage1" />
@@ -181,7 +206,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for=""></label>
+							<label class="col-sm-3 no-padding-right" for=""></label>
 
 							<div class="col-sm-1">
 								<button class="btn btn-info test" type="button" id="add">

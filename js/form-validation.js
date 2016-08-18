@@ -626,6 +626,9 @@ function ajaxCall(id, postData, method, sucessCallBack, failCallBack, timeout) {
                     </p>\
                 </div>');
                 $("#"+id)[0].reset();
+                if(data.redirect != undefined && data.redirect != 'undefined' && data.redirect != ''){
+                    location.href = data.redirect;
+                }
             } else {
                 $('.icon'+id).removeClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
                 $('.alert-box').html('<div class="alert alert-block alert-danger">\

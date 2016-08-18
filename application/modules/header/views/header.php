@@ -341,8 +341,8 @@
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<img class="nav-user-photo" src="<?php echo base_url(); ?>images/theme/user.jpg" alt="Jason's Photo" />
 								<span class="user-info">
-									<small>Welcome,</small>
-									Jason
+									<small><?php echo $_SESSION['userFirstName']; ?></small>
+									<small><?php echo $_SESSION['userLastName']; ?></small>
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>
@@ -366,7 +366,7 @@
 								<li class="divider"></li>
 
 								<li>
-									<a href="#">
+									<a href="<?php echo base_url(); ?>login/logout">
 										<i class="ace-icon fa fa-power-off"></i>
 										Logout
 									</a>

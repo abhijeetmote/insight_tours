@@ -31,208 +31,340 @@
 				</h1>
 			</div><!-- /.page-header -->
 
+			<div class="row" style="margin-bottom:3%;">
+				<div class="col-xs-12 col-sm-22 widget-container-col ui-sortable" id="widget-container-col-2">
+					<div class="widget-box ui-sortable-handle" id="widget-box-2" style="margin-bottom:0;">
+						<div class="widget-header">
+							<h5 class="widget-title bigger lighter">
+								Booking Details
+							</h5>							
+						</div>
+
+						<div class="widget-body">
+							<div class="widget-main no-padding">
+								<table class="table table-striped table-bordered table-hover">
+									<thead class="thin-border-bottom">
+										<tr>
+											<th>
+												Duty Slip Id
+											</th>
+
+											<th>
+												Booked By
+											</th>
+											<th>
+												Date Time
+											</th>
+											<th>
+												Address
+											</th>
+											<th>
+												Tour
+											</th>
+											<th>
+												Vehicle Type
+											</th>
+
+										</tr>
+									</thead>
+
+									<tbody>
+										<?php
+											foreach ($bookingDetails as $val) {
+												echo "<tr>";
+												echo "<td>".$val->duty_slip_id."</td>";
+												echo "<td>".$val->booked_by."</td>";
+												echo "<td>".$val->added_on."</td>";
+												echo "<td>".$val->pickup_location."</td>";
+												echo "<td>Local</td>";
+												echo "<td>".$val->cat_name."</td>";
+												echo "</tr>";
+											}
+										?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-22 widget-container-col ui-sortable" id="widget-container-col-1">
+					<div class="widget-box ui-sortable-handle collapsed" id="widget-box-1" style="margin-top:0;">
+						<div class="widget-header">
+							<h5 class="widget-title">Passenger List</h5>
+
+							<div class="widget-toolbar">
+								
+
+								<a href="#" data-action="collapse">
+									<i class="ace-icon fa fa-chevron-up"></i>
+								</a>
+							</div>
+						</div>
+						
+						<div class="widget-body" style="display:none;">
+							<div class="widget-main no-padding">
+								<table class="table table-striped table-bordered table-hover">
+									<thead class="thin-border-bottom">
+										<tr>
+											<th>
+												Passenger Name
+											</th>
+
+											<th>
+												Passenger Number
+											</th>
+											<th>
+												Pickup Address
+											</th>
+											<th>
+												Pickup Time
+											</th>
+											<th>
+												Date Time
+											</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<?php
+											foreach ($passengerDetails as $val) {
+												echo "<tr>";
+												echo "<td>".$val->passenger_name."</td>";
+												echo "<td>".$val->passenger_number."</td>";
+												echo "<td>".$val->pickup_address."</td>";
+												echo "<td>".$val->pickup_time."</td>";
+												echo "<td>".$val->added_on."</td>";
+												echo "</tr>";
+											}
+										?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			
 			<div class="row">
 				<div class="col-xs-12">
-					<div class="alert-box"></div>
-					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" method="post" id="<?php if($update == false): echo "dutySlip"; else: echo "updateDutySlip"; endif; ?>" enctype="multipart/form-data">						
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Select Vehicle*</label>
+					<div class="widget-box">
+						<div class="widget-header">
+							<h4 class="widget-title"><?php if($update == false): echo "Add Slip"; else: echo "Update Slip"; endif; ?></h4>
+						</div>
+						<div class="widget-body">
+							<div class="widget-main">
+								<div class="alert-box"></div>
+								<!-- PAGE CONTENT BEGINS -->
+								<form class="form-horizontal" role="form" method="post" id="<?php if($update == false): echo "dutySlip"; else: echo "updateDutySlip"; endif; ?>" enctype="multipart/form-data">						
+									<div class="form-group">
+										<label class="col-sm-2  no-padding-right" for="">Select Vehicle*</label>
 
-							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="vehicle" id="form-field-select-3" data-placeholder="Choose a State...">
-									<?php
-										if(isset($selectVehicle)){
-											echo '<option value="'.$selectVehicle[0]->vehicle_id.'">'.$selectVehicle[0]->vehicle_no.'</option>';
-										}
-										foreach ($vehicleList as $val) {
-											echo '<option value="'.$val->vehicle_id.'">'.$val->vehicle_no.'</option>';
-										}
-									?>
+										<div class="col-sm-4">
+											<select class="chosen-select form-control" name="vehicle" id="form-field-select-3" data-placeholder="Choose a State...">
+												<?php
+													if(isset($selectVehicle)){
+														echo '<option value="'.$selectVehicle[0]->vehicle_id.'">'.$selectVehicle[0]->vehicle_no.' xyz</option>';
+													}
+													foreach ($vehicleList as $val) {
+														echo '<option value="'.$val->vehicle_id.'">'.$val->vehicle_no.'</option>';
+													}
+												?>
+												
+											</select>
+										</div>
+
+										<label class="col-sm-2  no-padding-right" for="">Select Driver*</label>
+
+										<div class="col-sm-4">
+											<select class="chosen-select form-control" name="driver" id="form-field-select-3" data-placeholder="Choose a State...">
+												<?php
+													if(isset($selectDriver)){
+														echo '<option value="'.$selectDriver[0]->driver_id.'">'.$selectDriver[0]->driver_fname.' '.$selectDriver[0]->driver_lname.'</option>';
+													}
+													foreach ($driverList as $val) {
+														echo '<option value="'.$val->driver_id.'">'.$val->driver_fname.' '.$val->driver_lname.'</option>';
+													}
+												?>
+												
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2  no-padding-right" for="">Total kms*</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="total_km" name="total_km" placeholder="Enter Total kms" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_kms); endif; ?>" />
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="total_km_errorlabel"></span>
+											</span>
+										</div>
+
+										<label class="col-sm-2  no-padding-right" for="">Extra kms*</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="extra_kms" name="extra_kms" placeholder="Enter Extra kms" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_kms); endif; ?>" />
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="extra_kms_errorlabel"></span>
+											</span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										
+									</div>
 									
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Select Driver*</label>
+									<div class="form-group">
+										<label class="col-sm-2  no-padding-right" for="">Start Date*</label>
 
-							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="driver" id="form-field-select-3" data-placeholder="Choose a State...">
-									<?php
-										if(isset($selectDriver)){
-											echo '<option value="'.$selectDriver[0]->driver_id.'">'.$selectDriver[0]->driver_fname.' '.$selectDriver[0]->driver_lname.'</option>';
-										}
-										foreach ($driverList as $val) {
-											echo '<option value="'.$val->driver_id.'">'.$val->driver_fname.' '.$val->driver_lname.'</option>';
-										}
-									?>
+										<div class="col-sm-4">
+											<input type="text" id="start_date" name="start_date" placeholder="Enter Start Date" class="col-xs-10 form-control col-sm-5  date-picker" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->start_date); endif; ?>" />
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="start_date_errorlabel"></span>
+											</span>
+										</div>
+
+										<label class="col-sm-2  no-padding-right" for="">End Date*</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="end_date" name="end_date" placeholder="Enter End Date" class="col-xs-10 form-control col-sm-5  date-picker" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->end_date); endif; ?>"/>
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="end_date_errorlabel"></span>
+											</span>
+										</div>
+									</div>
+									<div class="form-group">
+										
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2  no-padding-right" for="">Extra Hrs*</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="extra_hrs" name="extra_hrs" placeholder="Enter Extra Hrs" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_hrs); endif; ?>" />
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="extra_hrs_errorlabel"></span>
+											</span>
+										</div>
+
+										<label class="col-sm-2  no-padding-right">Total Hrs</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="total_hrs" name="total_hrs" placeholder="Enter Total Hrs" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_hrs); endif; ?>" />
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="total_hrs_errorlabel"></span>
+											</span>
+										</div>
+									</div>
+									<div class="form-group">
+										
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2  no-padding-right" for="">Toll Fess*</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="toll_fess" name="toll_fess" placeholder="Enter Toll Fess" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->toll_fess); endif; ?>" />
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="toll_fess_errorlabel"></span>
+											</span>
+										</div>
+
+										<label class="col-sm-2  no-padding-right" for="">Parking Fees*</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="parking_fees" name="parking_fees" placeholder="Enter Parking Fees" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->parking_fees); endif; ?>" />
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="parking_fees_errorlabel"></span>
+											</span>
+										</div>
+									</div>
+									<div class="form-group">
+										
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2  no-padding-right" for="">Advance Paid*</label>
+										<input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
+										<input type="hidden" name="duty_sleep_id" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->duty_sleep_id); endif; ?>">
+										<div class="col-sm-4">
+											<input type="text" id="advance_paid" name="advance_paid" placeholder="Enter Advance Paid" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->advance_paid); endif; ?>" />
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="advance_paid_errorlabel"></span>
+											</span>
+										</div>
+
+										<label class="col-sm-2  no-padding-right" for="">Total Amt*</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="total_amt" name="total_amt" placeholder="Enter Total Amt" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_amt); endif; ?>" />
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="total_amt_errorlabel"></span>
+											</span>
+										</div>
+									</div>
+									<div class="form-group">
+										
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2  no-padding-right" for="">Comments*</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="comments" name="comments" placeholder="Enter Comments" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->comments); endif; ?>" />
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="comments_errorlabel"></span>
+											</span>
+										</div>
+
+										<label class="col-sm-2  no-padding-right" for="">Payment Status*</label>
+										
+										<div class="col-sm-4">
+											<select class="chosen-select form-control" name="payment_status" id="form-field-select-3" data-placeholder="Choose a State...">
+												<?php
+													if(isset($DutySlip)){
+														if($DutySlip[0]->payment_status == 1){
+															echo '<option value="1">Paid</option>';
+															echo '<option value="0">UnPaid</option>';
+														}else{
+															echo '<option value="0">UnPaid</option>';
+															echo '<option value="1">Paid</option>';
+														}
+														
+													}else{
+														echo '<option value="0">UnPaid</option>';	
+														echo '<option value="1">Paid</option>';
+													}
+												?>
+												
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										
+									</div>
 									
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Total kms*</label>
+									<div class="clearfix form-actions">
+										<div class="col-md-offset-3 col-md-9">
+											<button class="btn btn-info test" type="submit">
+												<i class="iconvehicle"></i>
+												<?php if(isset($update) && $update == true){
+													echo "Update";
+												}else{
+													echo "Submit";
+												} ?>
+											</button>
 
-							<div class="col-sm-9">
-								<input type="text" id="total_km" name="total_km" placeholder="Enter Total kms" class="col-xs-10 col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_kms); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="total_km_errorlabel"></span>
-								</span>
+											&nbsp; &nbsp; &nbsp;
+											<button class="btn" type="reset">
+												<i class="ace-icon fa fa-undo bigger-110"></i>
+												Reset
+											</button>
+										</div>
+									</div>
+								</form>
 							</div>
 						</div>
-
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Extra kms*</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="extra_kms" name="extra_kms" placeholder="Enter Extra kms" class="col-xs-10 col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_kms); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="extra_kms_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Start Date*</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="start_date" name="start_date" placeholder="Enter Start Date" class="col-xs-10 col-sm-5  date-picker" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->start_date); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="start_date_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">End Date*</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="end_date" name="end_date" placeholder="Enter End Date" class="col-xs-10 col-sm-5  date-picker" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->end_date); endif; ?>"/>
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="end_date_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Extra Hrs*</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="extra_hrs" name="extra_hrs" placeholder="Enter Extra Hrs" class="col-xs-10 col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_hrs); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="extra_hrs_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right">Total Hrs</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="total_hrs" name="total_hrs" placeholder="Enter Total Hrs" class="col-xs-10 col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_hrs); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="total_hrs_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Toll Fess*</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="toll_fess" name="toll_fess" placeholder="Enter Toll Fess" class="col-xs-10 col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->toll_fess); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="toll_fess_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Parking Fees*</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="parking_fees" name="parking_fees" placeholder="Enter Parking Fees" class="col-xs-10 col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->parking_fees); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="parking_fees_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Advance Paid*</label>
-							<input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
-							<input type="hidden" name="duty_sleep_id" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->duty_sleep_id); endif; ?>">
-							<div class="col-sm-9">
-								<input type="text" id="advance_paid" name="advance_paid" placeholder="Enter Advance Paid" class="col-xs-10 col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->advance_paid); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="advance_paid_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Total Amt*</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="total_amt" name="total_amt" placeholder="Enter Total Amt" class="col-xs-10 col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_amt); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="total_amt_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Comments*</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="comments" name="comments" placeholder="Enter Comments" class="col-xs-10 col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->comments); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="comments_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Payment Status*</label>
-
-							<!-- <div class="col-sm-9">
-								<input type="text" id="payment_status" name="payment_status" placeholder="Enter Payment Status" class="col-xs-10 col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->payment_status); endif; ?>" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="payment_status_errorlabel"></span>
-								</span>
-							</div> -->
-							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="payment_status" id="form-field-select-3" data-placeholder="Choose a State...">
-									<?php
-										if(isset($DutySlip)){
-											if($DutySlip[0]->payment_status == 1){
-												echo '<option value="1">Paid</option>';
-												echo '<option value="0">UnPaid</option>';
-											}else{
-												echo '<option value="0">UnPaid</option>';
-												echo '<option value="1">Paid</option>';
-											}
-											
-										}else{
-											echo '<option value="1">Paid</option>';
-											echo '<option value="0">UnPaid</option>';	
-										}
-									?>
-									
-								</select>
-							</div>
-						</div>
-						
-						<div class="clearfix form-actions">
-							<div class="col-md-offset-3 col-md-9">
-								<button class="btn btn-info test" type="submit">
-									<i class="iconvehicle"></i>
-									<?php if(isset($update) && $update == true){
-										echo "Update";
-									}else{
-										echo "Submit";
-									} ?>
-								</button>
-
-								&nbsp; &nbsp; &nbsp;
-								<button class="btn" type="reset">
-									<i class="ace-icon fa fa-undo bigger-110"></i>
-									Reset
-								</button>
-							</div>
-						</div>
-					</form>
+					</div>
 				</div><!-- /.col -->
 			</div><!-- /.row -->
 		</div><!-- /.page-content -->

@@ -108,6 +108,9 @@
 														<a class="blue" href="#modal-table" id="<?php echo $val->booking_id; ?>" data-toggle="modal">
 															<i class="ace-icon fa fa-eye bigger-130 b_details" id="<?php echo $val->booking_id; ?>"></i>
 														</a>
+														<a class="blue" href="<?php echo base_url().'booking/addSlip/'.$val->booking_id; ?>">
+															<i class="ace-icon glyphicon glyphicon-print"></i>
+														</a>
 													</div>
 
 													 
