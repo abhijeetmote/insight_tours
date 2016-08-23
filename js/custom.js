@@ -20,6 +20,7 @@ var array = [
 	{name: "bookingList", value: baseUrl + "booking/bookingDelete"},
 	{name: "passenger-detail-view", value: baseUrl + "booking/passengerList"},
 	{name: "customermaster", value: baseUrl + "customer/addcustomer"},
+	{name: "customerUpdate", value: baseUrl + "customer/customerUpdate"},
 	{name: "dutySlip", value: baseUrl + "booking/addDutySlip"},
 	{name: "updateDutySlip", value: baseUrl + "booking/updateDuty"},
 	{name: "passenger-detail-delete", value: baseUrl + "booking/passengerDelete"},
