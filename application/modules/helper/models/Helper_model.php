@@ -9,7 +9,9 @@ class Helper_model extends CI_Model {
 
 	public function insert($tableName,$data)
 	{
-		return $this->db->insert($tableName, $data);
+		$this->db->insert($tableName, $data);
+		$insert_id = $this->db->insert_id();
+		return $insert_id;
 	}
 
 	public function insertid($tableName,$data)
@@ -78,10 +80,8 @@ class Helper_model extends CI_Model {
 
 	public function selectQuery($query)
 	{
-		$this->db->select($select);
-		$this->db->from($tableName);
-		$query = $this->db->get();
-		return $query->result();
+		$result = $this->db->query($query);
+        return $result->result_array();
 	}
 
 	public function delete($tableName,$columnName,$value)

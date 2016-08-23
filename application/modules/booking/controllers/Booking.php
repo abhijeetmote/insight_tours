@@ -392,7 +392,7 @@ class Booking extends MX_Controller {
 
 			$tableName =  'booking_master b , vehicle_category v ';
 	 		$select = 'b.duty_slip_id,b.booked_by,b.added_on,b.pickup_location,v.cat_name';
-	 		$where =  'b.vehicle_type = v.cat_id';
+	 		$where =  'b.vehicle_type = v.cat_id and b.booking_id = '.$booking_id.'';
 	 		$data['bookingDetails'] = $this->Booking_model->getwheredata($select,$tableName,$where);
 
 	 		$tableName =  'passenger_details';

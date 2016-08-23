@@ -72,6 +72,8 @@ class Vehicle extends MX_Controller {
 
 	public function addVehicle()
 	{
+		/*echo json_encode($_POST);
+		exit();*/
 		$vehicle = array(
 			'vehicle_no' => $_POST['vehicle_no'],
 			'vehicle_type' => $_POST['vehicle_type'],
@@ -174,8 +176,9 @@ class Vehicle extends MX_Controller {
 							);
 							array_push($imageArray, $vehicleImages);
 						}
+						$j++;
 					}
-					$j++;
+					
 				}
 				if($j>0){
 					$this->helper_model->insertBatch($tableName,$imageArray);
