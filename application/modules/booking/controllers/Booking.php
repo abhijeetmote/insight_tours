@@ -104,7 +104,8 @@ class Booking extends MX_Controller {
  	 			$this->db->trans_commit();
 				$response['success'] = true;
 				$response['error'] = false;
-				$response['successMsg'] = "Vendor Added Successfully";
+				$response['successMsg'] = "Booking Added Successfully";
+				$response['redirect'] = base_url()."booking/bookingList";
  	 		}
 		 	$i++;
  		 }
@@ -192,7 +193,8 @@ class Booking extends MX_Controller {
  		$select = '*';
  		$where =  "booking_id = '$booking_id'";
  		$data['passenger'] = $this->Booking_model->getwheredata($select,$tableName,$where);
-
+ 		//echo "<pre>";
+ 		//print_r($data['passenger']);
 		$data['update'] = true;
 		$this->header->index();
 		$this->load->view('BookingAdd', $data);
@@ -303,6 +305,7 @@ class Booking extends MX_Controller {
 				$response['success'] = true;
 				$response['error'] = false;
 				$response['successMsg'] = "Booking Updated Successfully";
+				$response['redirect'] = base_url()."booking/bookingList";
  	 		}
 		 	$i++;
  		 }
@@ -343,6 +346,7 @@ class Booking extends MX_Controller {
 				$response['success'] = true;
 				$response['error'] = false;
 				$response['successMsg'] = "Booking updated Successfully";
+				$response['redirect'] = base_url()."booking/bookingList";
  	 		}
 		 	 
  		 }
@@ -353,6 +357,7 @@ class Booking extends MX_Controller {
 		$response['success'] = true;
 		$response['error'] = false;
 		$response['successMsg'] = "Booking updated Successfully";
+		$response['redirect'] = base_url()."booking/bookingList";
  	}
 
  	 

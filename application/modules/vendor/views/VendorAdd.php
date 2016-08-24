@@ -36,131 +36,135 @@
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
 					<form class="form-horizontal" role="form" id="<?php if(isset($vendor)): echo "vendor_update"; else: echo "vendormaster"; endif; ?>">						
+						
+						<input type="hidden" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_id; endif; ?>" name="id">
+						<input type="hidden" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_ledger_id; endif; ?>" name="vendor_ledger_id">
+						
 						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Name*</label>
+                            <label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Name*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vendor_name" name="vendor_name" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_name; endif; ?>" placeholder="Enter Vendor Name" onKeyUp="javascript:return check_isalphanumeric(event,this);" class="col-xs-10 col-sm-5 mandatory-field" />
+                            <div class="col-sm-4">
+                                <input type="text" id="vendor_name" name="vendor_name" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_name; endif; ?>" placeholder="Enter Vendor Name" onKeyUp="javascript:return check_isalphanumeric(event,this);" class="col-xs-10 col-sm-12 mandatory-field" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_name_errorlabel"></span>
 								</span>
-							</div>
-						</div>
-						<input type="hidden" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_id; endif; ?>" name="id">
-						<input type="hidden" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_ledger_id; endif; ?>" name="vendor_ledger_id">
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for=""> Mobile Number*</label>
-
-							<div class="col-sm-9">
-								<input type="text" id="vendor_contact_number" onKeyUp="javascript:return check_isnumeric(event,this,0);" name="vendor_contact_number" placeholder=" Mobile Number" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_contact_number; endif; ?>" class="col-xs-10 col-sm-5 mandatory-field" />
+                            </div>
+                            <label class="col-sm-2 no-padding-right" for=""> Mobile Number*</label>
+                            <div class="col-sm-4">
+                               <input type="text" id="vendor_contact_number" onKeyUp="javascript:return check_isnumeric(event,this,0);" name="vendor_contact_number" placeholder=" Mobile Number" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_contact_number; endif; ?>" class="col-xs-10 col-sm-12 mandatory-field" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_contact_number_errorlabel"></span>
 								</span>
-							</div>
-						</div>
+                            </div>
+                        </div>
+
+
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Phone Number</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vendor_phone_number" onKeyUp="javascript:return check_isnumeric(event,this,0);" name="vendor_phone_number" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_contact_number; endif; ?>" placeholder=" Phone Nubmer" class="col-xs-10 col-sm-5" />
+							<div class="col-sm-4">
+								<input type="text" id="vendor_phone_number" onKeyUp="javascript:return check_isnumeric(event,this,0);" name="vendor_phone_number" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_contact_number; endif; ?>" placeholder=" Phone Nubmer" class="col-xs-10 col-sm-12" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_phone_numbererrorlabel"></span>
 								</span>
 							</div>
-						</div>
-						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Email*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vendor_email" name="vendor_email" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_email; endif; ?>" placeholder="Enter Vendor Email" class="col-xs-10 col-sm-5 mandatory-field" />
+							<div class="col-sm-4">
+								<input type="text" id="vendor_email" name="vendor_email" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_email; endif; ?>" placeholder="Enter Vendor Email" class="col-xs-10 col-sm-12 mandatory-field" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_email_errorlabel"></span>
 								</span>
 							</div>
 						</div>
+						 
+
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Notes</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vendor_notes" name="vendor_notes" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_notes; endif; ?>" placeholder="Enter Vendor Notes" class="col-xs-10 col-sm-5" />
+							<div class="col-sm-4">
+								<input type="text" id="vendor_notes" name="vendor_notes" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_notes; endif; ?>" placeholder="Enter Vendor Notes" class="col-xs-10 col-sm-12" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_notes_errorlabel"></span>
 								</span>
 							</div>
-						</div>
-						<div class="form-group">
+
 							<label class="col-sm-2 no-padding-right" for="form-field-2">Vendor Service Region</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vendor_service_regn" name="vendor_service_regn" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_service_regn; endif; ?>" placeholder="Eneter Service Region" class="col-xs-10 col-sm-5" />
+							<div class="col-sm-4">
+								<input type="text" id="vendor_service_regn" name="vendor_service_regn" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_service_regn; endif; ?>" placeholder="Eneter Service Region" class="col-xs-10 col-sm-12" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_service_regn_errorlabel"></span>
 								</span>
 							</div>
 						</div>
+						 
+
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor PAN Number*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vendor_pan_num" name="vendor_pan_num" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_pan_num; endif; ?>" placeholder="Enter Vendor PAN Number" onchange="check_isalphanumeric(event,this);" class="col-xs-10 col-sm-5 mandatory-field" />
+							<div class="col-sm-4">
+								<input type="text" id="vendor_pan_num" name="vendor_pan_num" onblur="check_ispan(this,event);" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_pan_num; endif; ?>" placeholder="Enter Vendor PAN Number" onchange="check_isalphanumeric(event,this);" class="col-xs-10 col-sm-12 mandatory-field" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_pan_num_errorlabel"></span>
 								</span>
 							</div>
-						</div>
-						<div class="form-group">
+
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Section Code</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vendor_section_code" name="vendor_section_code" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_section_code; endif; ?>" placeholder="Enter Section Code" class="col-xs-10 col-sm-5" />
+							<div class="col-sm-4">
+								<input type="text" id="vendor_section_code" name="vendor_section_code" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_section_code; endif; ?>" placeholder="Enter Section Code" class="col-xs-10 col-sm-12" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_section_code_errorlabel"></span>
 								</span>
 							</div>
 						</div>
+
+
+						 
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Payee Name*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vendor_payee_name" name="vendor_payee_name" onKeyUp="javascript:return check_isalphanumeric(event,this);"onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_payee_name; endif; ?>" placeholder="Enter Vendor Payee Name" class="col-xs-10 col-sm-5 mandatory-field" />
+							<div class="col-sm-4">
+								<input type="text" id="vendor_payee_name" name="vendor_payee_name" onKeyUp="javascript:return check_isalphanumeric(event,this);"onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_payee_name; endif; ?>" placeholder="Enter Vendor Payee Name" class="col-xs-10 col-sm-12 mandatory-field" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_payee_name_errorlabel"></span>
 								</span>
 							</div>
-						</div>
-						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Address*</label>
-
-							<div class="col-sm-9">
-								<textarea id="vendor_address" name="vendor_address" placeholder="Enter Vendor Address" class="col-xs-10 col-sm-5 mandatory-field" >
-									<?php if(isset($vendor)): echo $vendor[0]->vendor_address; endif; ?>
-								</textarea>
+							<div class="col-sm-4">
+								<textarea id="vendor_address" name="vendor_address" placeholder="Enter Vendor Address" class="col-xs-10 col-sm-12 mandatory-field" ><?php if(isset($vendor)): echo $vendor[0]->vendor_address; endif; ?></textarea>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_address_errorlabel"></span>
 								</span>
 							</div>
 						</div>
+
+
+						 
+
+
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> VAT</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vendor_vat" name="vendor_vat" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_vat; endif; ?>" placeholder="Enter Vendor VAT Number" class="col-xs-10 col-sm-5 mandatory-field" />
+							<div class="col-sm-4">
+								<input type="text" id="vendor_vat" name="vendor_vat" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_vat; endif; ?>" placeholder="Enter Vendor VAT Number" class="col-xs-10 col-sm-12 mandatory-field" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_vat_errorlabel"></span>
 								</span>
 							</div>
-						</div>
-						
-						<div class="form-group">
+
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> CST</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="vendor_cst" name="vendor_cst" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_cst; endif; ?>" placeholder="Enter  CST " class="col-xs-10 col-sm-5  mandatory-field" />
+							<div class="col-sm-4">
+								<input type="text" id="vendor_cst" name="vendor_cst" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_cst; endif; ?>" placeholder="Enter  CST " class="col-xs-10 col-sm-12  mandatory-field" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_cst_errorlabel"></span>
 								</span>
 							</div>
 						</div>
+						
+						 
 						
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> GST </label>

@@ -139,6 +139,7 @@ class Driver extends MX_Controller {
 		$response['success'] = true;
 		$response['error'] = false;
 		$response['successMsg'] = "Driver Added Successfully";
+		$response['redirect'] = base_url()."driver/driverList";
 
 	}else{
 		$this->db->trans_rollback();
@@ -269,6 +270,7 @@ class Driver extends MX_Controller {
 				$response['success'] = true;
 				$response['error'] = false;
 				$response['successMsg'] = "Vendor Updated Successfully";
+				$response['redirect'] = base_url()."driver/driverList";
 			}
 		} else {
 

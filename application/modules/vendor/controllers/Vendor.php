@@ -125,6 +125,7 @@ class Vendor extends MX_Controller {
 		$response['success'] = true;
 		$response['error'] = false;
 		$response['successMsg'] = "Vendor Added Successfully";
+		$response['redirect'] = base_url()."vendor/vendorList";
 
 	}else{
 		$this->db->trans_rollback();
@@ -242,6 +243,7 @@ class Vendor extends MX_Controller {
 				$response['success'] = true;
 				$response['error'] = false;
 				$response['successMsg'] = "Vendor Updated Successfully";
+				$response['redirect'] = base_url()."vendor/vendorList";
 			}
 		} else {
 

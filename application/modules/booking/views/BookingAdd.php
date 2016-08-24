@@ -172,7 +172,8 @@
  						<br>
  						<div id="passenger_div">
 
- 						<?php if(isset($passenger) && !empty($passenger)) { 
+ 						<?php if(isset($passenger) && !empty($passenger)) {
+ 						
  								$i = 1;
  								$count = count($passenger);
  								foreach ($passenger as $passenger) {
@@ -229,13 +230,13 @@
 								
 							<div class="col-sm-8">
 								<div class="col-sm-6">   
-								<input type="text" id="passenger_name" value="<?php if(isset($passenger)): echo $passenger[0]->passenger_name; endif; ?>" name="passenger_name[]" placeholder="Enter Passenger Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);" />
+								<input type="text" id="passenger_name" value="" name="passenger_name[]" placeholder="Enter Passenger Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);" />
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="passenger_name_errorlabel"></span>
 								</span>
 								</div>
 								<div class="col-sm-6">   
-								<input type="text" id="passenger_number" value="<?php if(isset($passenger)): echo $passenger[0]->passenger_number; endif; ?>" name="passenger_number[]" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" />
+								<input type="text" id="passenger_number" value="" name="passenger_number[]" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" />
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="passenger_number_errorlabel"></span>
 								</span>
@@ -245,13 +246,13 @@
 							
 							<div class="col-sm-8" style="margin-left:16.5%;">
 								<div class="col-sm-6">   
-								<textarea id="pass_pickup_address" style="width: 100%; height: 40px;" name="pass_pickup_address[]" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($passenger)): echo trim($passenger[0]->pickup_location); endif; ?></textarea>
+								<textarea id="pass_pickup_address" style="width: 100%; height: 40px;" name="pass_pickup_address[]" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" ></textarea>
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="pass_pickup_address_errorlabel"></span>
 								</span>
 								</div>
 								<div class="col-sm-6">   
-								<textarea id="pass_drop_address" style="width: 100%; height: 40px;" name="pass_drop_address[]" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" ><?php if(isset($passenger)): echo trim($passenger[0]->drop_location); endif; ?></textarea>
+								<textarea id="pass_drop_address" style="width: 100%; height: 40px;" name="pass_drop_address[]" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" ></textarea>
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="pass_drop_address_errorlabel"></span>
 								</span>

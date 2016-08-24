@@ -44,6 +44,7 @@ class Booking_model extends CI_Model {
 	public function getwheredata($select,$tableName,$where){
 
 		$result = $this->helper_model->selectwhere($select,$tableName,$where);
+		//echo $this->db->last_query();
 		return $result;
 	}
 

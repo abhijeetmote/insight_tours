@@ -40,43 +40,39 @@
 						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Driver First Name*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="driver_fname" name="driver_fname" value="<?php if(isset($driver)): echo $driver[0]->driver_fname; endif; ?>" placeholder="Enter Driver First Name" class="col-xs-10 col-sm-5 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
+							<div class="col-sm-4">
+								<input type="text" id="driver_fname" name="driver_fname" value="<?php if(isset($driver)): echo $driver[0]->driver_fname; endif; ?>" placeholder="Enter Driver First Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_fname_errorlabel"></span>
 								</span>
 							</div>
-						</div>
 
-						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Driver Middle Name</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="driver_mname" name="driver_mname" value="<?php if(isset($driver)): echo $driver[0]->driver_mname; endif; ?>" placeholder="Enter Driver Middle Name" class="col-xs-10 col-sm-5" onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
+							<div class="col-sm-4">
+								<input type="text" id="driver_mname" name="driver_mname" value="<?php if(isset($driver)): echo $driver[0]->driver_mname; endif; ?>" placeholder="Enter Driver Middle Name" class="col-xs-10 col-sm-12" onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_mname_errorlabel"></span>
 								</span>
 							</div>
 						</div>
 
+						 
+
 						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Driver Last Name*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="driver_lname" name="driver_lname" placeholder="Enter Driver Last Name" value="<?php if(isset($driver)): echo $driver[0]->driver_lname; endif; ?>" class="col-xs-10 col-sm-5 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
+							<div class="col-sm-4">
+								<input type="text" id="driver_lname" name="driver_lname" placeholder="Enter Driver Last Name" value="<?php if(isset($driver)): echo $driver[0]->driver_lname; endif; ?>" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_lname_errorlabel"></span>
 								</span>
 							</div>
-						</div>
 
-
-
-						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Diver DOB</label>
 
-							<div class="col-sm-9">
-								<input type="text" data-date-format="dd-mm-yyyy" id="driver_dob" name="driver_dob" value="<?php if(isset($driver)): echo $driver[0]->driver_bdate; endif; ?>" class="date-picker col-xs-10 col-sm-5"/>
+							<div class="col-sm-4">
+								<input type="text" data-date-format="dd-mm-yyyy" id="driver_dob" name="driver_dob" value="<?php if(isset($driver)): echo $driver[0]->driver_bdate; endif; ?>" class="date-picker col-xs-10 col-sm-12"/>
 								<span style="width:10px;height:35px;" class="input-group-addon">
 									<i class="fa fa-calendar bigger-110"></i>
 								</span>
@@ -85,6 +81,9 @@
 								</span>
 							</div>
 						</div>
+
+
+ 
 						
 						<input type="hidden" value="<?php if(isset($driver)): echo $driver[0]->driver_id; endif; ?>" name="id">
 						<input type="hidden" value="<?php if(isset($driver)): echo $driver[0]->ledger_id; endif; ?>" name="ledger_id">	
@@ -92,22 +91,17 @@
 						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Driver Address*</label>
 
-							<div class="col-sm-9">
-								<textarea id="driver_address" name="driver_address" value="<?php if(isset($driver)): echo $driver[0]->driver_add; endif; ?>" placeholder="Enter Driver Address" class="col-xs-10 col-sm-5 mandatory-field" >
-								<?php if(isset($driver)): echo trim($driver[0]->driver_add); endif; ?>
-							</textarea>
+							<div class="col-sm-4">
+								<textarea id="driver_address" name="driver_address" value="<?php if(isset($driver)): echo $driver[0]->driver_add; endif; ?>" placeholder="Enter Driver Address" class="col-xs-10 col-sm-12 mandatory-field" ><?php if(isset($driver)): echo trim($driver[0]->driver_add); endif; ?></textarea>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_address_errorlabel"></span>
 								</span>
 							</div>
-						</div>
 
-
-						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Driver Mobile1*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="driver_mobile" name="driver_mobile" value="<?php if(isset($driver)): echo $driver[0]->driver_mobno; endif; ?>" placeholder="Enter Driver Mobile No" class="col-xs-10 col-sm-5 mandatory-field"  onKeyUp="javascript:return check_isnumeric(event,this,0);" />
+							<div class="col-sm-4">
+								<input type="text" id="driver_mobile" name="driver_mobile" value="<?php if(isset($driver)): echo $driver[0]->driver_mobno; endif; ?>" placeholder="Enter Driver Mobile No" class="col-xs-10 col-sm-12 mandatory-field"  onKeyUp="javascript:return check_isnumeric(event,this,0);" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_mobile_errorlabel"></span>
 								</span>
@@ -115,36 +109,36 @@
 						</div>
 
 
+					 
+
 
 						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Driver Mobile2</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="driver_mobile1" name="driver_mobile1" value="<?php if(isset($driver)): echo $driver[0]->driver_mobno1; endif; ?>" placeholder="Enter Driver Mobile No" class="col-xs-10 col-sm-5 " onKeyUp="javascript:return check_isnumeric(event,this,0);"/>
+							<div class="col-sm-4">
+								<input type="text" id="driver_mobile1" name="driver_mobile1" value="<?php if(isset($driver)): echo $driver[0]->driver_mobno1; endif; ?>" placeholder="Enter Driver Mobile No" class="col-xs-10 col-sm-12" onKeyUp="javascript:return check_isnumeric(event,this,0);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_mobile1_errorlabel"></span>
 								</span>
 							</div>
-						</div>
 
 
-
-						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Licence No*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="driver_licence" name="driver_licence" value="<?php if(isset($driver)): echo $driver[0]->driver_licno; endif; ?>" placeholder="Enter Driver Licence No" class="col-xs-10 col-sm-5 mandatory-field"  onKeyUp="javascript:return check_gernalstring(event,this);"/>
+							<div class="col-sm-4">
+								<input type="text" id="driver_licence" name="driver_licence" value="<?php if(isset($driver)): echo $driver[0]->driver_licno; endif; ?>" placeholder="Enter Driver Licence No" class="col-xs-10 col-sm-12 mandatory-field"  onKeyUp="javascript:return check_gernalstring(event,this);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_licence_errorlabel"></span>
 								</span>
 							</div>
 						</div>
+ 
 
 						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Licence Exp Date*</label>
 
-							<div class="col-sm-9">
-								<input type="text" data-date-format="dd-mm-yyyy" value="<?php if(isset($driver)): echo $driver[0]->driver_licexpdate; endif; ?>" placeholder=" Licence Exp Date" id="licence_exp" name="licence_exp" class="date-picker col-xs-10 col-sm-5 mandatory-field"/>
+							<div class="col-sm-4">
+								<input type="text" data-date-format="dd-mm-yyyy" value="<?php if(isset($driver)): echo $driver[0]->driver_licexpdate; endif; ?>" placeholder=" Licence Exp Date" id="licence_exp" name="licence_exp" class="date-picker col-xs-10 col-sm-12 mandatory-field"/>
 								<span style="width:10px;height:35px;" class="input-group-addon">
 									<i class="fa fa-calendar bigger-110"></i>
 								</span>
@@ -152,61 +146,52 @@
 									<span class="middle input-text-error" id="licence_exp_errorlabel"></span>
 								</span>
 							</div>
-						</div>
 
-
-
-						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Diver Pan*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="driver_pan" name="driver_pan" value="<?php if(isset($driver)): echo $driver[0]->driver_panno; endif; ?>" placeholder="Enter Driver Pan No" class="col-xs-10 col-sm-5 mandatory-field"  onKeyUp="javascript:return check_isalphanumeric(event,this);" onblur="check_ispan(this,event);"/>
+							<div class="col-sm-4">
+								<input type="text" id="driver_pan" name="driver_pan" value="<?php if(isset($driver)): echo $driver[0]->driver_panno; endif; ?>" placeholder="Enter Driver Pan No" class="col-xs-10 col-sm-12 mandatory-field"  onKeyUp="javascript:return check_isalphanumeric(event,this);" onblur="check_ispan(this,event);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_pan_errorlabel"></span>
 								</span>
 							</div>
 						</div>
-
+ 
 
 						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Diver Fix Pay*</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="driver_fix_pay" name="driver_fix_pay" value="<?php if(isset($driver)): echo $driver[0]->driver_fix_pay; endif; ?>" placeholder="Enter Driver Fix Pay" class="col-xs-10 col-sm-5 mandatory-field"  onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);"/>
+							<div class="col-sm-4">
+								<input type="text" id="driver_fix_pay" name="driver_fix_pay" value="<?php if(isset($driver)): echo $driver[0]->driver_fix_pay; endif; ?>" placeholder="Enter Driver Fix Pay" class="col-xs-10 col-sm-12 mandatory-field"  onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_fix_pay_errorlabel"></span>
 								</span>
 							</div>
-						</div>
 
-
-						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Diver DA</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="driver_da" name="driver_da" value="<?php if(isset($driver)): echo $driver[0]->driver_da; endif; ?>" placeholder="Enter Driver DA" class="col-xs-10 col-sm-5 "  onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);"/>
+							<div class="col-sm-4">
+								<input type="text" id="driver_da" name="driver_da" value="<?php if(isset($driver)): echo $driver[0]->driver_da; endif; ?>" placeholder="Enter Driver DA" class="col-xs-10 col-sm-12 "  onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_da_errorlabel"></span>
 								</span>
 							</div>
 						</div>
-
+ 
 
 						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Diver Naight Allownace</label>
 
-							<div class="col-sm-9">
-								<input type="text" id="driver_na" name="driver_na" value="<?php if(isset($driver)): echo $driver[0]->driver_na; endif; ?>" placeholder="Enter Driver NA" class="col-xs-10 col-sm-5 "  onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);"/>
+							<div class="col-sm-4">
+								<input type="text" id="driver_na" name="driver_na" value="<?php if(isset($driver)): echo $driver[0]->driver_na; endif; ?>" placeholder="Enter Driver NA" class="col-xs-10 col-sm-12 "  onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="driver_na_errorlabel"></span>
 								</span>
 							</div>
-						</div>
 
-						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">IS</label>
 
-							<div class="col-sm-9">
+							<div class="col-sm-4">
 								<div class="control-group">
 									<label>
 										<input type="checkbox" class="ace" <?php if(isset($driver[0]->is_da) && $driver[0]->is_da == 1) { echo "checked";} ?> value="DA" name="da" id="da">
@@ -222,6 +207,8 @@
 								
 							</div>
 						</div>
+
+						 
 
 
 						
