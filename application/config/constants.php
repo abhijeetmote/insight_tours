@@ -32,6 +32,12 @@ define('REPORTING_HEAD', 'profit and loss');
 define('CR', 'cr');
 define('DR', 'dr');
 define('FILE_UPLOAD', 'images/user_profile/');
+define("ENTITY_TYPE_LEDGER", "ledger");
+define("ENTITY_TYPE_GROUP", "group");
+define("ENTITY_TYPE_MAIN", "main");
+define("ACC_TYPE_BANK", "bank");
+define("ACC_TYPE_CASH", "cash");
+define('GROUP_CHILDREN_OPTION_DIS', 'displaychildrenoptionsinselbox');
 
 /*
 |--------------------------------------------------------------------------

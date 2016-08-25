@@ -78,6 +78,28 @@ class Helper_model extends CI_Model {
 		return $query->result();
 	}
 
+
+	public function selectallOrder($select,$tableName,$order_id,$order)
+	{
+		$this->db->select($select);
+		$this->db->from($tableName);
+		$this->db->order_by($order_id, $order);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+
+	public function selectallWhereOrder($select,$tableName,$where,$order_id,$order)
+	{
+		$this->db->select($select);
+		$this->db->from($tableName);
+		$this->db->where($where);
+		$this->db->order_by($order_id, $order);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+
 	public function selectQuery($query)
 	{
 		$result = $this->db->query($query);

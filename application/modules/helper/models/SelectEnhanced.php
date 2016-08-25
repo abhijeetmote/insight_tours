@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 /**
     * This class file is a form for select module. All SelectEnhanced related field are define here.
     *
@@ -20,12 +20,10 @@
  * @package ChsOne\Forms
  */
 
-namespace ChsOne\Forms;
-use Phalcon\Forms\Element;
 /**
  * SelectEnhanced Form for initialize fields
  */
-class SelectEnhanced extends Element {
+class SelectEnhanced {
 
 	/**
 	 * 
@@ -50,7 +48,7 @@ class SelectEnhanced extends Element {
      */
     public function __construct($elementName, $elementValues = NULL, $parameters = NULL, $group = NULL) {
 
-        $this->setName($elementName);
+        //$this->setName($elementName);
 
         //adding empty option
         if($parameters['useEmpty']) {
@@ -123,14 +121,16 @@ class SelectEnhanced extends Element {
                         }
                     }
                 }
-                
+                 
                 if($created == 0) {
                     // add optionElement with parameters
                     $this->addOption($optionParameters);
                  }
             }
-        }
 
+
+        }
+        //echo "tt";exit;
 
     }
 
@@ -141,26 +141,26 @@ class SelectEnhanced extends Element {
      * @param array $attributes DEFAULT NULL
      * @return string
      */
-    public function render($attributes = null) {
+    public function render($attributes = null,$name,$id,$class) {
 
         // Set new attributes passed in parameter
-        $attributes = $this->prepareAttributes($attributes);
+        //$attributes = $this->prepareAttributes($attributes);
         
-        if(!empty($attributes)) {
+       /* if(!empty($attributes)) {
             foreach($attributes as $attrName => $attrValue) {
                 if ($attrName != 0) {   
                     $this->setAttribute($attrName, $attrValue);
                 }
             }
-        }
+        }*/
 
 
-        $html = '<select name="'.$this->getName().'" '. 'id="' . $this->getName() . '"';
+        $html = '<select name="'.$name.'" '. 'id="'.$id.'"' . 'class="'.$class.'"';
         $selected = '';
         
         
         // write every attributes of select element in DOM
-        $attributes = $this->getAttributes();
+       // $attributes = $this->getAttributes();
         
         if(!empty($attributes)) {
             foreach($attributes as $attrName => $attrValue) {
@@ -219,10 +219,10 @@ class SelectEnhanced extends Element {
                         }
                     }
 
-                    if ($selected == $value) {
+                    /*if ($selected == $value) {
                         $html .= ' selected="selected" ';
                         unset($selected);
-                    }
+                    }*/
                     $html .= '>';
 
                     $html .= ucwords($content).'</option>'; 
@@ -235,7 +235,7 @@ class SelectEnhanced extends Element {
         }
 
         $html .=  '</select>';
-
+        //var_dump($html);
         return $html;
 
     }
@@ -248,7 +248,7 @@ class SelectEnhanced extends Element {
      */
     public function addOption($parameters) {
          
-        if ($parameters['value'] == '0') {
+        if (isset($parameters['value']) == '0') {
             $needle = current($this->optionsElement);
             if( $needle['value'] == '') { 
                 $arr = array_shift($this->optionsElement);

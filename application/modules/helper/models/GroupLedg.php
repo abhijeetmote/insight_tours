@@ -369,7 +369,7 @@ class GroupLedg extends CI_Model
         
         $fin_cnd = "";
         $bind = array();
-        $soc_id = $this->session->get("auth")["soc_id"];
+        //$soc_id = $this->session->get("auth")["soc_id"];
         $cnd_arr = $this->_contextVoucherType($voucher_type, $mode);
         $i = 1;
 
