@@ -8,9 +8,9 @@
 				</li>
 
 				<li>
-					<a href="#">Driver</a>
+					<a href="#">Company</a>
 				</li>
-				<li class="active">Add Driver Attendance</li>
+				<li class="active">Add Holiday</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -27,7 +27,7 @@
 
 			<div class="page-header">
 				<h1>
-					Add Driver Attendance
+					Add Holidays
 				</h1>
 			</div><!-- /.page-header -->
 
@@ -35,50 +35,27 @@
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" id="driverattn">						
+					<form class="form-horizontal" role="form" id="holiday">						
 						<div class="form-group">
-							<label class="col-sm-2 no-padding-right">Select Driver</label>
-
-							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="driver_name" id="driver_name" data-placeholder="Choose a Driver...">
-									<?php
-										foreach ($driverdetails as $val) 
-										{
-											echo '<option value="'.$val["driver_id"].'">'.$val["driver_fname"].' '.$val["driver_lname"].'</option>';
-
-										}
-									?>
-
-								</select>
-							</div>	
-						</div>
-
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Enter Check In*</label>
+							<label class="col-sm-2 no-padding-right" for="form-field-2"> Select Date*</label>
 
 							<div class="col-sm-9">
 
-								<input type="text" id="staff_in_dt" data-date-format="dd-mm-yyyy" name="driver_in_dt" placeholder="Enter Inn Date" class="col-xs-10 col-sm-5 mandatory-field" 
-								value="<?php echo date('Y-m-d h:i:s'); ?>" readonly />
+								<input type="text" id="date" data-date-format="dd-mm-yyyy" name="date" placeholder="Enter Date" class="col-xs-10 col-sm-5 mandatory-field date-picker" 
+								value="" />
 								<span style="width:10px;height:35px;" class="input-group-addon">
 									<i class="fa fa-calendar bigger-110"></i>
 								</span>
 								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="staff_in_dt_errorlabel"></span>
+									<span class="middle input-text-error" id="date_errorlabel"></span>
 								</span>
 							</div>
 						</div> 
 
 						<div class="form-group">
-							<label class="col-sm-2 no-padding-right">Select Staff Check-In-Check-Out</label>
+							<label class="col-sm-2 no-padding-right">Description</label>
 							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="staff_in_out" id="form-field-select-3" data-placeholder="Choose a Staff...">
-									<option selected value="1">In</option>
-									<!-- <option value="0">Out</option> -->
-									<input type="hidden" value="" name="id">
-
-
-								</select>
+								<textarea class="col-xs-10 col-sm-5 form-control" name="desc"></textarea>
 							</div>	
 						</div>	
 						<div class="clearfix form-actions">

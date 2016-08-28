@@ -1,11 +1,17 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Driver_model extends CI_Model {
+class Company_model extends CI_Model {
 
 	function __construct(){
 		// Call the Model constructor
 		parent::__construct();
 		$this->load->model('helper/helper_model');
+	}
+
+	public function selectAll($select,$table){
+
+		$result = $this->helper_model->selectAll($select,$table);
+		return $result;
 	}
 
 	public function saveData($tableName,$data){
@@ -19,20 +25,19 @@ class Driver_model extends CI_Model {
 		return $result;
 	}
 
-	public function getDriverLit($data,$table){
+	public function listDriver(){
 
+	}
+
+	public function listData($data,$table){
 		$result = $this->helper_model->selectAll($data,$table);
 		return $result;
+
 	}
 
 	public function getGroupId($select,$tableName,$context,$entity_type,$where){
 
 		$result = $this->helper_model->selectGroupId($select,$tableName,$where);
-		return $result;
-	}
-	
-	public function getData($select, $tableName, $column, $value) {
-		$result = $this->helper_model->select($select, $tableName, $column, $value);
 		return $result;
 	}
 
@@ -42,4 +47,23 @@ class Driver_model extends CI_Model {
 		//echo $this->db->last_query();
 		return $result;
 	}
+
+	public function getData($select, $tableName, $column, $value) {
+		$result = $this->helper_model->select($select, $tableName, $column, $value);
+		return $result;
+	}
+
+	public function getBookingLit($data,$table){
+
+		$result = $this->helper_model->selectAll($data,$table);
+		return $result;
+	}
+
+	public function getDutySlip($data,$table){
+
+		$result = $this->helper_model->selectAll($data,$table);
+		return $result;
+	}
+
+	
 }

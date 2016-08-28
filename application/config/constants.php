@@ -38,6 +38,8 @@ define("ENTITY_TYPE_MAIN", "main");
 define("ACC_TYPE_BANK", "bank");
 define("ACC_TYPE_CASH", "cash");
 define('GROUP_CHILDREN_OPTION_DIS', 'displaychildrenoptionsinselbox');
+define('DRIVER_ATTENDANCE_TABLE', 'driver_attendance');
+define('HOLIDAY_TABLE', 'company_holidays');
 
 /*
 |--------------------------------------------------------------------------

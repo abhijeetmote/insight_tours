@@ -10,7 +10,7 @@
 				<li>
 					<a href="#">Driver</a>
 				</li>
-				<li class="active">Add Driver Attendance</li>
+				<li class="active">Driver Attendance Report</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -27,25 +27,24 @@
 
 			<div class="page-header">
 				<h1>
-					Add Driver Attendance
+					Driver Attendance Report
 				</h1>
 			</div><!-- /.page-header -->
 
 			<div class="row">
-				<div class="col-xs-12">
+				<div class="col-xs-6">
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" id="driverattn">						
+					<form class="form-horizontal" role="form" id="driver">						
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right">Select Driver</label>
 
-							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="driver_name" id="driver_name" data-placeholder="Choose a Driver...">
+							<div class="col-sm-10">
+								<select class="chosen-select form-control" name="driver" id="driver_name" data-placeholder="Choose a Driver...">
 									<?php
-										foreach ($driverdetails as $val) 
+										foreach ($driver as $val) 
 										{
-											echo '<option value="'.$val["driver_id"].'">'.$val["driver_fname"].' '.$val["driver_lname"].'</option>';
-
+											echo '<option value="'.$val->driver_id.'">'.$val->driver_fname.' '.$val->driver_lname.'</option>';
 										}
 									?>
 
@@ -54,36 +53,39 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Enter Check In*</label>
+							<label class="col-sm-2 no-padding-right" for="form-field-2"> From Date*</label>
 
-							<div class="col-sm-9">
+							<div class="col-sm-10">
 
-								<input type="text" id="staff_in_dt" data-date-format="dd-mm-yyyy" name="driver_in_dt" placeholder="Enter Inn Date" class="col-xs-10 col-sm-5 mandatory-field" 
-								value="<?php echo date('Y-m-d h:i:s'); ?>" readonly />
+								<input type="text" id="from_date" data-date-format="dd-mm-yyyy" name="from_date" placeholder="Enter from Date" class="col-xs-10 mandatory-field date-picker" 
+								value="" />
 								<span style="width:10px;height:35px;" class="input-group-addon">
 									<i class="fa fa-calendar bigger-110"></i>
 								</span>
 								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="staff_in_dt_errorlabel"></span>
+									<span class="middle input-text-error" id="from_date_errorlabel"></span>
 								</span>
 							</div>
 						</div> 
 
 						<div class="form-group">
-							<label class="col-sm-2 no-padding-right">Select Staff Check-In-Check-Out</label>
-							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="staff_in_out" id="form-field-select-3" data-placeholder="Choose a Staff...">
-									<option selected value="1">In</option>
-									<!-- <option value="0">Out</option> -->
-									<input type="hidden" value="" name="id">
+							<label class="col-sm-2 no-padding-right" for="form-field-2"> To Date*</label>
 
+							<div class="col-sm-10">
 
-								</select>
-							</div>	
-						</div>	
+								<input type="text" id="to_date" data-date-format="dd-mm-yyyy" name="to_date" placeholder="Enter to Date" class="col-xs-10 mandatory-field date-picker" 
+								value="" />
+								<span style="width:10px;height:35px;" class="input-group-addon">
+									<i class="fa fa-calendar bigger-110"></i>
+								</span>
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="to_date_errorlabel"></span>
+								</span>
+							</div>
+						</div> 
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
-								<button class="btn btn-info test" type="submit">
+								<button class="btn btn-info" type="submit" id="submit">
 									<i class="iconvehicle"></i>
 									<?php if(isset($update) && $update == true){
 										echo "Update";
@@ -101,6 +103,43 @@
 						</div>
 					</form>
 				</div><!-- /.col -->
+
+				<div class="col-xs-6">
+					<div class="col-xs-12 col-sm-22 widget-container-col ui-sortable" id="widget-container-col-2">
+						<div class="widget-box ui-sortable-handle" id="widget-box-2" style="margin-bottom:0;">
+							<div class="widget-header">
+								<h5 class="widget-title bigger lighter">
+									Attendance Report
+								</h5>							
+							</div>
+
+							<div class="widget-body">
+								<div class="widget-main no-padding">
+									<table class="table table-striped table-bordered table-hover">
+										<thead class="thin-border-bottom">
+											<tr>
+												<th>
+													Total
+												</th>
+
+												<th>
+													Leaves
+												</th>
+												<th>
+													Holidays
+												</th>
+											</tr>
+										</thead>
+
+										<tbody id="dump">
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div><!-- /.row -->
 		</div><!-- /.page-content -->
 	</div>
@@ -147,7 +186,6 @@ if('ontouchstart' in document.documentElement) document.write("<script src='comp
 <script src="<?php echo base_url(); ?>js/ace.min.js"></script>
 
 <script src="<?php echo base_url(); ?>js/custom.js"></script>
-<script src="<?php echo base_url(); ?>js/form-validation.js"></script>
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
@@ -584,4 +622,56 @@ $(document).one('ajaxloadstart.page', function(e) {
 });
 
 });
+</script>
+
+<script type="text/javascript">
+	$(document).on('click','#submit', function(e){
+	    e.preventDefault();
+	    
+        var from = $("#from_date").val();
+        var to = $("#to_date").val();
+        if(from == ""){
+        	$("#from_date_errorlabel").html("Select Date");
+        	return false;
+        }
+
+        if(to == ""){
+        	$("#to_date_errorlabel").html("Select Date");
+        	return false;
+        }
+
+        $("#from_date_errorlabel").html("");
+        $("#from_date_errorlabel").html("");
+        
+        var obj = array.filter(function(obj){
+            return obj.name === 'attendanceReport'
+        })[0];
+
+        var data = new FormData($("#driver")[0]);
+
+        var uri = obj['value'];
+
+        //alert(uri);
+
+        //var point = $(this);
+        
+        $.ajax({
+            url: uri,
+            method: 'POST',
+            crossDomain: true,
+            data: data,
+            dataType: 'json',
+            processData: false,
+        	contentType: false,
+            beforeSend: function (xhr) {
+                //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
+            },
+            success: function (data) {
+                $("#dump").html(data.response);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(thrownError);
+            }
+        });
+	});
 </script>

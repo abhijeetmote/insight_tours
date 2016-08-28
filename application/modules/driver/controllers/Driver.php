@@ -285,12 +285,71 @@ class Driver extends MX_Controller {
 
  	public function driverAttend(){
 
+ 		$date = date('Y-m-d');
+        $data['driverdetails'] = $this->helper_model->selectQuery("SELECT driver_id,driver_fname,driver_lname FROM driver_master where driver_id not in (select driver_id from driver_attendance where DATE_FORMAT(user_check_in, '%Y-%m-%d') = '$date')");
+        //echo "<pre>"; print_r($data);exit();
         $this->header->index();
-         
-		$select = 'driver_id,driver_fname,driver_lname';
-		$tableName = 'driver_master';
-		$data['driverdetails'] = $this->helper_model->selectAll($select, $tableName);
-		$this->load->view('driverAttend',$data);
+        $this->load->view('driverAttend',$data);
 		$this->footer->index();
+ 	}
+
+ 	public function driverAttnSubmit(){
+        $driver_id = $_POST['driver_name'];
+        $date = $_POST['driver_in_dt'];
+		$data = array(
+			'driver_id' => $driver_id,
+			'user_check_in' => $date,
+			'added_by' => '1',
+			'added_on' => date('Y-m-d h:i:s')
+		);
+ 		$tableName =  DRIVER_ATTENDANCE_TABLE;
+		$result = $this->driver_model->saveData($tableName, $data);
+		if($result != false){
+			$response['success'] = true;
+ 	 		$response['error'] = false;
+ 	 		$response['successMsg'] = "Submit Successfully";
+		}else{
+			$response['error'] = true;
+ 	 		$response['success'] = false;
+			$response['Msg'] = "Error!!! Please contact IT Dept";
+		}
+		echo json_encode($response);
+ 	}
+
+ 	public function driverAttendReport(){
+ 		$driver_table =  DRIVER_TABLE;
+ 		$filds = "driver_id,driver_fname,driver_lname";
+ 		$data['driver'] = $this->driver_model->getDriverLit($filds,$driver_table);
+		//echo "<pre>"; print_r($data);exit();
+		$this->header->index();
+		$this->load->view('driverAttnReport', $data);
+		$this->footer->index();
+ 	}
+
+ 	public function attnReport(){
+ 		$from_date = date('Y-m-d', strtotime($_POST['from_date']));
+ 		$to_date = date('Y-m-d', strtotime($_POST['to_date']));
+ 		$driver_id = $_POST['driver'];
+ 		$tableName =  DRIVER_ATTENDANCE_TABLE;
+ 		$select = "*";
+ 		$where = "user_check_in >= '$from_date' and user_check_in <= '$to_date' and driver_id = '$driver_id'";
+ 		$driver = $this->driver_model->getwheredata($select,$tableName,$where);
+
+ 		$tableName =  "company_holidays";
+ 		$select = "*";
+ 		$where = "holiday_date >= '$from_date' and holiday_date <= '$to_date'";
+ 		$holidays = $this->driver_model->getwheredata($select,$tableName,$where);
+		$dateDiff = date_diff(date_create($to_date), date_create($from_date));
+
+		$driverCnt = count($driver);
+		$holidayCnt = count($holidays);
+		$leaves = $driverCnt - $dateDiff->days;
+
+		$data['response'] = '<tr>
+								<td>'.$driverCnt.'</td>
+								<td>'.abs($leaves).'</td>
+								<td>'.$holidayCnt.'</td>
+							</tr>';
+		echo json_encode($data);
  	}
 }

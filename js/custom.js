@@ -24,7 +24,11 @@ var array = [
 	{name: "dutySlip", value: baseUrl + "booking/addDutySlip"},
 	{name: "updateDutySlip", value: baseUrl + "booking/updateDuty"},
 	{name: "passenger-detail-delete", value: baseUrl + "booking/passengerDelete"},
-	{name: "login", value: baseUrl + "login/loginAction"}
+	{name: "login", value: baseUrl + "login/loginAction"},
+	{name: "driverattn", value: baseUrl + "driver/driverAttnSubmit"},
+	{name: "holiday", value: baseUrl + "company/addHoliday"},
+	{name: "holidayList", value: baseUrl + "company/holidayDelete"},
+	{name: "attendanceReport", value: baseUrl + "driver/attnReport"}
 	
 ];
 
