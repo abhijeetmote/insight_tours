@@ -389,6 +389,31 @@ function bulk_isemail(email) {
        return 0;
     }
 } 
+
+// This function check the values for pan card
+  
+function check_validled() {
+    
+      var fromval  = $("#from_ledger").val();
+      var toval  = $("#to_ledger").val();
+      $("#from_ledger_errorlabel").html("");
+      $("#to_ledger_errorlabel").html("");
+      if(fromval == "" || fromval == undefined) {
+            $("#from_ledger_errorlabel").html("Select Source Ledger");
+            return false;
+      }
+      if(toval == "" || toval == undefined) {
+            $("#to_ledger_errorlabel").html("Select Destination Ledger");
+            return false;
+      }
+
+      if(toval == fromval) {
+            $("#to_ledger_errorlabel").html("Select Diffrent From Source");
+            return false;
+      }
+    
+    
+}
   
      
 // comman validation function for empty field checkeing 
@@ -401,6 +426,13 @@ $(document).ready(function () {
         var postval  = $(this).val();
         var postname = $(this).attr("name");
         var formId  = $(this).closest("form").attr('id');
+
+        if(formId=="paymentmaster") {
+           var re = check_validled();
+           if(re == false) {
+                return false;
+           }
+        }
         
         var bulkfrm = ["frmSocUnitsAdd"];
         var error = false;

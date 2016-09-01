@@ -1,0 +1,32 @@
+table{border:1px solid #ddd;padding:0px; margin:0px; border-collapse:collapse;}
+table.treetable td {padding: 5px 10px 5px 10px !important; border-collapse:collapse;border:1px solid #ddd;} 
+table.treetable th {padding: 6px 10px 6px 10px !important; border-collapse:collapse;border:1px solid #ddd;} 
+table.treetable span.indenter {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -webkit-user-select: none;
+  width: 19px;  
+  padding-right:19px !important;
+
+}
+
+table.treetable span.indenter a {
+  background-position: left center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  text-decoration: none;
+  width: 19px;
+}
+table.treetable tr.collapsed span.indenter a {
+background-image: url('../images/toggle-expand-dark.png');
+}
+
+table.treetable tr.expanded span.indenter a {
+background-image: url('../images/toggle-collapse-dark.png');
+}

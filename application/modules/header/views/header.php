@@ -32,6 +32,7 @@
 		<link rel="stylesheet" href="<?php echo base_url(); ?>css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
 
 		<link rel="stylesheet" href="<?php echo base_url(); ?>css/custom.css" />
+		
 
 		<!--[if lte IE 9]>
 			<link rel="stylesheet" href="./dist/css/ace-part2.min.css" class="ace-main-stylesheet" />
@@ -48,7 +49,12 @@
 		<!-- ace settings handler -->
 		<script src="<?php echo base_url(); ?>js/ace-extra.min.js"></script>
 
-
+		<link rel="stylesheet" href="<?php echo base_url(); ?>css/jquery.dataTables.css" />
+		<link rel="stylesheet" href="<?php echo base_url(); ?>css/jquery.sliderTabs.min.css" />
+		<link rel="stylesheet" href="<?php echo base_url(); ?>css/jquery.treetable.css" />
+		<link rel="stylesheet" href="<?php echo base_url(); ?>css/jquery-gmaps-latlon-picker.css" />
+		<link rel="stylesheet" href="<?php echo base_url(); ?>css/jquery-te-1.4.0.css" />
+		
 		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
 
 		<!--[if lte IE 8]>

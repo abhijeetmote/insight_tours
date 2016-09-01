@@ -1,0 +1,44 @@
+.tablerow .fa {
+    color: #000;
+    font-size: 18px;
+    margin-left: 5px;
+}
+.tablerow .fa {
+    color: #000;
+    font-size: 18px;
+    margin-left: 5px;
+}
+.tablerow .fa {
+    color: #000;
+    font-size: 18px;
+    margin-left: 5px;
+}
+body {
+    font-family: "Segoe UI","Segoe UI Web Regular","Segoe UI Symbol","Helvetica Neue","BBAlpha Sans","S60 Sans",Arial,"sans-serif";
+}
+placeholder {
+    font-size: 13px;
+}
+.dataTables_wrapper {
+    margin-top: 10px;
+}
+.mt2 {
+    margin-bottom: 15px !important;
+    margin-top: 2px !important;
+}
+tr:nth-child(n) {
+    background: #f5f5f5 none repeat scroll 0 0 !important;
+}
+.fht-table td {
+    border: 1px solid #dddddd;
+    font-size: 13px;
+}
+a, a:hover, a:focus {
+    text-decoration: none;
+}
+tr:nth-child(2n) {
+    background: #fff none repeat scroll 0 0 !important;
+}
+tr:nth-child(n) {
+    background: #f5f5f5 none repeat scroll 0 0 !important;
+}

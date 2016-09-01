@@ -28,7 +28,8 @@ var array = [
 	{name: "driverattn", value: baseUrl + "driver/driverAttnSubmit"},
 	{name: "holiday", value: baseUrl + "company/addHoliday"},
 	{name: "holidayList", value: baseUrl + "company/holidayDelete"},
-	{name: "attendanceReport", value: baseUrl + "driver/attnReport"}
+	{name: "attendanceReport", value: baseUrl + "driver/attnReport"},
+	{name: "paymentmaster", value: baseUrl + "payment/paymentMasterSubmit"},
 	
 ];
 
