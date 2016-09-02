@@ -45,5 +45,20 @@ class Payment_model extends CI_Model {
 		$result = $this->helper_model->selectallWhereOrder($select, $tableName,$where,$order_id,$order);
 		return $result;
 	}
+
+	public function getwheredata($select,$tableName,$where){
+
+		$result = $this->helper_model->selectwhere($select,$tableName,$where);
+		//echo $this->db->last_query();
+		return $result;
+	}
+
+
+	public function getwheresingle($select,$tableName,$where){
+
+		$result = $this->helper_model->selectrow($select,$tableName,$where);
+		//echo $this->db->last_query();
+		return $result;
+	}
 	
 }

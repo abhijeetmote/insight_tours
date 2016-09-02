@@ -78,6 +78,14 @@ class Helper_model extends CI_Model {
 		return $query->result();
 	}
 
+	public function selectAllwhere($select,$tableName,$where)
+	{
+		$this->db->select($select);
+		$this->db->from($tableName);
+		$this->db->where($where);
+		$query = $this->db->get();
+		return $query->result();
+	}
 
 	public function selectallOrder($select,$tableName,$order_id,$order)
 	{
@@ -257,7 +265,7 @@ public function _getLedGrpListRecur($led_grp_objects, $master_array = array(), $
        // print_r($bind);
         $where =  array($conditions => $bind);
         //$children = GrpLedgTree::find(array("conditions" => $conditions, "bind" => $bind, "order" => "ledger_account_name ASC"))->toArray();
-         $children = $this->payment_model->getDataWhereOrder('*',$grp_table,$where,'ledger_account_name','asc');
+         $children = $this->selectallWhereOrder('*',$grp_table,$where,'ledger_account_name','asc');
         if (count($children) > 0) {
             return $children;
         } else {

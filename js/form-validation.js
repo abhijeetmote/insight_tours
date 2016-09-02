@@ -427,7 +427,7 @@ $(document).ready(function () {
         var postname = $(this).attr("name");
         var formId  = $(this).closest("form").attr('id');
 
-        if(formId=="paymentmaster") {
+        if(formId=="expensemaster") {
            var re = check_validled();
            if(re == false) {
                 return false;
@@ -526,7 +526,15 @@ $(document).ready(function () {
 
             var formId  = $('.form').attr('id');
             var id = $(this).attr('id');
-            
+             
+            if(formId=="accountList") {
+               var abc = confirm("Delete Ledger may lead to data inconsistancy");
+
+               if(abc == false) {
+                return false;
+
+               }
+            }
             var obj = array.filter(function(obj){
                 return obj.name === formId
             })[0];
@@ -644,7 +652,7 @@ function ajaxCall(id, postData, method, sucessCallBack, failCallBack, timeout) {
             $('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
         },
         success: function (data) {
-            console.log(data.success);
+            console.log(data);
             if(data.success == true) {
             $('.icon'+id).removeClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
             $('.alert-box').html('<div class="alert alert-block alert-success">\

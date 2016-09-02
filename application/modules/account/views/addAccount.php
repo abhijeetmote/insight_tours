@@ -1,5 +1,4 @@
 
-
 <div class="main-content">
 	<div class="main-content-inner">
 		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -10,9 +9,9 @@
 				</li>
 
 				<li>
-					<a href="#">Payment</a>
+					<a href="#">Account</a>
 				</li>
-				<li class="active">Payment</li>
+				<li class="active">Add Account</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -29,7 +28,7 @@
 			
 			<div class="page-header">
 				<h1>
-					Payment
+					Add Account
 				</h1>
 			</div><!-- /.page-header -->
 
@@ -37,57 +36,89 @@
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" id="paymentmaster">						
+					<form class="form-horizontal" role="form" id="<?php if(isset($account)): echo "updateaccount"; else: echo "insertaccount"; endif; ?>">						
+						
+						<input type="hidden" value="<?php if(isset($account)): echo $account[0]->account_id; endif; ?>" name="id">
+						<input type="hidden" value="<?php if(isset($account)): echo $account[0]->ledger_id; endif; ?>" name="ledger_id">
+						
+						<div class="form-group">
+                            <label class="col-sm-1 no-padding-right" for="form-field-2"> A/C Group*</label>
+
+                            <div class="col-sm-4">
+                                <select data-placeholder="Account Type" name="account_type" id="account_type" class="chosen-select form-control" style="display: none;">
+                                    <option value="<?php echo $cash_group;?>" <?php if(isset($account) && $account[0]->group_id == $cash_group)  : echo "selected"; endif;?>>Cash</option>
+                                    <option value="<?php echo $bank_group;?>" <?php if(isset($account) && $account[0]->group_id == $bank_group)  : echo "selected"; endif;?>>Bank</option>
+                                    
+                                </select>
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="account_type_errorlabel"></span>
+								</span>
+                            </div>
+
+
+                            <label class="col-sm-1 no-padding-right" for="">A/C Name*</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="account_name" name="account_name" placeholder="Enter Account Name" class="col-xs-10 col-sm-12 mandatory-field" value="<?php if(isset($account)): echo $account[0]->account_name; endif; ?>" onKeyUp="javascript:return check_isalphanumeric(event,this);" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="account_name_errorlabel"></span>
+								</span>
+							</div>
+                            
+                            
+                            
+                        </div>
+
+
+						<div class="form-group">
+							
+							<label class="col-sm-1 no-padding-right" for="">A/C No</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="account_no" name="account_no" placeholder="Enter Account no" class="col-xs-10 col-sm-12" value="<?php if(isset($account)): echo $account[0]->account_no; endif; ?>" onKeyUp="javascript:return check_isalphanumeric(event,this);" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="account_no_errorlabel"></span>
+								</span>
+							</div>
+
+							<label class="col-sm-1 no-padding-right" for=""> Amount*</label>
+                            <div class="col-sm-4">
+                               <input type="text" id="amount" name="amount" placeholder="Enter Amount" class="col-xs-10 col-sm-12 <?php if(!isset($account)) :  echo "mandatory-field"; endif;?>"  value="<?php if(isset($account)) : echo $account[0]->amount; endif;?>" <?php if(isset($account)) :  echo "disabled"; endif;?> onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);"/>
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="amount_errorlabel"></span>
+								</span>
+                            </div>
+						</div>
+
+
+						<div class="form-group">
+							<label class="col-sm-1 no-padding-right" for="form-field-2">Comment</label>	
+                            <div class="col-sm-4">
+                           
+                                <textarea id="comment" name="comment"  placeholder="Enter Narration" class="col-xs-10 col-sm-12 mandatory-field" ><?php if(isset($account)) : echo $account[0]->comment; endif;?></textarea>
+                                <span class="help-inline col-xs-12 col-sm-7">
+                                    <span class="middle input-text-error" id="comment_errorlabel"></span>
+                                </span>
+                            </div>
+
+                            <label class="col-sm-1 no-padding-right" for="form-field-2"> Status*</label>
+
+                            <div class="col-sm-4">
+                                <select data-placeholder="Account Status" name="account_status" id="account_status" class="chosen-select form-control" style="display: none;">
+                                    <option value="1" <?php if(isset($account) && $account[0]->status == 1)  : echo "selected"; endif;?>>Active</option>
+                                    <option value="0" <?php if(isset($account) && $account[0]->status == 0)  : echo "selected"; endif;?>>Inactive</option>
+
+                                    
+                                </select>
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="account_status_errorlabel"></span>
+								</span>
+                            </div>
+						</div>
 						 
 
 						 
-
-					<div class="form-group">
-                            <label class="col-sm-1 no-padding-right" for="form-field-2">FROM</label>
-
-                            <div class="col-sm-4">
-                                <?php 
-                                	echo $from_select;
-                                ?>
-                                <span class="help-inline col-xs-12 col-sm-7">
-                                    <span class="middle input-text-error" id="from_ledger_errorlabel"></span>
-                                </span>
-                            </div>
-
-                             <label class="col-sm-1 no-padding-right" for="form-field-2">TO</label>	
-                        <div class="col-sm-4">
-                           
-                                <?php 
-                                	echo $to_select;
-                                ?>
-                                <span class="help-inline col-xs-12 col-sm-7">
-                                    <span class="middle input-text-error" id="to_ledger_errorlabel"></span>
-                                </span>
-                            </div>
-                    </div>
-
-
-                    <div class="form-group">
-                            <label class="col-sm-1 no-padding-right" for="form-field-2">AMOUNT</label>
-
-                            <div class="col-sm-4">
-                                 <input type="text" id="payment_amount" name="payment_amount" value="" placeholder="Enter Amount" class="col-xs-10 col-sm-9 mandatory-field"  onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);"/>
-                                <span class="help-inline col-xs-12 col-sm-7">
-                                    <span class="middle input-text-error" id="payment_amount_errorlabel"></span>
-                                </span>
-                            </div>
-
-                             <label class="col-sm-1 no-padding-right" for="form-field-2">NARRATION</label>	
-                            <div class="col-sm-4">
-                           
-                                <textarea id="narration" name="narration"  placeholder="Enter Narration" class="col-xs-10 col-sm-9 mandatory-field" ></textarea>
-                                <span class="help-inline col-xs-12 col-sm-7">
-                                    <span class="middle input-text-error" id="narration_errorlabel"></span>
-                                </span>
-                            </div>
-                    </div>
-
-
+						
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 								<button class="btn btn-info test" type="submit">
@@ -108,24 +139,7 @@
 		</div><!-- /.page-content -->
 	</div>
 </div><!-- /.main-content -->
-<style>
-	optgroup{
-		color: black;
-		font-size: 15px;
-		font-weight: bold;
-	}
-	#to_ledger{
-		height:15%;
-		width: 75%;
-	}
-	#from_ledger{
-		height:15%;
-		width: 75%;
-	}
-	option {
-    padding: 3px 4px 5px 35px !important;
-	}
-</style>
+
 <!-- basic scripts -->
 
 <!--[if !IE]> -->
@@ -171,7 +185,7 @@
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
-jQuery(function($) {
+	jQuery(function($) {
 		$('#id-disable-check').on('click', function() {
 			var inp = $('#form-input-readonly').get(0);
 			if(inp.hasAttribute('disabled')) {
@@ -322,7 +336,7 @@ jQuery(function($) {
 		//$('#id-input-file-1').ace_file_input('show_file_list', ['myfile.txt'])
 	
 	
-		$('.id-input-file-3').ace_file_input({
+		$('#id-input-file-3').ace_file_input({
 			style: 'well',
 			btn_choose: 'Drop files here or click to choose',
 			btn_change: null,
@@ -361,6 +375,82 @@ jQuery(function($) {
 		//]);
 	
 		
+		
+	
+		//dynamically change allowed formats by changing allowExt && allowMime function
+		$('#id-file-format').removeAttr('checked').on('change', function() {
+			var whitelist_ext, whitelist_mime;
+			var btn_choose
+			var no_icon
+			if(this.checked) {
+				btn_choose = "Drop images here or click to choose";
+				no_icon = "ace-icon fa fa-picture-o";
+	
+				whitelist_ext = ["jpeg", "jpg", "png", "gif" , "bmp"];
+				whitelist_mime = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp"];
+			}
+			else {
+				btn_choose = "Drop files here or click to choose";
+				no_icon = "ace-icon fa fa-cloud-upload";
+				
+				whitelist_ext = null;//all extensions are acceptable
+				whitelist_mime = null;//all mimes are acceptable
+			}
+			var file_input = $('#id-input-file-3');
+			file_input
+			.ace_file_input('update_settings',
+			{
+				'btn_choose': btn_choose,
+				'no_icon': no_icon,
+				'allowExt': whitelist_ext,
+				'allowMime': whitelist_mime
+			})
+			file_input.ace_file_input('reset_input');
+			
+			file_input
+			.off('file.error.ace')
+			.on('file.error.ace', function(e, info) {
+				//console.log(info.file_count);//number of selected files
+				//console.log(info.invalid_count);//number of invalid files
+				//console.log(info.error_list);//a list of errors in the following format
+				
+				//info.error_count['ext']
+				//info.error_count['mime']
+				//info.error_count['size']
+				
+				//info.error_list['ext']  = [list of file names with invalid extension]
+				//info.error_list['mime'] = [list of file names with invalid mimetype]
+				//info.error_list['size'] = [list of file names with invalid size]
+				
+				
+				/**
+				if( !info.dropped ) {
+					//perhapse reset file field if files have been selected, and there are invalid files among them
+					//when files are dropped, only valid files will be added to our file array
+					e.preventDefault();//it will rest input
+				}
+				*/
+				
+				
+				//if files have been selected (not dropped), you can choose to reset input
+				//because browser keeps all selected files anyway and this cannot be changed
+				//we can only reset file field to become empty again
+				//on any case you still should check files with your server side script
+				//because any arbitrary file can be uploaded by user and it's not safe to rely on browser-side measures
+			});
+			
+			
+			/**
+			file_input
+			.off('file.preview.ace')
+			.on('file.preview.ace', function(e, info) {
+				console.log(info.file.width);
+				console.log(info.file.height);
+				e.preventDefault();//to prevent preview
+			});
+			*/
+		
+		});
 	
 		$('#spinner1').ace_spinner({value:0,min:0,max:200,step:10, btn_up_class:'btn-info' , btn_down_class:'btn-info'})
 		.closest('.ace-spinner')
@@ -380,7 +470,6 @@ jQuery(function($) {
 		//datepicker plugin
 		//link
 		$('.date-picker').datepicker({
-			format: 'yyyy-mm-dd',
 			autoclose: true,
 			todayHighlight: true
 		})
@@ -425,7 +514,7 @@ jQuery(function($) {
 		
 	
 		
-		if(!ace.vars['old_ie']) $('.date-timepicker1').datetimepicker({
+		if(!ace.vars['old_ie']) $('#date-timepicker1').datetimepicker({
 		 //format: 'MM/DD/YYYY h:mm:ss A',//use this option to display seconds
 		 icons: {
 			time: 'fa fa-clock-o',
@@ -528,5 +617,5 @@ jQuery(function($) {
 			$('.daterangepicker.dropdown-menu,.colorpicker.dropdown-menu,.bootstrap-datetimepicker-widget.dropdown-menu').remove();
 		});
 	
-	});	
+	});
 </script>

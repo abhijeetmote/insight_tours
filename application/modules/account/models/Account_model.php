@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Payment_model extends CI_Model {
+class Account_model extends CI_Model {
 
 	function __construct(){
 		// Call the Model constructor
@@ -19,7 +19,7 @@ class Payment_model extends CI_Model {
 		return $result;
 	}
 
-	public function getDriverLit($data,$table){
+	public function getAccountLit($data,$table){
 
 		$result = $this->helper_model->selectAll($data,$table);
 		return $result;
@@ -36,6 +36,14 @@ class Payment_model extends CI_Model {
 		return $result;
 	}
 
+	 
+	
+	public function getall($select,$tableName,$where) {
+		$result = $this->helper_model->selectAllwhere($select,$tableName,$where);
+		return $result;
+	}
+
+
 	public function getDataOrder($select, $tableName,$order_id,$order) {
 		$result = $this->helper_model->selectallOrder($select, $tableName,$order_id,$order);
 		return $result;
@@ -45,5 +53,19 @@ class Payment_model extends CI_Model {
 		$result = $this->helper_model->selectallWhereOrder($select, $tableName,$where,$order_id,$order);
 		return $result;
 	}
-	
+
+	public function getwheredata($select,$tableName,$where){
+
+		$result = $this->helper_model->selectwhere($select,$tableName,$where);
+		//echo $this->db->last_query();
+		return $result;
+	}
+
+
+	public function getwheresingle($select,$tableName,$where){
+
+		$result = $this->helper_model->selectrow($select,$tableName,$where);
+		//echo $this->db->last_query();
+		return $result;
+	}
 }

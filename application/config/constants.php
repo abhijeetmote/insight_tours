@@ -26,6 +26,8 @@ define('REPORT_HEAD_INCOME', 'income');
 define('REPORT_HEAD_EXPENSE', 'expense');
 define('DRIVER_CONTEXT', 'driver');
 define('VENDOR_CONTEXT', 'vendor');
+define('CASH_CONTEXT', 'cash');
+define('BANK_CONTEXT', 'bank');
 define('LEDGER_ENTITY', 'ledger');
 define('GROUP_ENTITY', 'group');
 define('REPORTING_HEAD', 'profit and loss');
@@ -40,6 +42,8 @@ define("ACC_TYPE_CASH", "cash");
 define('GROUP_CHILDREN_OPTION_DIS', 'displaychildrenoptionsinselbox');
 define('DRIVER_ATTENDANCE_TABLE', 'driver_attendance');
 define('HOLIDAY_TABLE', 'company_holidays');
+define('TRANSACTION_TABLE', 'ledger_transactions');
+define('ACCOUNT_TABLE', 'account_master');
 
 /*
 |--------------------------------------------------------------------------

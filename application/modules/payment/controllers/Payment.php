@@ -20,7 +20,7 @@ class Payment extends MX_Controller {
 	{
 		$this->header->index();
 		$grp_table = LEDGER_TABLE;
-		error_reporting(1);
+		 
 
 		$ledger_data = $this->payment_model->getDataOrder('*',$grp_table,'parent_id','asc');
 		//echo "<pre>";
@@ -70,108 +70,99 @@ class Payment extends MX_Controller {
 		
 		$data['to_select'] = $this->selectEnhanced->render("to_ledger",'to_ledger','to_ledger','');
 		$data['from_select'] = $this->selectEnhanced_to->render("",'from_ledger','from_ledger','');		
-		$this->load->view('paymentMaster',$data);
+		$this->load->view('expenseMaster',$data);
 		$this->footer->index();
 	}
 
 	
-	public function paymentMasterSubmit()
+	public function expenseMasterSubmit()
 	{
-		echo "test";exit;	
-		 $driver_fname = isset($_POST['driver_fname']) ? $_POST['driver_fname'] : "";
-		 $driver_mname = isset($_POST['driver_mname']) ? $_POST['driver_mname'] : "";
-		 $driver_lname = isset($_POST['driver_lname']) ? $_POST['driver_lname'] : "";
-		 $driver_dob = isset($_POST['driver_dob']) ? $_POST['driver_dob'] : "";
-		 $driver_address = isset($_POST['driver_address']) ? trim($_POST['driver_address']) : "";
-		 $driver_mobile = isset($_POST['driver_mobile']) ? $_POST['driver_mobile'] : "";
-		 $driver_mobile1 = isset($_POST['driver_mobile1']) ? $_POST['driver_mobile1'] : "";
-		 $driver_licence = isset($_POST['driver_licence']) ? $_POST['driver_licence'] : "";
-		 $driver_licence_exp = isset($_POST['licence_exp']) ? $_POST['licence_exp'] : "";
-		 $driver_pan = isset($_POST['driver_pan']) ? $_POST['driver_pan'] : "";
-		 $driver_fix_pay = isset($_POST['driver_fix_pay']) ? $_POST['driver_fix_pay'] : "";
-		 $driver_da_pay = isset($_POST['driver_da']) ? $_POST['driver_da'] : "";
-		 $driver_na_pay = isset($_POST['driver_na']) ? $_POST['driver_na'] : "";
-		 $driver_da = isset($_POST['da']) ? 2 : 1;
-		 $driver_night = isset($_POST['night']) ? 2 : 1;
-		 
-		 //bdate conversion
-		 if(isset($driver_dob) && !empty($driver_dob)){
-		 	$driver_dob = $this->helper_model->dbDate($driver_dob);
-		 }
+		//$this->header->index();
+		//echo "<pre>";
+		//print_r($_POST);
+		//echo "test";
+		 $from_ledger = isset($_POST['from_ledger']) ? $_POST['from_ledger'] : "";
+		 $to_ledger = isset($_POST['to_ledger']) ? $_POST['to_ledger'] : "";
+		 $payment_amount = isset($_POST['payment_amount']) ? $_POST['payment_amount'] : "";
+		 $narration = isset($_POST['narration']) ? $_POST['narration'] : "";
+		 $payment_mode = isset($_POST['payment_mode']) ? $_POST['payment_mode'] : "";
+		 $referance_no = isset($_POST['referance_no']) ? $_POST['referance_no'] : "";
+		 $cr = CR;
+		 $dr = DR;
 
-		 // licence exp date conversion
-		 if(isset($driver_licence_exp) && !empty($driver_licence_exp)){
-		 	$driver_licence_exp = $this->helper_model->dbDate($driver_licence_exp);
-		 }
-		 
-	 // driver data insertion start
-		 $data = array(
-				'driver_fname' => $driver_fname,
-				'driver_mname' => $driver_mname,
-				'driver_lname' => $driver_lname,
-				'driver_bdate' => $driver_dob,
-				'driver_mobno' => $driver_mobile,
-				'driver_mobno1' => $driver_mobile1,
-				'driver_add' => $driver_address,
-				'driver_licno' => $driver_licence,
-				'driver_licexpdate' => $driver_licence_exp,
-				'driver_fix_pay' => $driver_fix_pay,
-				'driver_da' => $driver_da_pay,
-				'driver_na' => $driver_na_pay,
-				'driver_panno' => $driver_pan,
-				'is_da' => $driver_da,
-				'is_night_allowance' => $driver_night,
-				'isactive' => '1',
-				'added_by' => '1',
+	 	$select = "*";
+		$ledgertable = LEDGER_TABLE ;
+		//echo "aa";
+ 	 	$where =  "ledger_account_id = '$from_ledger'";
+ 		$ledger_details = $this->payment_model->getwheresingle($select,$ledgertable,$where);
+ 		//print_r($ledger_details);
+ 	 	//echo "ee";
+ 	 	$from_ledger_name = $ledger_details->ledger_account_name;
+ 	 	 
+	 	// transaction data data insertion start
+		 $from_data = array(
+				'transaction_date' => date('Y-m-d h:i:s'),
+				'ledger_account_id' => $from_ledger,
+				'ledger_account_name' => $from_ledger_name,
+				'transaction_type' => $dr,
+				'payment_reference' => $referance_no,
+				'transaction_amount' => $payment_amount,
+				'txn_from_id' => 0,
+				'memo_desc' => $narration,
+				'added_by' => 1,
 				'added_on' => date('Y-m-d h:i:s')
 			);
- 	$driver_table =  DRIVER_TABLE;
+ 	$transaction_table =  TRANSACTION_TABLE;
 
  	$this->db->trans_begin();
- 	 //driver record insertion
- 	$driver_id = $this->driver_model->saveData($driver_table,$data);
+ 	 //From transaction
+ 	$from_transaction_id = $this->payment_model->saveData($transaction_table,$from_data);
+ 
 
- 	//diver data insertion end
+ 	//to leadger trans data insertion start
+ 	if(isset($from_transaction_id) && !empty($from_transaction_id)) {
+		 
 
- 	//Ledger data insertion start
- 	if(isset($driver_id) && !empty($driver_id)) {
-		$select = " ledger_account_id ";
-		$ledgertable = LEDGER_TABLE ;
-		$context = DRIVER_CONTEXT;
-		$entity_type = GROUP_ENTITY;
-		$where =  array('context' =>  $context, 'entity_type' => $entity_type);
- 	 	$groupid = $this->driver_model->getGroupId($select,$ledgertable,$context,$entity_type,$where);
- 	 	
- 	 	$parent_data = $groupid->ledger_account_id;
- 	 	$reporting_head = REPORT_HEAD_EXPENSE;
- 	 	$nature_of_account = DR;
- 	 	// ledger data preparation
+			 	$select = " * ";
+				$ledgertable = LEDGER_TABLE ;
 
- 	 	$leddata = array(
-		'ledger_account_name' => $driver_fname."_".$driver_id,
-		'parent_id' => $parent_data,
-		'report_head' => $reporting_head,
-		'nature_of_account' => $nature_of_account,
-		'context_ref_id' => $driver_id,
-		'context' => $context,
-		'ledger_start_date' => date('Y-m-d h:i:s'),
-		'behaviour' => $reporting_head,
-		'entity_type' => 2,
-		'defined_by' => 1,
-		'status' => '1',
-		'added_by' => '1',
-		'added_on' => date('Y-m-d h:i:s'));
- 	 	//Insert Ledger data with Deriver Id
- 	 	$legertable =  LEDGER_TABLE;
- 	 	$ledger_id = $this->driver_model->saveData($legertable,$leddata);
+			 	$where =  "ledger_account_id = '$to_ledger'";
+				$ledger_details = $this->payment_model->getwheresingle($select,$ledgertable,$where);
+				
+			 	$to_ledger_name = $ledger_details->ledger_account_name;
+			 	 
+				  
+			 	// transaction data data insertion start
+				 $to_data = array(
+						'transaction_date' => date('Y-m-d h:i:s'),
+						'ledger_account_id' => $to_ledger,
+						'ledger_account_name' => $to_ledger_name,
+						'transaction_type' => $cr,
+						'payment_reference' => $referance_no,
+						'transaction_amount' => $payment_amount,
+						'txn_from_id' => $from_transaction_id,
+						'memo_desc' => $narration,
+						'added_by' => 1,
+						'added_on' => date('Y-m-d h:i:s')
+					);
+				$transaction_table =  TRANSACTION_TABLE;
 
- 	 	if(!isset($ledger_id) || empty($ledger_id)){
- 	 		$this->db->trans_rollback();
- 	 		$response['error'] = true;
- 	 		$response['success'] = false;
-			$response['errorMsg'] = "Error!!! Please contact IT Dept";
- 	 	}
+				 //From transaction
+				$to_transaction = $this->payment_model->saveData($transaction_table,$to_data);
 
+
+		 	 	if(isset($to_transaction) && !empty($to_transaction)){
+		 	 		$this->db->trans_commit();
+		 	 		$response['error'] = false;
+		 	 		$response['success'] = true;
+					$response['successMsg'] = "Payment Made SuccsessFully !!!";
+					//$response['redirect'] = base_url()."driver/driverList";
+		 	 	} else {
+			 		$this->db->trans_rollback();
+			 		$response['error'] = true;
+			 		$response['success'] = false;
+					$response['errorMsg'] = "Error!!! Please contact IT Dept";
+		 		}
 
  	} else {
  		$this->db->trans_rollback();
@@ -180,28 +171,8 @@ class Payment extends MX_Controller {
 		$response['errorMsg'] = "Error!!! Please contact IT Dept";
  	}
 
- 	//driver update with ledger id start
- 	$update_data =  array('ledger_id' => $ledger_id);
- 	$updat_column_Name = "driver_id";
- 	$update_value = $driver_id;
- 	$update_id = $this->driver_model->updateData($driver_table,$update_data,$updat_column_Name,$update_value);
- 	//end
-
-
-	if(isset($update_id) && !empty($update_id)){
-		//$this->session->set_msg(array('status' => 'success','msg'=>'Driver '));
-		$this->db->trans_commit();
-		$response['success'] = true;
-		$response['error'] = false;
-		$response['successMsg'] = "Driver Added Successfully";
-		$response['redirect'] = base_url()."driver/driverList";
-
-	}else{
-		$this->db->trans_rollback();
- 		$response['error'] = true;
- 		$response['success'] = false;
-		$response['errorMsg'] = "Error!!! Please contact IT Dept";
-	}
+ 	 
+	 
 	echo json_encode($response);
  	}
 
