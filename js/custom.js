@@ -34,6 +34,12 @@ var array = [
 	{name: "updateaccount", value: baseUrl + "account/accountUpdate"},
 	{name: "accountList", value: baseUrl + "account/accountDelete"},
 	{name: "addamount", value: baseUrl + "account/addAmountSubmit"},
+	{name: "addamount", value: baseUrl + "account/addAmountSubmit"},
+	{name: "transactionList", value: baseUrl + "account/transactionDelete"},
+	{name: "editTransaction", value: baseUrl + "account/transactionEdit"},
+
+	
+	
 	
 ];
 

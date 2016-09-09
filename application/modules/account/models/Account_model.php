@@ -16,6 +16,7 @@ class Account_model extends CI_Model {
 
 	public function updateData($tableName,$data,$columnName,$value){
 		$result = $this->helper_model->update($tableName,$data,$columnName,$value);
+		//echo $this->db->last_query();
 		return $result;
 	}
 
@@ -68,4 +69,31 @@ class Account_model extends CI_Model {
 		//echo $this->db->last_query();
 		return $result;
 	}
+
+	 public function getTransaction($txn_id,$txn_from_id) {
+
+	 	if(isset($txn_id) && !empty($txn_id)) {
+	 		$where  = "txn_id = $txn_id";
+	 	} else if(isset($txn_from_id) && !empty($txn_from_id)) {
+	 		$where  = "txn_from_id = $txn_from_id";
+	 	} else {
+	 		return 0;
+	 	}
+
+    	$sql = "SELECT * FROM ledger_transactions WHERE $where";
+       //echo $sql;exit;
+        //$result = $this->soc_db_w->query($sql);exit;
+        
+        $ledger_array = $this->helper_model->selectQuery($sql);
+        return $ledger_array;
+    }
+
+    public function getLedger($ledger_id) {
+    	$sql = "SELECT * FROM ledger_master WHERE ledger_account_id = $ledger_id";
+       // echo $sql;exit;
+        //$result = $this->soc_db_w->query($sql);exit;
+        
+        $ledger_array = $this->helper_model->selectQuery($sql);
+        return $ledger_array;
+    }
 }

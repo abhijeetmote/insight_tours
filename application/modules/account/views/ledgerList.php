@@ -126,7 +126,7 @@ function recursiveArr($ledgers){
                     <td><?php echo $val['behaviour']; ?></td>
                     <td><?php echo $val['context']; ?></td>
                     <td><?php if($val['status']==1){ echo "Active";$class = "times";} else {echo "Inactive"; $class = "check";}?></td>                    
-                    <td><?php if($val['entity_type']=='ledger' ){?><a href="editLedger/<?php echo $val["ledger_account_id"]; ?>"><i class="fa fa-edit"></i></a> <a href="<?php echo $config->system->full_base_url; ?>transaction/listTransaction/<?php echo $val["ledger_account_id"]; ?>" target="_blank"><i class="fa fa-credit-card"></i></a> <a href="<?php echo $config->system->full_base_url ?>accounts/deleteLedger/<?php echo $val["ledger_account_id"]; ?>"><i class="fa fa-<?php echo $class; ?>"></i></a><?php } ?></td>
+                    <td><?php if($val['entity_type']=='ledger' ){?><a href="editLedger/<?php echo $val["ledger_account_id"]; ?>"><i class="fa fa-edit"></i></a> <a href="<?php echo $config->system->full_base_url; ?>listTransaction/<?php echo $val["ledger_account_id"]; ?>" target="_blank"><i class="fa fa-credit-card"></i></a> <a href="<?php echo $config->system->full_base_url ?>accounts/deleteLedger/<?php echo $val["ledger_account_id"]; ?>"><i class="fa fa-<?php echo $class; ?>"></i></a><?php } ?></td>
                   </tr>
 <?php
             

@@ -44,6 +44,7 @@ define('DRIVER_ATTENDANCE_TABLE', 'driver_attendance');
 define('HOLIDAY_TABLE', 'company_holidays');
 define('TRANSACTION_TABLE', 'ledger_transactions');
 define('ACCOUNT_TABLE', 'account_master');
+define("PAGE_NUMBER", 10);
 
 /*
 |--------------------------------------------------------------------------
