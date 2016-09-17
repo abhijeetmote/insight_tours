@@ -51,6 +51,7 @@ define('ACCOUNT_TABLE', 'account_master');
 define("PAGE_NUMBER", 10);
 define("DIRECT", "direct");
 define("INDIRECT", "indirect");
+define("ADVANCE_SALARY", "advance_salary");
 
 /*
 |--------------------------------------------------------------------------

@@ -30,6 +30,7 @@ var array = [
 	{name: "holidayList", value: baseUrl + "company/holidayDelete"},
 	{name: "attendanceReport", value: baseUrl + "driver/attnReport"},
 	{name: "expensemaster", value: baseUrl + "payment/expenseMasterSubmit"},
+	{name: "advancesalarymaster", value: baseUrl + "payment/advancesalaryMasterSubmit"},
 	{name: "insertaccount", value: baseUrl + "account/accountSubmit"},
 	{name: "updateaccount", value: baseUrl + "account/accountUpdate"},
 	{name: "accountList", value: baseUrl + "account/accountDelete"},

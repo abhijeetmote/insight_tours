@@ -37,7 +37,7 @@ class MonthlyPeriodListener extends CI_Model {
         //Array ( [soc_id] => 623 [fystart] => 4 [lstYear] => 2015-2016 [lstMonth] => 8 [uptoMonth] => 4 )
          $intfystart = $data['fystart'];
         $lstYear = $data['lstYear'];
-        $lstMonth = !empty($data['lstMonth']) ? $data['lstMonth'] : 0;
+        $lstMonth = !empty($data['lstMonth']) ? $data['lstMonth'] : date('m');
         $uptoMonth = !empty($data['uptoMonth'])? $data['uptoMonth'] : 3;
         $endMonthYear = '';
         
