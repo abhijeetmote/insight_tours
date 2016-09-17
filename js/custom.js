@@ -37,6 +37,14 @@ var array = [
 	{name: "addamount", value: baseUrl + "account/addAmountSubmit"},
 	{name: "transactionList", value: baseUrl + "account/transactionDelete"},
 	{name: "editTransaction", value: baseUrl + "account/transactionEdit"},
+	{name: "profit_and_loss", value: baseUrl + "account/profit_and_loss"},
+	{name: "journalvoucher", value: baseUrl + "payment/journalentrySubmit"},
+	{name: "package", value: baseUrl + "package/addPackage"},
+	{name: "package_update", value: baseUrl + "package/updatePackage"},
+	{name: "package-List-booking", value: baseUrl + "package/packageListBooking"}
+	
+	
+	
 
 	
 	

@@ -398,17 +398,18 @@ function check_validled() {
       var toval  = $("#to_ledger").val();
       $("#from_ledger_errorlabel").html("");
       $("#to_ledger_errorlabel").html("");
-      if(fromval == "" || fromval == undefined) {
-            $("#from_ledger_errorlabel").html("Select Source Ledger");
+      
+      if(toval == "" || toval == undefined) {
+            $("#to_ledger_errorlabel").html("Select Source Ledger");
             return false;
       }
-      if(toval == "" || toval == undefined) {
-            $("#to_ledger_errorlabel").html("Select Destination Ledger");
+      if(fromval == "" || fromval == undefined) {
+            $("#from_ledger_errorlabel").html("Select Destination Ledger");
             return false;
       }
 
       if(toval == fromval) {
-            $("#to_ledger_errorlabel").html("Select Diffrent From Source");
+            $("#to_ledger_errorlabel").html("Select Diffrent From Destination");
             return false;
       }
     
@@ -427,7 +428,7 @@ $(document).ready(function () {
         var postname = $(this).attr("name");
         var formId  = $(this).closest("form").attr('id');
 
-        if(formId=="expensemaster") {
+        if(formId=="expensemaster" || formId=="journalvoucher") {
            var re = check_validled();
            if(re == false) {
                 return false;
@@ -711,4 +712,68 @@ function change_format(min_date) {
     var dateAr = min_date.split('-');
     var  newDate = dateAr[1] + '/' + dateAr[2] + '/' + dateAr[0];
     return newDate;
+}
+
+
+/**
+ * Wrapper method to make ajax call
+ * 
+ * @param id -
+ *            In case of form id of form else null
+ * @param url -
+ *            Required, URL to make ajax request
+ * @param sucessCallBack -
+ *            Optional, success responce handler method name required one
+ *            parameter
+ * @param postData -
+ *            Optional, Data to submit through get and post i.e.
+ *            key=value&key1=value1&.....
+ * @param method -
+ *            Optional, POST/GET default GET
+ * @param failCallBack -
+ *            Optional, call fail handler method name needed three params
+ * @param timeout
+ *            Optional, default is 3*3000 millisecond
+ * @return callback
+ */
+function commanajaxCall(id, url, postData, method, sucessCallBack, failCallBack,timeout) {
+    var uri = url != 'null' ? url : '';
+    var sucessCall = sucessCallBack != 'null' ? sucessCallBack : defaultSuccess;
+    var pData = postData != 'null' ? postData : '';
+    var methodType = method != 'null' ? method : 'GET';
+    var failCall = failCallBack != 'null' ? failCallBack : defaultFail;
+    var time = timeout != 'null' ? timeout : (3 * 3000);
+    var data = [];
+    if (pData != '') {
+        $.each(pData, function(index, value) {
+            var dataObj = new Object;
+            dataObj.name = index;
+            dataObj.value = value;
+            data.push(dataObj);
+        });
+    }
+//  if ($.browser.msie || $.browser.webkit)
+//      event.preventDefault();
+    if (id != 'null') {
+        data = $('#' + id).serializeArray();
+    }
+    /*
+     * var authid = new Object; authid.name = 'phpsessid'; authid.value =
+     * readCookie("PHPSESSID"); data.push(authid);//
+     */
+        $.ajax({
+        url : uri,
+        type : methodType,
+        data : data,
+        async : false,
+        timeout : time,
+        success : sucessCall,
+        error : failCall,
+        beforeSend : function(xhr) {
+            //$('#loaderlayer').show();
+        },
+        complete : function() {
+            //$('#loaderlayer').hide();
+        }
+    });
 }

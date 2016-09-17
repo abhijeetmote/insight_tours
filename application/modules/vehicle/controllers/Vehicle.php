@@ -201,7 +201,13 @@ class Vehicle extends MX_Controller {
  	}
 
  	public function vehicleList(){
- 		$data['list'] = $this->helper_model->selectAll('vehicle_id,vehicle_no,vehicle_type,vehicle_model,fuel_type,passanger_capacity,vehicle_category,vehicle_features', 'vehicle_master');
+ 		$tableName =  'vehicle_master v, vehicle_category c ';
+ 		$select = 'vehicle_id,vehicle_no,vehicle_type,vehicle_model,fuel_type,passanger_capacity,vehicle_category,vehicle_features,c.cat_name';
+ 		$where =  'v.vehicle_category = c.cat_id';
+ 		$data['list'] = $this->helper_model->selectwhere($select,$tableName,$where);
+
+
+ 		// /$data['list'] = $this->helper_model->selectAll('', 'vehicle_master');
 
  		/*echo "<pre>";
  		print_r($data);

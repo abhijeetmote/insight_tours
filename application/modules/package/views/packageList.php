@@ -6,7 +6,7 @@
 					<i class="ace-icon fa fa-home home-icon"></i>
 					<a href="#">Home</a>
 				</li>
-				<li class="active">Vehicle List</li>
+				<li class="active">Package List</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -23,7 +23,7 @@
 			
 			<div class="page-header">
 				<h1>
-					Vehicle List
+					Package List
 				</h1>
 			</div><!-- /.page-header -->
 
@@ -33,19 +33,18 @@
 					<!-- PAGE CONTENT BEGINS -->
 					<div class="row">
 						<div class="col-xs-12">
-							<h3 class="header smaller lighter blue">jQuery dataTables</h3>
 
 							<div class="clearfix">
 								<div class="pull-right tableTools-container"></div>
 							</div>
 							<div class="table-header">
-								Vehicle
+								Package
 							</div>
 
 							<!-- div.table-responsive -->
 
 							<!-- div.dataTables_borderWrap -->
-							<form class="form" id="vehicleList"></form>
+							<form class="form" id=""></form>
 							<div>
 								<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 									<thead>
@@ -56,19 +55,21 @@
 													<span class="lbl"></span>
 												</label>
 											</th>
-											<th>Vehicle No</th>
+											<th>Package Name</th>
 											<th>Vehicle Type</th>
-											<th>Vehicle Model</th>
-											<th>Fuel Type</th>
-											<th>Passanger Capacity</th>
-											<th>Vehicle Category</th>
-											<th>Vehicle Features</th>
-											<th></th>
+											<th>Package Amount</th>
+											<th>Hours</th>
+											<th>Distance</th>
+											<th>Charge Distance</th>
+											<th>Charge Hour</th>
+											<th>Status</th>
+											<th>Added on</th>
+											<th>Action</th>
 										</tr>
 									</thead>
 
 									<tbody>
-										<?php foreach ($list as $val): ?>
+										<?php foreach ($packageList as $val): ?>
 											<tr>
 												<td class="center">
 													<label class="pos-rel">
@@ -77,63 +78,21 @@
 													</label>
 												</td>
 
-												<td><?php echo $val->vehicle_no; ?></td>
-												<td><?php echo $val->vehicle_type; ?></td>
-												<td><?php echo $val->vehicle_model; ?></td>
-												<td><?php echo $val->fuel_type; ?></td>
-												<td><?php echo $val->passanger_capacity; ?></td>
+												<td><?php echo $val->package_name; ?></td>
 												<td><?php echo $val->cat_name; ?></td>
-												<td><?php echo $val->vehicle_features; ?></td>
+												<td><?php echo $val->package_amt; ?></td>
+												<td><?php echo $val->hours; ?></td>
+												<td><?php echo $val->distance; ?></td>
+												<td><?php echo $val->charge_distance; ?></td>
+												<td><?php echo $val->charge_hour; ?></td>
+												<td><?php if($val->isactive == 1): echo "Active"; else: "Inactive"; endif; ?></td>
+												<td><?php echo $val->added_on; ?></td>
 
 												<td>
 													<div class="hidden-sm hidden-xs action-buttons">
-														
-
-														<a class="green" href="<?php echo base_url().'vehicle/update/'.$val->vehicle_id; ?>">
+														<a class="green" href="<?php echo base_url().'package/update/'.$val->package_id; ?>">
 															<i class="ace-icon fa fa-pencil bigger-130"></i>
 														</a>
-
-														<a class="red delete" href="#" id="<?php echo $val->vehicle_id; ?>">
-															<i class="ace-icon fa fa-trash-o bigger-130"></i>
-														</a>
-
-														<a class="red details" href="#modal-table" id="<?php echo $val->vehicle_id; ?>" data-toggle="modal">
-															<i class="ace-icon fa fa-eye bigger-130"></i>
-														</a>
-													</div>
-
-													<div class="hidden-md hidden-lg">
-														<div class="inline pos-rel">
-															<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-																<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-															</button>
-
-															<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-																<li>
-																	<a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-																		<span class="blue">
-																			<i class="ace-icon fa fa-search-plus bigger-120"></i>
-																		</span>
-																	</a>
-																</li>
-
-																<li>
-																	<a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-																		<span class="green">
-																			<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																		</span>
-																	</a>
-																</li>
-
-																<li>
-																	<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-																		<span class="red">
-																			<i class="ace-icon fa fa-trash-o bigger-120"></i>
-																		</span>
-																	</a>
-																</li>
-															</ul>
-														</div>
 													</div>
 												</td>
 											</tr>
@@ -247,7 +206,7 @@
 			bAutoWidth: false,
 			"aoColumns": [
 			  { "bSortable": false },
-			  null, null,null, null, null, null, null,
+			  null, null,null, null, null, null, null, null, null,
 			  { "bSortable": false }
 			],
 			"aaSorting": [],

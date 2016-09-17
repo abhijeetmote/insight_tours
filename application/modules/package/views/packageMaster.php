@@ -8,9 +8,9 @@
 				</li>
 
 				<li>
-					<a href="#">Driver</a>
+					<a href="#">Forms</a>
 				</li>
-				<li class="active">Add Driver Attendance</li>
+				<li class="active">Form Elements</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -27,7 +27,7 @@
 			
 			<div class="page-header">
 				<h1>
-					Add Driver Attendance
+					Add Package
 				</h1>
 			</div><!-- /.page-header -->
 
@@ -35,58 +35,110 @@
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" id="staffatten">						
-					<div class="form-group">
-							<label class="col-sm-2 no-padding-right">Select Driver</label>
-								
+					<form class="form-horizontal" role="form" method="post" id="<?php if(isset($package)): echo "package_update"; else: echo "package"; endif; ?>" enctype="multipart/form-data">						
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Select Vehicle*</label>
+
 							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="driver_name" id="driver_name" data-placeholder="Choose a Driver...">
+								<select class="chosen-select form-control" name="vehicle" id="form-field-select-3" data-placeholder="Choose a State...">
 									<?php
-										foreach ($staffdata as $val) 
-										{
-											if($val->staff_id == $staff[0]->staff_id){
-												echo '<option selected value="'.$val->staff_first_name.'">'.$val->staff_first_name.'</option>';
-											}else
-											{
-												echo '<option value="'.$val->staff_first_name.'">'.$val->staff_first_name.'</option>';
-											}
-										
+										foreach ($vehicle as $val) 
+										{			
+									?>								
+											<option value="<?php echo $val->cat_id ?>" <?php if(isset($package) && $val->cat_id == $package[0]->vehicle_cat_id): echo "selected"; endif; ?>><?php echo $val->cat_name; ?></option>
+									<?php
 										}
-										echo '<input type="hidden" value="'.$val->staff_id[0].'" name="id">';
 									?>
 									
 								</select>
-							</div>	
-					</div>
-					 
-					<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Enter Check In*</label>
+							</div>
 
-							<div class="col-sm-9">
-								 
-								<input type="text" id="staff_in_dt" data-date-format="dd-mm-yyyy" name="staff_in_dt" placeholder="Enter Inn Date" class="date-picker col-xs-10 col-sm-5 mandatory-field" 
-								value="<?php //if(isset($staff)): echo $staff[0]->staff_dob; endif; ?>" />
-								<span style="width:10px;height:35px;" class="input-group-addon">
-									<i class="fa fa-calendar bigger-110"></i>
-								</span>
+							<label class="col-sm-2 no-padding-right" for="">Enter Package Name*</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="package_name" name="package_name" placeholder="Enter Package Name" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($package)): echo $package[0]->package_name; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="staff_in_dt_errorlabel"></span>
+									<span class="middle input-text-error" id="package_name_errorlabel"></span>
 								</span>
 							</div>
-					</div> 
-					 
-					<div class="form-group">
-				<label class="col-sm-2 control-label no-padding-right">Select Staff Check-In-Check-Out</label>
-				<div class="col-sm-4">
-								<select class="chosen-select form-control" name="staff_in_out" id="form-field-select-3" data-placeholder="Choose a Staff...">
-									 <option selected value="1">In</option>
-									<option value="0">Out</option>
-									<input type="hidden" value="" name="id">
-									
-									
+
+						</div>
+						<input type="hidden" value="<?php if(isset($package)): echo $package[0]->package_id; endif; ?>" name="id">
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Enter Hours*</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="hours" name="hours" placeholder="Enter Hours(s)" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($package)): echo $package[0]->hours; endif; ?>" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="hours_errorlabel"></span>
+								</span>
+							</div>
+						
+							<label class="col-sm-2 no-padding-right" for="">Enter Distance*</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="distance" name="distance" placeholder="Enter Distance in km" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($package)): echo $package[0]->distance; endif; ?>"/>
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="distance_errorlabel"></span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Enter Min Cost*</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="min_cost" name="min_cost" placeholder="Enter Min Cost" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($package)): echo $package[0]->package_amt; endif; ?>" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="min_cost_errorlabel"></span>
+								</span>
+							</div>
+
+							<label class="col-sm-2 no-padding-right">Enter Charge/distance</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="charge_distance" name="charge_distance" placeholder="Enter Charge per km" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($package)): echo $package[0]->charge_distance; endif; ?>" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="charge_distance_errorlabel"></span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right">Enter Charge/hour</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="charge_hour" name="charge_hour" placeholder="Enter Charge per hour" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($package)): echo $package[0]->charge_hour; endif; ?>" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="charge_hour_errorlabel"></span>
+								</span>
+							</div>
+						
+							<label class="col-sm-2 no-padding-right" for="">Select Status*</label>
+
+							<div class="col-sm-4">
+								<select class="chosen-select form-control" name="status" id="form-field-select-3" data-placeholder="Choose a State...">
+									<option value="1" <?php if(isset($package) && $package[0]->isactive == 1): echo "selected"; endif; ?>>Active</option>
+									<option value="0" <?php if(isset($package) && $package[0]->isactive == 0): echo "selected"; endif; ?>>Inactive</option>
 								</select>
-							</div>	
-							</div>	
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Select Travel Type*</label>
+
+							<div class="col-sm-4">
+								<select class="chosen-select form-control" name="travel_type" id="form-field-select-3" data-placeholder="Choose a State...">
+									<option value="Local" <?php if(isset($package) && $package[0]->travel_type == 'Local'): echo "selected"; endif; ?>>Local</option>
+									<option value="Outstation" <?php if(isset($package) && $package[0]->travel_type == 'Outstation'): echo "selected"; endif; ?>>Outstation</option>
+								</select>
+							</div>
+						</div>
+						
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 								<button class="btn btn-info test" type="submit">
@@ -308,7 +360,7 @@
 		//$('#id-input-file-1').ace_file_input('show_file_list', ['myfile.txt'])
 	
 	
-		$('#id-input-file-3').ace_file_input({
+		$('.id-input-file-3').ace_file_input({
 			style: 'well',
 			btn_choose: 'Drop files here or click to choose',
 			btn_change: null,
@@ -347,82 +399,6 @@
 		//]);
 	
 		
-		
-	
-		//dynamically change allowed formats by changing allowExt && allowMime function
-		$('#id-file-format').removeAttr('checked').on('change', function() {
-			var whitelist_ext, whitelist_mime;
-			var btn_choose
-			var no_icon
-			if(this.checked) {
-				btn_choose = "Drop images here or click to choose";
-				no_icon = "ace-icon fa fa-picture-o";
-	
-				whitelist_ext = ["jpeg", "jpg", "png", "gif" , "bmp"];
-				whitelist_mime = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp"];
-			}
-			else {
-				btn_choose = "Drop files here or click to choose";
-				no_icon = "ace-icon fa fa-cloud-upload";
-				
-				whitelist_ext = null;//all extensions are acceptable
-				whitelist_mime = null;//all mimes are acceptable
-			}
-			var file_input = $('#id-input-file-3');
-			file_input
-			.ace_file_input('update_settings',
-			{
-				'btn_choose': btn_choose,
-				'no_icon': no_icon,
-				'allowExt': whitelist_ext,
-				'allowMime': whitelist_mime
-			})
-			file_input.ace_file_input('reset_input');
-			
-			file_input
-			.off('file.error.ace')
-			.on('file.error.ace', function(e, info) {
-				//console.log(info.file_count);//number of selected files
-				//console.log(info.invalid_count);//number of invalid files
-				//console.log(info.error_list);//a list of errors in the following format
-				
-				//info.error_count['ext']
-				//info.error_count['mime']
-				//info.error_count['size']
-				
-				//info.error_list['ext']  = [list of file names with invalid extension]
-				//info.error_list['mime'] = [list of file names with invalid mimetype]
-				//info.error_list['size'] = [list of file names with invalid size]
-				
-				
-				/**
-				if( !info.dropped ) {
-					//perhapse reset file field if files have been selected, and there are invalid files among them
-					//when files are dropped, only valid files will be added to our file array
-					e.preventDefault();//it will rest input
-				}
-				*/
-				
-				
-				//if files have been selected (not dropped), you can choose to reset input
-				//because browser keeps all selected files anyway and this cannot be changed
-				//we can only reset file field to become empty again
-				//on any case you still should check files with your server side script
-				//because any arbitrary file can be uploaded by user and it's not safe to rely on browser-side measures
-			});
-			
-			
-			/**
-			file_input
-			.off('file.preview.ace')
-			.on('file.preview.ace', function(e, info) {
-				console.log(info.file.width);
-				console.log(info.file.height);
-				e.preventDefault();//to prevent preview
-			});
-			*/
-		
-		});
 	
 		$('#spinner1').ace_spinner({value:0,min:0,max:200,step:10, btn_up_class:'btn-info' , btn_down_class:'btn-info'})
 		.closest('.ace-spinner')
@@ -442,6 +418,7 @@
 		//datepicker plugin
 		//link
 		$('.date-picker').datepicker({
+			format: 'yyyy-mm-dd',
 			autoclose: true,
 			todayHighlight: true
 		})
@@ -486,7 +463,7 @@
 		
 	
 		
-		if(!ace.vars['old_ie']) $('#date-timepicker1').datetimepicker({
+		if(!ace.vars['old_ie']) $('.date-timepicker1').datetimepicker({
 		 //format: 'MM/DD/YYYY h:mm:ss A',//use this option to display seconds
 		 icons: {
 			time: 'fa fa-clock-o',

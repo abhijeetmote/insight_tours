@@ -90,6 +90,7 @@ class Driver extends MX_Controller {
  	 	$parent_data = $groupid->ledger_account_id;
  	 	$reporting_head = REPORT_HEAD_EXPENSE;
  	 	$nature_of_account = DR;
+ 	 	$direct = DIRECT;
  	 	// ledger data preparation
 
  	 	$leddata = array(
@@ -101,7 +102,8 @@ class Driver extends MX_Controller {
 		'context' => $context,
 		'ledger_start_date' => date('Y-m-d h:i:s'),
 		'behaviour' => $reporting_head,
-		'entity_type' => 2,
+		'operating_type' => $direct,
+		'entity_type' => 3,
 		'defined_by' => 1,
 		'status' => '1',
 		'added_by' => '1',
@@ -330,10 +332,7 @@ class Driver extends MX_Controller {
  		$from_date = date('Y-m-d', strtotime($_POST['from_date']));
  		$to_date = date('Y-m-d', strtotime($_POST['to_date']));
  		$driver_id = $_POST['driver'];
- 		$tableName =  DRIVER_ATTENDANCE_TABLE;
- 		$select = "*";
- 		$where = "user_check_in >= '$from_date' and user_check_in <= '$to_date' and driver_id = '$driver_id'";
- 		$driver = $this->driver_model->getwheredata($select,$tableName,$where);
+ 		$driver = $this->helper_model->selectQuery("SELECT driver_id,user_check_in,DATE_FORMAT(user_check_in, '%Y-%m-%d') as date from driver_attendance where user_check_in >= '$from_date' and user_check_in <= '$to_date' and driver_id = '$driver_id'");
 
  		$tableName =  "company_holidays";
  		$select = "*";
@@ -345,11 +344,48 @@ class Driver extends MX_Controller {
 		$holidayCnt = count($holidays);
 		$leaves = $driverCnt - $dateDiff->days;
 
-		$data['response'] = '<tr>
-								<td>'.$driverCnt.'</td>
-								<td>'.abs($leaves).'</td>
-								<td>'.$holidayCnt.'</td>
-							</tr>';
-		echo json_encode($data);
+		$holidayArray = array();
+		foreach ($holidays as $key => $value) {
+			$holidayArray[$key] = $value->holiday_date;
+		}
+
+		$driverArray = array();
+		foreach ($driver as $key => $value) {
+			$driverArray[$key] = $value['date'];
+		}
+
+		$data = "";
+		for ($i=0; $i < $dateDiff->days; $i++) { 
+			$j = 0;
+			$key = array_search($from_date, $holidayArray);
+			if($key !== false){
+				
+				$data .= '<tr>
+						<td>'.$from_date.'</td>
+						<td>Holiday</td>
+					</tr>';
+				$j++;
+			}
+
+			$key = array_search($from_date, $driverArray);
+			if($key !== false){
+				
+				$data .= '<tr>
+						<td>'.$from_date.'</td>
+						<td>Present at '.$driver[$key]['user_check_in'].'</td>
+					</tr>';
+				$j++;
+			}
+			if($j == 0){
+				$data .= '<tr>
+						<td>'.$from_date.'</td>
+						<td>Leave</td>
+					</tr>';
+			}
+			$from_date = date('Y-m-d', strtotime('+1 day', strtotime($from_date)));
+		}
+		$response['response'] = $data;
+		$response['driver'] = $holidays;
+		echo json_encode($response);
  	}
 }

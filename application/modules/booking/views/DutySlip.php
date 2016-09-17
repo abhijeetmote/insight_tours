@@ -158,7 +158,7 @@
 								<!-- PAGE CONTENT BEGINS -->
 								<form class="form-horizontal" role="form" method="post" id="<?php if($update == false): echo "dutySlip"; else: echo "updateDutySlip"; endif; ?>" enctype="multipart/form-data">						
 									<div class="form-group">
-										<label class="col-sm-2  no-padding-right" for="">Select Vehicle*</label>
+										<label class="col-sm-2  no-padding-right" for="">Select Vehicle</label>
 
 										<div class="col-sm-4">
 											<select class="chosen-select form-control" name="vehicle" id="form-field-select-3" data-placeholder="Choose a State...">
@@ -174,7 +174,7 @@
 											</select>
 										</div>
 
-										<label class="col-sm-2  no-padding-right" for="">Select Driver*</label>
+										<label class="col-sm-2  no-padding-right" for="">Select Driver</label>
 
 										<div class="col-sm-4">
 											<select class="chosen-select form-control" name="driver" id="form-field-select-3" data-placeholder="Choose a State...">
@@ -190,35 +190,9 @@
 											</select>
 										</div>
 									</div>
+									<div class="form-group"></div>
 									<div class="form-group">
-										
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2  no-padding-right" for="">Total kms*</label>
-
-										<div class="col-sm-4">
-											<input type="text" id="total_km" name="total_km" placeholder="Enter Total kms" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_kms); endif; ?>" />
-											<span class="help-inline col-xs-12 col-sm-7">
-												<span class="middle input-text-error" id="total_km_errorlabel"></span>
-											</span>
-										</div>
-
-										<label class="col-sm-2  no-padding-right" for="">Extra kms*</label>
-
-										<div class="col-sm-4">
-											<input type="text" id="extra_kms" name="extra_kms" placeholder="Enter Extra kms" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_kms); endif; ?>" />
-											<span class="help-inline col-xs-12 col-sm-7">
-												<span class="middle input-text-error" id="extra_kms_errorlabel"></span>
-											</span>
-										</div>
-									</div>
-
-									<div class="form-group">
-										
-									</div>
-									
-									<div class="form-group">
-										<label class="col-sm-2  no-padding-right" for="">Start Date*</label>
+										<label class="col-sm-2  no-padding-right" for="">Start Date</label>
 
 										<div class="col-sm-4">
 											<input type="text" id="start_date" name="start_date" placeholder="Enter Start Date" class="col-xs-10 form-control col-sm-5  date-picker" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->start_date); endif; ?>" />
@@ -227,7 +201,7 @@
 											</span>
 										</div>
 
-										<label class="col-sm-2  no-padding-right" for="">End Date*</label>
+										<label class="col-sm-2  no-padding-right" for="">End Date</label>
 
 										<div class="col-sm-4">
 											<input type="text" id="end_date" name="end_date" placeholder="Enter End Date" class="col-xs-10 form-control col-sm-5  date-picker" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->end_date); endif; ?>"/>
@@ -236,45 +210,63 @@
 											</span>
 										</div>
 									</div>
+									<div class="form-group"></div>
 									<div class="form-group">
-										
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2  no-padding-right" for="">Extra Hrs*</label>
+										<label class="col-sm-2  no-padding-right" for="">Total kms</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="extra_hrs" name="extra_hrs" placeholder="Enter Extra Hrs" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_hrs); endif; ?>" />
+											<input type="text" id="total_km" name="total_km" placeholder="Enter Total kms" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_kms); else: echo 0; endif; ?>" />
 											<span class="help-inline col-xs-12 col-sm-7">
-												<span class="middle input-text-error" id="extra_hrs_errorlabel"></span>
+												<span class="middle input-text-error" id="total_km_errorlabel"></span>
 											</span>
 										</div>
 
+										<label class="col-sm-2  no-padding-right" for="">Extra kms</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="extra_kms" name="extra_kms" placeholder="Enter Extra kms" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_kms); else: echo 0; endif; ?>" readonly/>
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="extra_kms_errorlabel"></span>
+											</span>
+										</div>
+									</div>
+									<div class="form-group"></div>
+									<div class="form-group">
 										<label class="col-sm-2  no-padding-right">Total Hrs</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="total_hrs" name="total_hrs" placeholder="Enter Total Hrs" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_hrs); endif; ?>" />
+											<input type="text" id="total_hrs" name="total_hrs" placeholder="Enter Total Hrs" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_hrs); else: echo 0; endif; ?>" />
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="total_hrs_errorlabel"></span>
 											</span>
 										</div>
+
+										<label class="col-sm-2  no-padding-right" for="">Extra Hrs</label>
+
+										<div class="col-sm-4">
+											<input type="text" id="extra_hrs" name="extra_hrs" placeholder="Enter Extra Hrs" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_hrs); else: echo 0; endif; ?>" readonly/>
+											<span class="help-inline col-xs-12 col-sm-7">
+												<span class="middle input-text-error" id="extra_hrs_errorlabel"></span>
+											</span>
+										</div>
 									</div>
 									<div class="form-group">
 										
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2  no-padding-right" for="">Toll Fess*</label>
+										<label class="col-sm-2  no-padding-right" for="">Toll Fess</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="toll_fess" name="toll_fess" placeholder="Enter Toll Fess" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->toll_fess); endif; ?>" />
+											<input type="text" id="toll_fess" name="toll_fess" placeholder="Enter Toll Fess" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->toll_fess); else: echo 0; endif; ?>" />
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="toll_fess_errorlabel"></span>
 											</span>
 										</div>
 
-										<label class="col-sm-2  no-padding-right" for="">Parking Fees*</label>
+										<label class="col-sm-2  no-padding-right" for="">Parking Fees</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="parking_fees" name="parking_fees" placeholder="Enter Parking Fees" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->parking_fees); endif; ?>" />
+											<input type="text" id="parking_fees" name="parking_fees" placeholder="Enter Parking Fees" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->parking_fees); else: echo 0; endif; ?>" />
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="parking_fees_errorlabel"></span>
 											</span>
@@ -284,20 +276,20 @@
 										
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2  no-padding-right" for="">Advance Paid*</label>
+										<label class="col-sm-2  no-padding-right" for="">Advance Paid</label>
 										<input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
 										<input type="hidden" name="duty_sleep_id" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->duty_sleep_id); endif; ?>">
 										<div class="col-sm-4">
-											<input type="text" id="advance_paid" name="advance_paid" placeholder="Enter Advance Paid" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->advance_paid); endif; ?>" />
+											<input type="text" id="advance_paid" name="advance_paid" placeholder="Enter Advance Paid" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->advance_paid); else: echo 0; endif; ?>" />
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="advance_paid_errorlabel"></span>
 											</span>
 										</div>
 
-										<label class="col-sm-2  no-padding-right" for="">Total Amt*</label>
+										<label class="col-sm-2  no-padding-right" for="">Total Amt</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="total_amt" name="total_amt" placeholder="Enter Total Amt" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_amt); endif; ?>" />
+											<input type="text" id="total_amt" name="total_amt" placeholder="Enter Total Amt" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_amt); else: echo 0; endif; ?>" readonly/>
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="total_amt_errorlabel"></span>
 											</span>
@@ -307,7 +299,7 @@
 										
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2  no-padding-right" for="">Comments*</label>
+										<label class="col-sm-2  no-padding-right" for="">Comments</label>
 
 										<div class="col-sm-4">
 											<input type="text" id="comments" name="comments" placeholder="Enter Comments" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->comments); endif; ?>" />
@@ -316,7 +308,7 @@
 											</span>
 										</div>
 
-										<label class="col-sm-2  no-padding-right" for="">Payment Status*</label>
+										<label class="col-sm-2  no-padding-right" for="">Payment Status</label>
 										
 										<div class="col-sm-4">
 											<select class="chosen-select form-control" name="payment_status" id="form-field-select-3" data-placeholder="Choose a State...">
@@ -466,7 +458,7 @@
 		$('[data-rel=tooltip]').tooltip({container:'body'});
 		$('[data-rel=popover]').popover({container:'body'});
 	
-		autosize($('textarea[class*=autosize]'));
+		autosize($('textarea[class=autosize]'));
 		
 		$('textarea.limited').inputlimiter({
 			remText: '%n character%s remaining...',
@@ -477,7 +469,7 @@
 		$('.input-mask-date').mask('99/99/9999');
 		$('.input-mask-phone').mask('(999) 999-9999');
 		$('.input-mask-eyescript').mask('~9.99 ~9.99 999');
-		$(".input-mask-product").mask("a*-999-a999",{placeholder:" ",completed:function(){alert("You typed the following: "+this.val());}});
+		$(".input-mask-product").mask("a-999-a999",{placeholder:" ",completed:function(){alert("You typed the following: "+this.val());}});
 	
 	
 	
@@ -575,14 +567,14 @@
 			droppable: true,
 			thumbnail: 'small'//large | fit
 			//,icon_remove:null//set null, to hide remove/reset button
-			/**,before_change:function(files, dropped) {
+			,before_change:function(files, dropped) {
 				//Check an example below
 				//or examples/file-upload.html
 				return true;
-			}*/
-			/**,before_remove : function() {
+			}
+			,before_remove : function() {
 				return true;
-			}*/
+			}
 			,
 			preview_error : function(filename, error_code) {
 				//name of the file that failed
@@ -708,7 +700,7 @@
 				placeholder:tag_input.attr('placeholder'),
 				//enable typeahead by specifying the source array
 				source: ace.vars['US_STATES'],//defined in ace.js >> ace.enable_search_ahead
-				/**
+				
 				//or fetch data from database, fetch those that match "query"
 				source: function(query, process) {
 				  $.ajax({url: 'remote_source.php?q='+encodeURIComponent(query)})
@@ -716,7 +708,7 @@
 					process(result_items);
 				  });
 				}
-				*/
+				
 			  }
 			)
 	
@@ -756,22 +748,72 @@
 				});
 			}
 		})
-		/**
+		
 		//or you can activate the chosen plugin after modal is shown
 		//this way select element becomes visible with dimensions and chosen works as expected
 		$('#modal-form').on('shown', function () {
 			$(this).find('.modal-chosen').chosen();
 		})
-		*/
+		
 	
 		
 		
 		$(document).one('ajaxloadstart.page', function(e) {
-			autosize.destroy('textarea[class*=autosize]')
+			autosize.destroy('textarea[class=autosize]')
 			
 			$('.limiterBox,.autosizejs').remove();
 			$('.daterangepicker.dropdown-menu,.colorpicker.dropdown-menu,.bootstrap-datetimepicker-widget.dropdown-menu').remove();
 		});
+
+
+		var package_amt = '<?php echo $package_amt; ?>'; 
+		var hours = '<?php echo $hours; ?>'; 
+		var charge_hour = '<?php echo $charge_hour; ?>'; 
+		var distance = '<?php echo $distance; ?>'; 
+		var charge_distance = '<?php echo $charge_distance; ?>'; 
+		
+
+		$(document).on('keyup', '#total_km', function(){
+			calculateSlip(distance,hours);
+		});
+
+		$(document).on('keyup', '#total_hrs', function(){
+			calculateSlip(distance,hours);
+		});
+
+		$(document).on('keyup', '#toll_fess', function(){
+			calculateSlip(distance,hours);
+		});
+
+		$(document).on('keyup', '#parking_fees', function(){
+			calculateSlip(distance,hours);
+		});
+
+		function calculateSlip(distance,hours){
+			var hr = $('#total_hrs').val();
+			var km = $('#total_km').val();
+			var extraKmCost = 0;
+			var extrahrCost = 0;
+			var extrakm = km - distance;
+			if(extrakm < 0){
+				extrakm = 0;
+			}else{
+				var extraKmCost = extrakm*charge_distance;
+			}
+			$('#extra_kms').val(extrakm);
+			var extrahr = hr - hours;
+			if(extrahr < 0){
+				extrahr = 0;
+			}else{
+				var extrahrCost = extrahr*charge_hour;
+			}
+
+			$('#extra_hrs').val(extrahr);
+			var toll_fess = $('#toll_fess').val();
+			var parking_fees = $('#parking_fees').val();
+			var amount = parseFloat(extraKmCost) + parseFloat(package_amt) + parseFloat(extrahrCost) + parseFloat(toll_fess) + parseFloat(parking_fees);
+			$('#total_amt').val(amount);
+		}
 	
 	});
 </script>

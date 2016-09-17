@@ -24,6 +24,10 @@ define('BOOKING_TABLE', 'booking_master');
 define('PASSENGER_TABLE', 'passenger_details');
 define('REPORT_HEAD_INCOME', 'income');
 define('REPORT_HEAD_EXPENSE', 'expense');
+define('PROFIT_AND_LOSS', 'profit and loss');
+define('BALANCE_SHEET', 'balance sheet');
+define('REPORT_HEAD_ASSETS', 'assets');
+define('REPORT_HEAD_LIBILITY', 'libility');
 define('DRIVER_CONTEXT', 'driver');
 define('VENDOR_CONTEXT', 'vendor');
 define('CASH_CONTEXT', 'cash');
@@ -45,6 +49,8 @@ define('HOLIDAY_TABLE', 'company_holidays');
 define('TRANSACTION_TABLE', 'ledger_transactions');
 define('ACCOUNT_TABLE', 'account_master');
 define("PAGE_NUMBER", 10);
+define("DIRECT", "direct");
+define("INDIRECT", "indirect");
 
 /*
 |--------------------------------------------------------------------------

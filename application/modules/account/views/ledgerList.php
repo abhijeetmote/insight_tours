@@ -65,7 +65,7 @@
                
 						                echo "<table border=\"0\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" class=\"fht-table mt2 tablerow\" >
 						                <thead>
-						                <th width=\"30%\" style=\"width:288px;\">Name</th>
+						                <th class=\"firstth\"  >Name</th>
 						                  <th>Group/Ledger</th>
 						                  <th>Nature</th>
 						                  <th>Behaviour</th>

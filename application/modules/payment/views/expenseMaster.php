@@ -44,24 +44,23 @@
 
 					<div class="form-group">
                             <label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>FROM</label>
-
-                            <div class="col-sm-4">
-                                <?php 
-                                	echo $from_select;
-                                ?>
-                                <span class="help-inline col-xs-12 col-sm-7">
-                                    <span class="middle input-text-error" id="from_ledger_errorlabel"></span>
-                                </span>
-                            </div>
-
-                             <label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>TO</label>	
-                        <div class="col-sm-4">
+                             <div class="col-sm-4">
                            
                                 <?php 
                                 	echo $to_select;
                                 ?>
                                 <span class="help-inline col-xs-12 col-sm-7">
                                     <span class="middle input-text-error" id="to_ledger_errorlabel"></span>
+                                </span>
+                            </div>
+
+                             <label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>TO</label>	
+                   			<div class="col-sm-4">
+                                <?php 
+                                	echo $from_select;
+                                ?>
+                                <span class="help-inline col-xs-12 col-sm-7">
+                                    <span class="middle input-text-error" id="from_ledger_errorlabel"></span>
                                 </span>
                             </div>
                     </div>

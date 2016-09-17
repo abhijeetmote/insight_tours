@@ -1,3 +1,5 @@
+
+
 <div class="main-content">
 	<div class="main-content-inner">
 		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -8,9 +10,9 @@
 				</li>
 
 				<li>
-					<a href="#">customer</a>
+					<a href="#">Payment</a>
 				</li>
-				<li class="active">Add Customer</li>
+				<li class="active">journal Voucher</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -27,7 +29,7 @@
 			
 			<div class="page-header">
 				<h1>
-					<?php if(isset($customer)): echo "Update Customer"; else: echo "Add Customer"; endif; ?>
+					Journal Voucher
 				</h1>
 			</div><!-- /.page-header -->
 
@@ -35,210 +37,80 @@
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" id="<?php if(isset($customer)): echo "customerUpdate"; else: echo "customermaster"; endif; ?>">						
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> First Name*</label>
+					<form class="form-horizontal" role="form" id="journalvoucher">						
+						 
 
-							<div class="col-sm-4">
-								<input type="text" id="first_name" name="first_name" value="<?php if(isset($customer)): echo $customer[0]->cust_firstname; endif; ?>" placeholder="Enter First Name" class="col-xs-10 form-control col-sm-5 mandatory-field" />
+						 
+
+					<div class="form-group">
+                            <label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>FROM</label>
+                             <div class="col-sm-4">
+                           
+                                <?php 
+                                	echo $to_select;
+                                ?>
+                                <span class="help-inline col-xs-12 col-sm-7">
+                                    <span class="middle input-text-error" id="to_ledger_errorlabel"></span>
+                                </span>
+                            </div>
+
+                             <label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>TO</label>	
+                   			<div class="col-sm-4">
+                                <?php 
+                                	echo $from_select;
+                                ?>
+                                <span class="help-inline col-xs-12 col-sm-7">
+                                    <span class="middle input-text-error" id="from_ledger_errorlabel"></span>
+                                </span>
+                            </div>
+                    </div>
+
+
+                    <div class="form-group">
+                            <label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>AMOUNT</label>
+
+                            <div class="col-sm-4">
+                                 <input type="text" id="payment_amount" name="payment_amount" value="" placeholder="Enter Amount" class="col-xs-10 col-sm-9 mandatory-field"  onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);"/>
+                                <span class="help-inline col-xs-12 col-sm-7">
+                                    <span class="middle input-text-error" id="payment_amount_errorlabel"></span>
+                                </span>
+                            </div>
+
+                             <label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>NARRATION</label>	
+                            <div class="col-sm-4">
+                           
+                                <textarea id="narration" name="narration"  placeholder="Enter Narration" class="col-xs-10 col-sm-9 mandatory-field" ></textarea>
+                                <span class="help-inline col-xs-12 col-sm-7">
+                                    <span class="middle input-text-error" id="narration_errorlabel"></span>
+                                </span>
+                            </div>
+                    </div>
+                    <div class="form-group">
+                    		<label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>PAYMENT MODE</label>	
+
+		                    <div class="col-sm-4">
+		                                <select style="width:250px;" data-placeholder="Payment Mode" name="payment_mode" id="payment_mode" class="form-control">
+		                                    <option value="cash">cash</option>
+		                                    <option value="bank">bank</option>
+		                                </select>
+		                                <span class="help-inline col-xs-12 col-sm-7">
+		                                    <span class="middle input-text-error" id="payment_mode_errorlabel"></span>
+		                                </span>
+		                    </div>
+
+		                    <label class="col-sm-1 no-padding-right" for="form-field-2"> REFERANCE</label>	
+		                    <div class="col-sm-4">
+		                        <input type="text" id="referance_no" name="referance_no" placeholder="Enter Referance No" class="col-xs-10 col-sm-9" value=""/>
 								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="first_name_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Middle Name*</label>
-
-							<div class="col-sm-4">
-								<input type="text" id="middle_name" name="middle_name" value="<?php if(isset($customer)): echo $customer[0]->cust_middlename; endif; ?>" placeholder="Enter Middle Name" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="middle_name_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Last Name*</label>
-							<div class="col-sm-4">
-								<input type="text" id="last_name" name="last_name" value="<?php if(isset($customer)): echo $customer[0]->cust_lastname; endif; ?>" placeholder="Enter Last Name" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="last_name_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="form-field-2">Email*</label>
-
-							<div class="col-sm-4">
-								<input type="text" id="email" name="email" value="<?php if(isset($customer)): echo $customer[0]->cust_email1; endif; ?>" placeholder="Enter Email" class="col-xs-10 form-control col-sm-5" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="email_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<input type="hidden" value="<?php if(isset($customer)): echo $customer[0]->cust_id; endif; ?>" name="id">
-						<input type="hidden" value="<?php if(isset($customer)): echo $customer[0]->ledger_id; endif; ?>" name="customer_ledger_id">
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Alternative Email</label>
-
-							<div class="col-sm-4">
-								<input type="text" id="alt_email" name="alt_email" value="<?php if(isset($customer)): echo $customer[0]->cust_email2; endif; ?>" placeholder="Enter Alternative Email (Optional)" class="col-xs-10 form-control col-sm-5 " />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="alt_email_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="form-field-2">Phone Number</label>
-
-							<div class="col-sm-4">
-								<input type="text" id="phone" name="phone" value="<?php if(isset($customer)): echo $customer[0]->cust_telno; endif; ?>" placeholder="Enter Phone Number" class="col-xs-10 form-control col-sm-5" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="phone_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>						
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for=""> Mobile Number*</label>
-							<div class="col-sm-4">
-								<input type="text" id="mobile" name="mobile" placeholder=" Mobile Number" value="<?php if(isset($customer)): echo $customer[0]->cust_mob1; endif; ?>" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="mobile_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="">Alternative Mobile Number </label>
-							<div class="col-sm-4">
-								<input type="text" id="alt_mobile" name="alt_mobile" placeholder=" Mobile Number (Optional)" value="<?php if(isset($customer)): echo $customer[0]->cust_mob2; endif; ?>" class="col-xs-10 form-control col-sm-5 " />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="alt_mobile_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="">Company Name</label>
-							<div class="col-sm-4">
-								<input type="text" id="company_name" name="company_name" placeholder=" Company Name" value="<?php if(isset($customer)): echo $customer[0]->cust_compname; endif; ?>" class="col-xs-10 form-control col-sm-5 " />
-								<span class="help-inline col-xs-12 col-sm-7 mandatory-field">
-									<span class="middle input-text-error" id="company_name_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for=""> Contact Person Name*</label>
-							<div class="col-sm-4">
-								<input type="text" id="contact_person_name" name="contact_person_name" placeholder="Contact Person Name" value="<?php if(isset($customer)): echo $customer[0]->contact_per_name; endif; ?>" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="contact_person_name_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Contact Person Designation*</label>
-
-							<div class="col-sm-4">
-								<input type="text" id="contact_person_desig" name="contact_person_desig" value="<?php if(isset($customer)): echo $customer[0]->contact_per_desg; endif; ?>" placeholder="Enter Contact Person Designation" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="contact_person_desig_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="form-field-2">Address*</label>
-							<div class="col-sm-4">
-								<input type="text" id="address" name="address" value="<?php if(isset($customer)): echo $customer[0]->cust_address; endif; ?>" placeholder="Enter Address" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="address_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2">State*</label>
-							<div class="col-sm-4">
-								<input type="text" id="state" name="state" value="<?php if(isset($customer)): echo $customer[0]->cust_state; endif; ?>" placeholder="Enter State" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="state_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="form-field-2">City*</label>
-							<div class="col-sm-4">
-								<input type="text" id="city" name="city" value="<?php if(isset($customer)): echo $customer[0]->cust_city; endif; ?>" placeholder="Enter City " class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="city_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2">PIN *</label>
-							<div class="col-sm-4">
-								<input type="text" id="pin" name="pin" value="<?php if(isset($customer)): echo $customer[0]->cust_pin; endif; ?>" placeholder="Enter PIN" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="pin_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="form-field-2">User Name*</label>
-
-							<div class="col-sm-4">
-								<input type="text" id="user_name" name="user_name" value="<?php if(isset($customer)): echo $customer[0]->cust_username; endif; ?>" placeholder="Enter user name " class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="user_name_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-											
-						
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2">Password*</label>
-
-							<div class="col-sm-4">
-								<input type="text" id="password" name="password" value="<?php if(isset($customer)): echo $customer[0]->cust_password; endif; ?>" placeholder="Enter customer PAN Number" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="password_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="">Select Package*</label>
-
-							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="package" id="form-field-select-3" data-placeholder="Choose a Package...">
-									<option></option>
-									<?php
-										foreach ($package as $val) 
-										{			
-									?>								
-											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
-									<?php
-										}
-									?>
-									
-								</select>
-							</div>
-						</div>	
+									<span class="middle input-text-error" id="referance_no_errorlabel"></span>
+								</span>       
+		                    </div>
+                	</div>
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 								<button class="btn btn-info test" type="submit">
 									<i class="iconcategory"></i>
-									<?php if(isset($customer)): echo "Update"; else: echo "Submit"; endif; ?>
+									Submit
 								</button>
 
 								&nbsp; &nbsp; &nbsp;
@@ -254,8 +126,24 @@
 		</div><!-- /.page-content -->
 	</div>
 </div><!-- /.main-content -->
-
-
+<style>
+	optgroup{
+		color: black;
+		font-size: 15px;
+		font-weight: bold;
+	}
+	#to_ledger{
+		height:15%;
+		width: 75%;
+	}
+	#from_ledger{
+		height:15%;
+		width: 75%;
+	}
+	option {
+    padding: 3px 4px 5px 35px !important;
+	}
+</style>
 <!-- basic scripts -->
 
 <!--[if !IE]> -->
@@ -301,7 +189,7 @@
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
-	jQuery(function($) {
+jQuery(function($) {
 		$('#id-disable-check').on('click', function() {
 			var inp = $('#form-input-readonly').get(0);
 			if(inp.hasAttribute('disabled')) {
@@ -452,7 +340,7 @@
 		//$('#id-input-file-1').ace_file_input('show_file_list', ['myfile.txt'])
 	
 	
-		$('#id-input-file-3').ace_file_input({
+		$('.id-input-file-3').ace_file_input({
 			style: 'well',
 			btn_choose: 'Drop files here or click to choose',
 			btn_change: null,
@@ -491,82 +379,6 @@
 		//]);
 	
 		
-		
-	
-		//dynamically change allowed formats by changing allowExt && allowMime function
-		$('#id-file-format').removeAttr('checked').on('change', function() {
-			var whitelist_ext, whitelist_mime;
-			var btn_choose
-			var no_icon
-			if(this.checked) {
-				btn_choose = "Drop images here or click to choose";
-				no_icon = "ace-icon fa fa-picture-o";
-	
-				whitelist_ext = ["jpeg", "jpg", "png", "gif" , "bmp"];
-				whitelist_mime = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp"];
-			}
-			else {
-				btn_choose = "Drop files here or click to choose";
-				no_icon = "ace-icon fa fa-cloud-upload";
-				
-				whitelist_ext = null;//all extensions are acceptable
-				whitelist_mime = null;//all mimes are acceptable
-			}
-			var file_input = $('#id-input-file-3');
-			file_input
-			.ace_file_input('update_settings',
-			{
-				'btn_choose': btn_choose,
-				'no_icon': no_icon,
-				'allowExt': whitelist_ext,
-				'allowMime': whitelist_mime
-			})
-			file_input.ace_file_input('reset_input');
-			
-			file_input
-			.off('file.error.ace')
-			.on('file.error.ace', function(e, info) {
-				//console.log(info.file_count);//number of selected files
-				//console.log(info.invalid_count);//number of invalid files
-				//console.log(info.error_list);//a list of errors in the following format
-				
-				//info.error_count['ext']
-				//info.error_count['mime']
-				//info.error_count['size']
-				
-				//info.error_list['ext']  = [list of file names with invalid extension]
-				//info.error_list['mime'] = [list of file names with invalid mimetype]
-				//info.error_list['size'] = [list of file names with invalid size]
-				
-				
-				/**
-				if( !info.dropped ) {
-					//perhapse reset file field if files have been selected, and there are invalid files among them
-					//when files are dropped, only valid files will be added to our file array
-					e.preventDefault();//it will rest input
-				}
-				*/
-				
-				
-				//if files have been selected (not dropped), you can choose to reset input
-				//because browser keeps all selected files anyway and this cannot be changed
-				//we can only reset file field to become empty again
-				//on any case you still should check files with your server side script
-				//because any arbitrary file can be uploaded by user and it's not safe to rely on browser-side measures
-			});
-			
-			
-			/**
-			file_input
-			.off('file.preview.ace')
-			.on('file.preview.ace', function(e, info) {
-				console.log(info.file.width);
-				console.log(info.file.height);
-				e.preventDefault();//to prevent preview
-			});
-			*/
-		
-		});
 	
 		$('#spinner1').ace_spinner({value:0,min:0,max:200,step:10, btn_up_class:'btn-info' , btn_down_class:'btn-info'})
 		.closest('.ace-spinner')
@@ -586,6 +398,7 @@
 		//datepicker plugin
 		//link
 		$('.date-picker').datepicker({
+			format: 'yyyy-mm-dd',
 			autoclose: true,
 			todayHighlight: true
 		})
@@ -630,7 +443,7 @@
 		
 	
 		
-		if(!ace.vars['old_ie']) $('#date-timepicker1').datetimepicker({
+		if(!ace.vars['old_ie']) $('.date-timepicker1').datetimepicker({
 		 //format: 'MM/DD/YYYY h:mm:ss A',//use this option to display seconds
 		 icons: {
 			time: 'fa fa-clock-o',
@@ -733,5 +546,5 @@
 			$('.daterangepicker.dropdown-menu,.colorpicker.dropdown-menu,.bootstrap-datetimepicker-widget.dropdown-menu').remove();
 		});
 	
-	});
+	});	
 </script>

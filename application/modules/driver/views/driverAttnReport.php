@@ -104,7 +104,7 @@
 					</form>
 				</div><!-- /.col -->
 
-				<div class="col-xs-6">
+				<div class="col-xs-12">
 					<div class="col-xs-12 col-sm-22 widget-container-col ui-sortable" id="widget-container-col-2">
 						<div class="widget-box ui-sortable-handle" id="widget-box-2" style="margin-bottom:0;">
 							<div class="widget-header">
@@ -119,14 +119,11 @@
 										<thead class="thin-border-bottom">
 											<tr>
 												<th>
-													Total
+													Date
 												</th>
 
 												<th>
-													Leaves
-												</th>
-												<th>
-													Holidays
+													Attn
 												</th>
 											</tr>
 										</thead>

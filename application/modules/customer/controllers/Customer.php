@@ -15,8 +15,12 @@ class Customer extends MX_Controller {
 
 	public function customerMaster()
 	{
+		$select = 'package_id,package_name';
+		$tableName = 'package_master';
+		$data['package'] = $this->helper_model->selectAll($select, $tableName);
+
 		$this->header->index();
-		$this->load->view('CustomerAdd');
+		$this->load->view('CustomerAdd', $data);
 		$this->footer->index();
 	}
 	public function addcustomer(){		
@@ -38,6 +42,7 @@ class Customer extends MX_Controller {
 		$pin = isset($_POST['pin']) ? $_POST['pin'] : "";		
 		$user_name = isset($_POST['user_name']) ? $_POST['user_name'] : "";		
 		$password = isset($_POST['password']) ? $_POST['password'] : "";
+		$package_id = isset($_POST['package']) ? $_POST['package'] : "0";
 		$cust_type_id=1;
 		$data = array(
 			'cust_type_id' => $cust_type_id,
@@ -60,6 +65,7 @@ class Customer extends MX_Controller {
 			'cust_password' => $password,
 			'ledger_id'=>'8',
 			'is_service_tax' =>'0',
+			'package_id' =>$package_id,
 			'isactive' =>'0',			
 			'added_by' =>'1',
 			'added_on' => date('Y-m-d h:i:s'),
@@ -136,6 +142,7 @@ class Customer extends MX_Controller {
 			$response['success'] = true;
 			$response['error'] = false;
 			$response['successMsg'] = "Customer Added Successfully";
+			$response['redirect'] = base_url()."customer/customerList";
 
 		}else{
 			$this->db->trans_rollback();
@@ -178,6 +185,9 @@ class Customer extends MX_Controller {
 		$column = 'cust_id';
 		$value = $id;
 		$data['customer'] = $this->Customer_model->getData($select, $tableName, $column, $value);
+		$select = 'package_id,package_name';
+		$tableName = 'package_master';
+		$data['package'] = $this->helper_model->selectAll($select, $tableName);
 		$data['update'] = true;
 		$this->header->index();
 		$this->load->view('customerAdd', $data);
@@ -206,6 +216,7 @@ class Customer extends MX_Controller {
 
 		$customer_ledger_id = isset($_POST['ledger_id']) ? $_POST['ledger_id'] : "";
 		$customer_id =isset($_POST['cust_id']) ? $_POST['cust_id'] : "";
+		$package_id = isset($_POST['package']) ? $_POST['package'] : "0";
 		 $customer_update = array(			
 			'cust_firstname' => $first_name,
 			'cust_middlename' => $last_name,
@@ -226,6 +237,7 @@ class Customer extends MX_Controller {
 			'cust_password' => $password,
 			'ledger_id'=>$customer_ledger_id,
 			'is_service_tax' =>'0',
+			'package_id' =>$package_id,
 			'isactive' =>'0',			
 			'added_by' =>'1',
 			'added_on' => date('Y-m-d h:i:s'),

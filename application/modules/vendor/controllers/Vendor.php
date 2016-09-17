@@ -76,6 +76,7 @@ class Vendor extends MX_Controller {
  	 	$parent_data = $groupid->ledger_account_id;
  	 	$reporting_head = REPORT_HEAD_EXPENSE;
  	 	$nature_of_account = DR;
+ 	 	$direct = DIRECT;
  	 	// ledger data preparation
 
  	 	$leddata = array(
@@ -87,7 +88,8 @@ class Vendor extends MX_Controller {
 		'context' => $context,
 		'ledger_start_date' => date('Y-m-d h:i:s'),
 		'behaviour' => $reporting_head,
-		'entity_type' => 2,
+		'operating_type' => $direct,
+		'entity_type' => 3,
 		'defined_by' => 1,
 		'status' => '1',
 		'added_by' => '1',

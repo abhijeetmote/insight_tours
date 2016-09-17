@@ -4,13 +4,18 @@ class Account extends MX_Controller {
 
 	function __construct() {
 	    parent::__construct();
-
+	     ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    
 		$this->load->module('header/header');
 		$this->load->module('footer/footer');
 		$this->load->model('account/account_model');
 		$this->load->model('helper/helper_model');
 		$this->load->model('helper/selectEnhanced');
 		$this->load->model('helper/selectEnhanced_to');
+		$this->load->model('helper/MonthlyPeriodListener');
+		$this->load->model('helper/YearlyPeriodListener');
+		$this->load->model('helper/ReporttransactiontotalListener');
 		//SelectEnhanced
 		//$this->load->library('session');
 		
@@ -59,7 +64,7 @@ class Account extends MX_Controller {
  	 	$groupid = $this->account_model->getGroupId($select,$ledgertable,$context,$entity_type,$where);
  	 	
  	 	$context = $groupid->context;
- 	 	$reporting_head = REPORT_HEAD_EXPENSE;
+ 	 	$reporting_head = BALANCE_SHEET;
  	 	$nature_of_account = DR;
  	 	$entity_type = ENTITY_TYPE_LEDGER;	
 	 // account data insertion start
@@ -472,7 +477,7 @@ class Account extends MX_Controller {
 		 	 		$response['error'] = false;
 		 	 		$response['success'] = true;
 					$response['successMsg'] = "Payment Made SuccsessFully !!!";
-					$response['redirect'] = base_url()."account/ledgerList";
+					//$response['redirect'] = base_url()."account/ledgerList";
 					//$response['redirect'] = base_url()."driver/driverList";
 	 }else {
  		$this->db->trans_rollback();
@@ -1024,6 +1029,295 @@ class Account extends MX_Controller {
 		 	}
 		 	
  		echo json_encode($response);
+    }
+
+    /**
+     * This action used for profit and loss
+     * @method profit_and_lossAction
+     * @access public
+     * @param string $type DEFAULT monthly
+     * @param string $format 
+     * 
+     */
+    public function profit_and_loss()
+    {
+       //error_reporting(E_ALL);
+       // echo "<pre>";
+        //$request = $this->request;
+        //$arrPostData = $request->getPost();
+       $this->header->index();
+        $type = isset($_POST['type']) ? $_POST['type'] : "monthly";
+        $lstMonth = isset($_POST['lstMonth']) ? $_POST['lstMonth'] : "";
+            //echo "<pre>";print_r($arrPostData);exit();
+        $arrbehaviour = array(  'directincome'=>array('operating_type'=>'direct','behaviour'=>'income'),
+                                'directexpense'=>array('operating_type'=>'direct','behaviour'=>'expense'),
+                                'indirectincome'=>array('operating_type'=>'indirect','behaviour'=>'income'),
+                                'indirectexpense'=>array('operating_type'=>'indirect','behaviour'=>'expense'));
+        
+        //$soc_id = $this->session->get("auth")["soc_id"];
+        #fetch/prepare initial dates such as accounting start and end, FY etc.
+       // $arrdetails = array('soc_id'=> $this->session->get("auth")["soc_id"]);
+
+        $arrfy_details = $this->ReporttransactiontotalListener->get_unit_start_date();
+        //$arrfy_details = $this->accountreporting->accountreporting('reporttransactiontotal:get_unit_start_date', $arrdetails);
+        /*echo "<pre>";
+        print_r($arrfy_details);*/
+        #form default value setting set 
+        $unit_start_date_year = array();
+        $fy_start_from = $arrfy_details['arraccountStartMaster']['fy_start_from'];
+        if($fy_start_from == '01-01'){
+            $intfystart = 1;
+            $data["fymonthstart"]= $intfystart;
+            
+            for($i = 0 ; $i<count($arrfy_details['arrAccountFinancialMaster']);$i++){
+                $curfystart = array();
+                $curfystart = explode("-",$arrfy_details['arrAccountFinancialMaster'][$i]['fy_start_date']);
+                $unit_start_date_year[] = $curfystart[0];
+            }
+        }else{
+            
+            for($i = 0 ; $i<count($arrfy_details['arrAccountFinancialMaster']);$i++){
+                $curfystart = array();
+                $curfyend = array();
+                $curfystart = explode("-",$arrfy_details['arrAccountFinancialMaster'][$i]['fy_start_date']);
+                if( $arrfy_details['arrAccountFinancialMaster'][$i]['fy_start_date'] <= date("Y-m-d") ) {
+                	$curfyend = explode("-",$arrfy_details['arrAccountFinancialMaster'][$i]['fy_end_date']);
+                
+	                if($curfystart[0] == $curfyend[0] ){
+	                   $curfystart[0] = $curfystart[0] - 1; 
+	                }
+	                $unit_start_date_year[] = $curfystart[0]."-".$curfyend[0];
+                }
+            }
+            $data["unit_start_date_year"]= $unit_start_date_year;
+            $arrfystart = explode("-",$arrfy_details['arraccountStartMaster'][0]['fy_start_from']);
+            $intfystart = intval($arrfystart[0]);
+           $data["fymonthstart"]= $intfystart;
+        }
+        
+        $arrPreparePeriodDetails = array();
+        $lstYear = $_POST["lstYear"]? $_POST["lstYear"] : end($unit_start_date_year);
+        $lastyearstart = end($unit_start_date_year);
+        $firstyearstart = $unit_start_date_year[0];
+        $lstMonth = $_POST["lstMonth"] ? $_POST["lstMonth"] : '';
+        $uptoMonth = $_POST["uptoMonth"] ? $_POST["uptoMonth"] : '';//exit();
+        switch ($type) {
+            case 'yearly':
+                #prepare monthly/yearly periods as an array
+            	//echo $_POST["lstYear"];
+                $lstYear = ($_POST["lstYear"] != 0) ? $_POST["lstYear"] : end($unit_start_date_year);
+                $uptoYear = ($_POST["uptoMonth"] != 0)? $_POST["uptoMonth"] : '0';
+                //echo $lstYear;
+                $arrAccntyearlyData = array( 'lstYear'=>$lstYear,'uptoYear'=>$uptoYear,'fyyears'=>$arrfy_details);
+                //echo "<pre>";print_r($arrAccntyearlyData);
+                //$arrPreparePeriodDetails = $this->accountreporting->accountreporting('YearlyPeriod:calYearlyPeriod', $arrAccntyearlyData);
+               $arrPreparePeriodDetails = $this->YearlyPeriodListener->calYearlyPeriod($arrAccntyearlyData);
+                break;
+            case 'monthly':
+            default :
+                #prepare monthly/yearly periods as an array
+                $arrAccntMonthlyData = array( 'fystart'=>$intfystart,'lstYear'=>$lstYear,'lstMonth'=>$lstMonth,'uptoMonth'=>$uptoMonth,'arrfy_details'=>$arrfy_details,'lastyearstart'=>$lastyearstart,'firstyearstart'=>$firstyearstart);
+                //echo "<pre>";print_r($arrAccntMonthlyData);exit();
+                //$arrPreparePeriodDetails = $this->accountreporting->accountreporting('MonthlyPeriod:calMonthlyPeriod', $arrAccntMonthlyData);
+                 $arrPreparePeriodDetails = $this->MonthlyPeriodListener->calMonthlyPeriod($arrAccntMonthlyData);
+
+                break;
+
+        }
+        //print_r($arrPreparePeriodDetails);
+      //  exit;
+        #fetch direct income ledger ids
+        $arrGetLegersDetails = array( "operatingtype"=>'directincome',"flaghierarchy"=>'1');
+        $arrLedgerDetails['directincome'] = $this->ReporttransactiontotalListener->getLedgers($arrGetLegersDetails);
+        //$arrLedgerDetails['directincome'] = $this->accountreporting->accountreporting('reporttransactiontotal:getLedgers', $arrGetLegersDetails);
+        #fetch indirect income ledger ids
+        $arrGetLegersDetails = array( "operatingtype"=>'indirectincome',"flaghierarchy"=>'1');
+        $arrLedgerDetails['indirectincome'] = $this->ReporttransactiontotalListener->getLedgers($arrGetLegersDetails);
+        //$arrLedgerDetails['indirectincome'] = $this->accountreporting->accountreporting('reporttransactiontotal:getLedgers', $arrGetLegersDetails);
+        
+        #fetch direct expense ledger ids
+        $arrGetLegersDetails = array( "operatingtype"=>'directexpense',"flaghierarchy"=>'1');
+         $arrLedgerDetails['directexpense'] = $this->ReporttransactiontotalListener->getLedgers($arrGetLegersDetails);
+       // $arrLedgerDetails['directexpense'] = $this->accountreporting->accountreporting('reporttransactiontotal:getLedgers', $arrGetLegersDetails);
+        
+        #fetch indirect expense ledger ids
+        $arrGetLegersDetails = array( "operatingtype"=>'indirectexpense',"flaghierarchy"=>'1');
+          $arrLedgerDetails['indirectexpense'] = $this->ReporttransactiontotalListener->getLedgers($arrGetLegersDetails);
+        //$arrLedgerDetails['indirectexpense'] = $this->accountreporting->accountreporting('reporttransactiontotal:getLedgers', $arrGetLegersDetails);
+        //  print_r($arrPreparePeriodDetails);
+      // echo "<pre>"; print_r($arrLedgerDetails['directincome']);exit;
+        
+        switch ($type) {
+            case 'yearly':
+                #fetch direct income ledger transaction w.r.t. the array of periods
+                $arrAccntyearlyData = array( 'transdate'=>$arrPreparePeriodDetails,"ledgerID"=>$arrLedgerDetails['directincome']['ledgerIds'],'behaviour'=>"income",'operating_type'=>"direct");
+                //$arrTransactionDetails['directincome'] = $this->accountreporting->accountreporting('YearlyPeriod:getTransactionDetails', $arrAccntyearlyData);
+                $arrTransactionDetails['directincome'] = $this->YearlyPeriodListener->getTransactionDetails($arrAccntyearlyData);
+                
+                #fetch indirect income ledger transaction w.r.t. the array of periods
+                $arrAccntyearlyindirectIncomeData = array( 'transdate'=>$arrPreparePeriodDetails,"ledgerID"=>$arrLedgerDetails['indirectincome']['ledgerIds'],'behaviour'=>"income",'operating_type'=>"indirect");
+                $arrTransactionDetails['indirectincome'] = $this->YearlyPeriodListener->getTransactionDetails($arrAccntyearlyindirectIncomeData);
+                //$arrTransactionDetails['indirectincome'] = $this->accountreporting->accountreporting('YearlyPeriod:getTransactionDetails', $arrAccntyearlyindirectIncomeData);
+                
+                #fetch direct expense ledger transaction w.r.t. the array of periods
+                $arrAccntyearlyDirectExpenseData = array( 'transdate'=>$arrPreparePeriodDetails,"ledgerID"=>$arrLedgerDetails['directexpense']['ledgerIds'],'behaviour'=>"expense",'operating_type'=>"direct");
+               /* echo "<pre>";
+                print_r($arrAccntyearlyDirectExpenseData);exit;*/
+                $arrTransactionDetails['directexpense'] = $this->YearlyPeriodListener->getTransactionDetails($arrAccntyearlyDirectExpenseData);
+                //$arrTransactionDetails['directexpense'] = $this->accountreporting->accountreporting('YearlyPeriod:getTransactionDetails', $arrAccntyearlyDirectExpenseData);
+                
+                #fetch indirect expense ledger transaction w.r.t. the array of periods
+                $arrAccntyearlyIndirectExpenseData = array( 'transdate'=>$arrPreparePeriodDetails,"ledgerID"=>$arrLedgerDetails['indirectexpense']['ledgerIds'],'behaviour'=>"expense",'operating_type'=>"indirect");
+                $arrTransactionDetails['indirectexpense'] = $this->YearlyPeriodListener->getTransactionDetails($arrAccntyearlyIndirectExpenseData);
+                //$arrTransactionDetails['indirectexpense'] = $this->accountreporting->accountreporting('YearlyPeriod:getTransactionDetails', $arrAccntyearlyIndirectExpenseData);
+                break;
+            case 'monthly':
+            default :
+                #fetch direct income ledger transaction w.r.t. the array of periods
+                $arrledgerTrans = array( 'transdate'=>$arrPreparePeriodDetails,"ledgerID"=>$arrLedgerDetails['directincome']['ledgerIds'],'behaviour'=>"income",'operating_type'=>"direct");
+                $arrTransactionDetails['directincome'] = $this->MonthlyPeriodListener->getTransactionDetails($arrledgerTrans);
+                //$arrTransactionDetails['directincome'] = $this->accountreporting->accountreporting('MonthlyPeriod:getTransactionDetails', $arrledgerTrans);
+                
+                #fetch indirect income ledger transaction w.r.t. the array of periods
+                $arrledgerTrans = array( 'transdate'=>$arrPreparePeriodDetails,"ledgerID"=>$arrLedgerDetails['indirectincome']['ledgerIds'],'behaviour'=>"income",'operating_type'=>"indirect");
+                $arrTransactionDetails['indirectincome'] = $this->MonthlyPeriodListener->getTransactionDetails($arrledgerTrans);
+                //$arrTransactionDetails['indirectincome'] = $this->accountreporting->accountreporting('MonthlyPeriod:getTransactionDetails', $arrledgerTrans);
+                
+                #fetch direct expense ledger transaction w.r.t. the array of periods
+                $arrledgerTrans = array( 'transdate'=>$arrPreparePeriodDetails,"ledgerID"=>$arrLedgerDetails['directexpense']['ledgerIds'],'behaviour'=>"expense",'operating_type'=>"direct");
+                $arrTransactionDetails['directexpense'] = $this->MonthlyPeriodListener->getTransactionDetails($arrledgerTrans);
+                //$arrTransactionDetails['directexpense'] = $this->accountreporting->accountreporting('MonthlyPeriod:getTransactionDetails', $arrledgerTrans);
+                
+                #fetch indirect expense ledger transaction w.r.t. the array of periods
+                $arrledgerTrans = array( 'transdate'=>$arrPreparePeriodDetails,"ledgerID"=>$arrLedgerDetails['indirectexpense']['ledgerIds'],'behaviour'=>"expense",'operating_type'=>"indirect");
+                $arrTransactionDetails['indirectexpense'] = $this->MonthlyPeriodListener->getTransactionDetails($arrledgerTrans);	
+                //$arrTransactionDetails['indirectexpense'] = $this->accountreporting->accountreporting('MonthlyPeriod:getTransactionDetails', $arrledgerTrans);
+                break;
+        }
+        /*echo "<pre>";
+        print_r($arrTransactionDetails);*/
+        
+        if(!empty($arrTransactionDetails)){
+            foreach ($arrTransactionDetails as $ledgerType => $TransactionDetails){
+                if(!empty($TransactionDetails)){
+                    $buildHierachy = array();
+                    $arrLedgerDetails1 = array();
+                    
+                    $arrLedgerDetails1 = $arrLedgerDetails[$ledgerType]['ledgerhierarchy'];
+                    //echo $ledgerType;
+                    $buildHierachy = array('rs_group_hierarchy' => $arrLedgerDetails1, 'rs_report_data' => $TransactionDetails);
+                    //$arrLedgerDetailsnew[$ledgerType] = $this->accountreporting->accountreporting('reporttransactiontotal:getTransactionTotals',$buildHierachy );
+                    $arrLedgerDetailsnew[$ledgerType] = $this->ReporttransactiontotalListener->getTransactionTotals($buildHierachy);
+                    //echo "<pre>";print_r($arrLedgerDetailsnew[$ledgerType]);exit();
+                    $total_pnl_element = count($arrLedgerDetails[$ledgerType]['ledgerhierarchy']) -1;
+                    if( !isset($net_total_array[$pnl_element]) ) { $net_total_array[$pnl_element] = array(); }
+                    
+                    $arrLedgerHierachyDetails = array('arrLedgerHierachyDetails'=>$arrLedgerDetailsnew[$ledgerType],);
+                    $net_total_array[$ledgerType] = $this->ReporttransactiontotalListener->getNetTotalLedgers($arrLedgerHierachyDetails);
+                   // $net_total_array[$ledgerType] = $this->accountreporting->accountreporting('reporttransactiontotal:getNetTotalLedgers',$arrLedgerHierachyDetails );            
+                }
+            }
+        }
+        
+        #render output appropriately
+        if(!empty($arrPostData) ){
+            
+        }else{
+            $arrtableheader = array();
+            $totalcolumn = 1;
+            for($i = $intfystart ; $i < ($intfystart + 12);$i++){
+                $j = ($i > 12) ? $i-12 : $i;
+                if(strtotime(date("Y-m-d")) < strtotime(date("Y").'-'.$j.'-01')){ break; }
+                $strheader = date("M Y",strtotime(date("Y").'-'.$j.'-01'));
+                $arrtableheader[] = $strheader;
+                $totalcolumn++;
+            }
+        }
+        
+        $arrCalGrossExportData = array("arrPreparePeriodDetails"=>$arrPreparePeriodDetails, 'net_total_array'=> $net_total_array,'type'=>$type);
+        $arrgrossProfitTotal = $this->ReporttransactiontotalListener->grossProfitTotal($arrCalGrossExportData);
+        //$arrgrossProfitTotal = $this->accountreporting->accountreporting('reporttransactiontotal:grossProfitTotal',$arrCalGrossExportData );
+        
+        $arrCalNetExportData = array("arrPreparePeriodDetails"=>$arrPreparePeriodDetails, 'net_total_array'=> $net_total_array,'type'=>$type,'income_from_operation'=>$arrgrossProfitTotal);
+        $arrNetProfit = $this->ReporttransactiontotalListener->netProfitTotal($arrCalNetExportData);
+        //$arrNetProfit = $this->accountreporting->accountreporting('reporttransactiontotal:netProfitTotal',$arrCalNetExportData );
+        
+        $arrdownloadformat = array('pdf','excel');
+        if(!empty($downloadformat) && in_array($downloadformat, $arrdownloadformat)){
+            $net_total_array = $data['net_total_array'];
+            $arrexportData = array("arrPreparePeriodDetails" => $arrPreparePeriodDetails,"arrgrossProfitTotal"=>$arrgrossProfitTotal,"arrNetProfit"=>$arrNetProfit,"format"=>$downloadformat,"For"=> "profit_and_loss","hierarchyLedgerDetails"=>$arrLedgerDetailsnew, 'net_total_array'=> $net_total_array,'type'=>$type);
+            //$this->exportEvent->exportDocument('accountsreportexport:'.$downloadformat.'Docs',$arrexportData );
+            exit();
+            $this->view->disable();  
+            
+        }elseif( !empty($downloadformat) && ($downloadformat== 'array') ) {
+            return $arrNetProfit;
+        }
+       //echo "<pre>"; print_r($unit_start_date_year);
+        $data["hierarchyLedgerDetails"] = $arrLedgerDetailsnew; 
+        $data["lstYear"] = $lstYear; 
+        $data["intfystart"] = $intfystart; 
+        $data["lstMonth"] = $lstMonth; 
+        $data["arrgrossProfitTotal"] = $arrgrossProfitTotal; 
+        $data["arrNetProfit"] = $arrNetProfit; 
+        $data["uptoMonth"] = $uptoMonth; 
+        $data["arrbehaviour"] = $arrbehaviour; 
+        $data["arrLedgerDetails"] = $arrLedgerDetails; 
+        $data["arrPreparePeriodDetails"] = $arrPreparePeriodDetails; 
+        $data["arrTransactionDetails"] = $arrTransactionDetails; 
+        $data["net_total_array"] = $net_total_array; 
+        $data["arrtableheader"] = $arrtableheader;
+        $data["type"] = $type;
+        $data["unit_start_date_year"] = $unit_start_date_year;
+       
+        $this->load->view('viewPL',$data);
+
+		$this->footer->index();
+
+    }
+
+     public function calulateMonthsAction()
+    {
+        
+        
+       $lstYear  = $_POST['lstYear'];
+        $arrYear = explode("-", $lstYear);
+        $arrYear[1] = isset($arrYear[1]) ? $arrYear[1]  : $arrYear[0];
+        
+        //$arrdetails = array('soc_id'=> $this->session->get("auth")["soc_id"]);
+       // $arrfy_details = $this->accountreporting->accountreporting('reporttransactiontotal:get_unit_start_date', $arrdetails);
+       $arrfy_details = $this->ReporttransactiontotalListener->get_unit_start_date();
+       //echo "<pre>";
+       //print_r($arrfy_details);
+       //echo "aaa".$arrfy_details['arraccountStartMaster'][0]['fy_start_from'];
+        $startMonth = explode("-",$arrfy_details['arraccountStartMaster'][0]['fy_start_from']);
+        //echo "start month:";
+        //print_r($startMonth);
+        $lastMonth = 12;
+        $currntYearFlag = 0;
+        if($arrYear[0] == $arrYear[1]){
+            $currntYearFlag  = (date("Y") == $arrYear[0] ) ? 1: 0;
+        }else{
+            if((($arrYear[1])  == (date("Y")+1) && date("Y") == $arrYear[0]) || date("Y") == $arrYear[0]){
+                $currntYearFlag  = 1;
+            }
+        }
+        if($currntYearFlag == 1 ){
+                $lastMonth = 12 - date("m") + 1 + intval($startMonth[0]);
+        }
+        $fystartdate= $arrYear[0]."-".$arrfy_details['arraccountStartMaster'][0]['fy_start_from'];
+        
+        $arrMonth = array();
+        for($i = 0; $i< $lastMonth;$i++){
+            $j = intval($startMonth[0]) + $i;
+            $j = ($j > 12) ? $j - 12 : $j;
+            $arrMonth[$i]['Monthkey'] = $j;
+            $arrMonth[$i]['Monthvalue'] = date("M Y", strtotime($fystartdate ." +".$i." months"));
+        }
+        $finalMonths['Months'] = $arrMonth;
+        
+        echo json_encode($finalMonths);
+        exit;
     }
  
 }

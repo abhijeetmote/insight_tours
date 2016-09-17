@@ -62,7 +62,7 @@
                                     
 									<?php 
 										foreach ($customerList as $val) {
-											if($val->cust_id == $booking[0]->cust_id){
+											if(isset($booking) && $val->cust_id == $booking[0]->cust_id){
 												echo '<option selected value="'.$val->cust_id.'">'.$val->cust_firstname." " . $val->cust_lastname.'</option>';
 											}else{
 												echo '<option value="'.$val->cust_id.'">'.$val->cust_firstname." " . $val->cust_lastname.'</option>';
@@ -82,10 +82,10 @@
 
                             <div class="col-sm-4">
                                 <select data-placeholder="vehicale type" name="vehicale_type" id="vehicale_type" class="chosen-select form-control" style="display: none;">
-                                     
+                                    <option></option>
 									<?php 
 										foreach ($vechileTList as $val) {
-											if($val->cat_id == $booking[0]->vehicle_type){
+											if(isset($booking) && $val->cat_id == $booking[0]->vehicle_type){
 												echo '<option selected value="'.$val->cat_id.'">'.$val->cat_name.'</option>';
 											}else{
 												echo '<option value="'.$val->cat_id.'">'.$val->cat_name.'</option>';
@@ -100,7 +100,8 @@
                             </div>
                             <label class="col-sm-1 no-padding-right" for="form-field-2">Travel Type</label>
                             <div class="col-sm-4">
-                                <select data-placeholder="Active/Inactive" name="travel_type" id="travel_type" class="chosen-select form-control" style="display: none;">
+                                <select data-placeholder="Local/Outstation" name="travel_type" id="travel_type" class="chosen-select form-control" style="display: none;">
+                                	<option></option>
                                     <option <?php if(isset($booking) && $booking[0]->travel_type == "Local") { echo "selected"; }?> value="Local">Local</option>
                                     <option value="Outstation" <?php if(isset($booking) &&  $booking[0]->travel_type == "Outstation") { echo "selected"; }?>>Outstation</option>
                                      
@@ -114,6 +115,21 @@
 
                          
                         <br>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 no-padding-right" for="form-field-2">Package</label>
+
+                            <div class="col-sm-4">
+                                <select name="package" id="package" class="form-control mandatory-field">
+                                    <?php if(isset($booking)): ?>
+                                    	<option><?php echo $booking[0]->package_name; ?></option>
+                                	<?php endif; ?>
+                                </select>
+                                <span class="help-inline col-xs-12 col-sm-7">
+                                    <span class="middle input-text-error" id="package_errorlabel"></span>
+                                </span>
+                            </div>
+                        </div>
 
 
                         <div class="form-group">
@@ -412,6 +428,80 @@
 			 $("#passenger_details"+tabId).remove();
 
 			 
+		});
+
+		$(document).on('change','#vehicale_type', function() {
+			 
+			var v_type = $(this).val();
+			var t_type = $("#travel_type").val();
+			if(v_type != "" && t_type != ""){
+				var obj = array.filter(function(obj){
+		            return obj.name === 'package-List-booking'
+		        })[0];
+
+		        var uri = obj['value'];
+
+		        jobject = {
+		            'v_type' : v_type,
+		            't_type' : t_type
+		        }
+		        
+		        $.ajax({
+		            url: uri,
+		            method: 'POST',
+		            crossDomain: true,
+		            data: jobject,
+		            dataType: 'json',
+		            beforeSend: function (xhr) {
+		                //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
+		            },
+		            success: function (data) {
+		                if(data.success == true){
+		                	$('#package').html(data.successMsg);
+		                }
+		            },
+		            error: function (xhr, ajaxOptions, thrownError) {
+		                console.log(thrownError);
+		            }
+		        });
+			}
+		});
+
+		$(document).on('change','#travel_type', function() {
+			 
+			var t_type = $(this).val();
+			var v_type = $("#vehicale_type").val();
+			if(v_type != "" && t_type != ""){
+				var obj = array.filter(function(obj){
+		            return obj.name === 'package-List-booking'
+		        })[0];
+
+		        var uri = obj['value'];
+
+		        jobject = {
+		            'v_type' : v_type,
+		            't_type' : t_type
+		        }
+		        
+		        $.ajax({
+		            url: uri,
+		            method: 'POST',
+		            crossDomain: true,
+		            data: jobject,
+		            dataType: 'json',
+		            beforeSend: function (xhr) {
+		                //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
+		            },
+		            success: function (data) {
+		                if(data.success == true){
+		                	$('#package').html(data.successMsg);
+		                }
+		            },
+		            error: function (xhr, ajaxOptions, thrownError) {
+		                console.log(thrownError);
+		            }
+		        });
+			}
 		});
 
 	});
