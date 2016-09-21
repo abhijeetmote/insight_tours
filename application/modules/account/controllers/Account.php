@@ -1319,5 +1319,531 @@ class Account extends MX_Controller {
         echo json_encode($finalMonths);
         exit;
     }
+
+    public function addGroup() {
+    	//error_reporting(E_ALL);
+    	$this->header->index();
+		$grp_table = LEDGER_TABLE;
+		$where =  'entity_type != 3';
+ 	 	$led_data = $this->account_model->getDataWhereOrder('*',$grp_table,$where,'parent_id','asc');
+
+		$ret_arr = $this->helper_model->_getLedGrpListRecur($led_data, array(), 0, array(), $entity_type="group");
+		
+		$ledger_data = $this->selectEnhanced->__construct("lstParentAccount", $ret_arr[0], array(
+                                'useEmpty' => true,
+                                'emptyText' => '--Select--',
+                                'options' => array(
+                                                'nature' =>  function($arr){return isset($arr['nature'])? $arr['nature']:false;},
+                                                'entity_type' =>  function($arr){return isset($arr['entity_type'])? $arr['entity_type']:false;},
+                                                'behaviour' => function($arr){return isset($arr['behaviour'])? $arr['behaviour']:false;},
+                                                'operating_type' => function($arr){return isset($arr['operating_type'])? $arr['operating_type']:false;},        
+                                                'children' =>  array(
+                                                                "type" => GROUP_CHILDREN_OPTION_DIS,
+                                                                'options' => array (
+                                                                             'nature' =>  function($arr){return isset($arr['nature'])? $arr['nature']:false;},
+                                                                             'entity_type' =>  function($arr){return isset($arr['entity_type'])? $arr['entity_type']:false;},
+                                                                             'behaviour' => function($arr){return isset($arr['behaviour'])? $arr['behaviour']:false;},
+                                                                             'operating_type' => function($arr){return isset($arr['operating_type'])? $arr['operating_type']:false;}
+                                                                  )
+                                    
+                                                 )                    
+                                                         
+                                 )));
+
+
+		 
+		$data['lstParentAccount'] = $this->selectEnhanced->render("",'lstParentAccount','lstParentAccount','');		
+		$account_nature = array("Income" => "cr", "Expense" => "dr", "Asset" => "dr");
+		$this->load->view('addGroup',$data);
+		$this->footer->index();
+
+    	
+
+    	/*$select = " * ";
+		$transaction_table = LEDGER_TABLE ;
+		 
+		$where =  array('entity_type' =>  "main" );
+ 	 	$led_data = $this->account_model->getall($select,$transaction_table,$where);
+ 	 	echo "<pre>";
+ 	 	print_r($led_data);exit;
+ 	 	$this->load->view('viewPL',$data);
+
+		$this->footer->index();*/
+
+    }
+
+    public function editEntity($id) {
+    	//error_reporting(E_ALL);
+    	$this->header->index();
+    	$ledger_id = $id;
+    	
+    	$grp_table = LEDGER_TABLE;
+    	$led_details = $this->account_model->getLedger($ledger_id);
+    	
+    	$data['parent_id'] = isset($led_details[0]['parent_id']) ? $led_details[0]['parent_id'] : "";
+    	$data['entity_type'] = isset($led_details[0]['entity_type']) ? $led_details[0]['entity_type'] : "";
+    	$data['entity_name'] = isset($led_details[0]['ledger_account_name']) ? $led_details[0]['ledger_account_name'] : "";
+    	$data['ledger_type'] = isset($led_details[0]['nature_of_account']) ? $led_details[0]['nature_of_account'] : "";
+    	$data['op_type'] = isset($led_details[0]['operating_type']) ? $led_details[0]['operating_type'] : "";
+    	$data['led_id'] = $id;
+		$where =  'entity_type != 3';
+ 	 	
+
+ 	 	$led_data = $this->account_model->getDataWhereOrder('*',$grp_table,$where,'parent_id','asc');
+
+		$ret_arr = $this->helper_model->_getLedGrpListRecur($led_data, array(), 0, array(), $entity_type="group");
+		
+		$ledger_data = $this->selectEnhanced->__construct("lstParentAccount", $ret_arr[0], array(
+                                'useEmpty' => true,
+                                'emptyText' => '--Select--',
+                                'options' => array(
+                                                'nature' =>  function($arr){return isset($arr['nature'])? $arr['nature']:false;},
+                                                'entity_type' =>  function($arr){return isset($arr['entity_type'])? $arr['entity_type']:false;},
+                                                'behaviour' => function($arr){return isset($arr['behaviour'])? $arr['behaviour']:false;},
+                                                'operating_type' => function($arr){return isset($arr['operating_type'])? $arr['operating_type']:false;},        
+                                                'children' =>  array(
+                                                                "type" => GROUP_CHILDREN_OPTION_DIS,
+                                                                'options' => array (
+                                                                             'nature' =>  function($arr){return isset($arr['nature'])? $arr['nature']:false;},
+                                                                             'entity_type' =>  function($arr){return isset($arr['entity_type'])? $arr['entity_type']:false;},
+                                                                             'behaviour' => function($arr){return isset($arr['behaviour'])? $arr['behaviour']:false;},
+                                                                             'operating_type' => function($arr){return isset($arr['operating_type'])? $arr['operating_type']:false;}
+                                                                  )
+                                    
+                                                 )                    
+                                                         
+                                 )));
+
+
+		 
+		$data['lstParentAccount'] = $this->selectEnhanced->render("",'lstParentAccount','lstParentAccount','');		
+		$account_nature = array("Income" => "cr", "Expense" => "dr", "Asset" => "dr");
+		$this->load->view('addGroup',$data);
+		$this->footer->index();
+
+    	
+
+    	/*$select = " * ";
+		$transaction_table = LEDGER_TABLE ;
+		 
+		$where =  array('entity_type' =>  "main" );
+ 	 	$led_data = $this->account_model->getall($select,$transaction_table,$where);
+ 	 	echo "<pre>";
+ 	 	print_r($led_data);exit;
+ 	 	$this->load->view('viewPL',$data);
+
+		$this->footer->index();*/
+
+    }
+
+    public function addgroupSubmit() {
+
+    	/*echo "<pre>";
+    	print_r($_POST);exit();*/
+    	$leg_name = isset($_POST['entity_name']) ? $_POST['entity_name'] : "";
+    	$ledger_type = isset($_POST['ledger_type']) ? $_POST['ledger_type'] : "";
+    	$parent_id = isset($_POST['lstParentAccount']) ? $_POST['lstParentAccount'] : "";
+    	$nature = isset($_POST['nature']) ? $_POST['nature'] : "";
+    	$behaviour = isset($_POST['behaviour']) ? $_POST['behaviour'] : "";
+    	$op_type = isset($_POST['op_type']) ? $_POST['op_type'] : "";
+    	if($behaviour == "asset") {
+    		$reporting_head = BALANCE_SHEET;
+    	} else {
+ 	 		$reporting_head = PROFIT_AND_LOSS;
+ 	 	}
+ 	 	$nature_of_account = $nature;
+ 	 	$op_type = $op_type;
+ 	 	$context = $leg_name;
+ 	 	// ledger data preparation
+
+ 	 	$leddata = array(
+		'ledger_account_name' => $leg_name,
+		'parent_id' => $parent_id,
+		'report_head' => $reporting_head,
+		'nature_of_account' => $nature_of_account,
+		'context_ref_id' => 0,
+		'context' => $context,
+		'ledger_start_date' => date('Y-m-d h:i:s'),
+		'behaviour' => $behaviour,
+		'operating_type' => $op_type,
+		'entity_type' => $ledger_type,
+		'defined_by' => 1,
+		'status' => '1',
+		'added_by' => '1',
+		'added_on' => date('Y-m-d h:i:s'));
+ 	 	//Insert Ledger data with Deriver Id
+ 	 	$legertable =  LEDGER_TABLE;
+ 	 	$this->db->trans_begin();
+ 	  
+ 		 
+ 	 		$ledger_id = $this->account_model->saveData($legertable,$leddata);
+
+ 	 		if($ledger_type=="ledger") {
+	 		// transaction data data insertion start
+			$trans_data = array(
+			'transaction_date' => date('Y-m-d h:i:s'),
+			'ledger_account_id' => $ledger_id,
+			'ledger_account_name' => $leg_name,
+			'transaction_type' => $nature_of_account,
+			'transaction_amount' => 0.00,
+			'txn_from_id' => 0,
+			'memo_desc' => 'Initial entry for account creation',
+			'added_by' => 1,
+			'added_on' => date('Y-m-d h:i:s')
+			);
+			$transaction_table =  TRANSACTION_TABLE;
+
+			 
+			 // transaction
+			$transaction_id = $this->account_model->saveData($transaction_table,$trans_data);
+			} else {
+			$transaction_id = 1;	
+			}
+
+			if(isset($ledger_id) && !empty($ledger_id) && isset($transaction_id) && !empty($transaction_id)){
+				//$this->session->set_msg(array('status' => 'success','msg'=>'Driver '));
+				$this->db->trans_commit();
+				$response['success'] = true;
+				$response['error'] = false;
+				$response['successMsg'] = "Entity Added Successfully";
+				$response['redirect'] = base_url()."account/ledgerList";
+
+			}else{
+				$this->db->trans_rollback();
+					$response['error'] = true;
+					$response['success'] = false;
+				$response['errorMsg'] = "Error!!! Please contact IT Dept";
+			}
+			echo json_encode($response);
+    }
+
+
+     public function updateGroup() {
+     	error_reporting(E_ALL);
+    	/*echo "<pre>";
+    	print_r($_POST);exit();*/
+    	$leg_name = isset($_POST['entity_name']) ? $_POST['entity_name'] : "";
+    	$ledger_type = isset($_POST['ledger_type']) ? $_POST['ledger_type'] : "";
+    	$parent_id = isset($_POST['lstParentAccount']) ? $_POST['lstParentAccount'] : "";
+    	$nature = isset($_POST['nature']) ? $_POST['nature'] : "";
+    	$behaviour = isset($_POST['behaviour']) ? $_POST['behaviour'] : "";
+    	$op_type = isset($_POST['op_type']) ? $_POST['op_type'] : "";
+    	$led_id = isset($_POST['led_id']) ? $_POST['led_id'] : "";
+    	if($behaviour == "asset") {
+    		$reporting_head = BALANCE_SHEET;
+    	} else {
+ 	 		$reporting_head = PROFIT_AND_LOSS;
+ 	 	}
+ 	 	$nature_of_account = $nature;
+ 	 	$op_type = $op_type;
+ 	 	$context = $leg_name;
+ 	 	// ledger data preparation
+
+ 	 	$leddata = array(
+		'ledger_account_name' => $leg_name,
+		'parent_id' => $parent_id,
+		'report_head' => $reporting_head,
+		'nature_of_account' => $nature_of_account,
+		'context_ref_id' => 0,
+		'context' => $context,
+		'behaviour' => $behaviour,
+		'operating_type' => $op_type,
+		'entity_type' => $ledger_type,
+		'updated_by' => '1',
+		'updated_on' => date('Y-m-d h:i:s'));
+ 	 	//Insert Ledger data with Deriver Id
+ 	 	$legertable =  LEDGER_TABLE;
+ 	 	$this->db->trans_begin();
+ 	  
+ 		 
+ 		//$ledger_id = $this->account_model->saveData($legertable,$leddata);
+
+	 	$update_value = $led_id;
+	 	$updat_column_Name = "ledger_account_id";
+	 	$update_id = $this->account_model->updateData($legertable,$leddata,$updat_column_Name,$update_value);         		
+
+		if(isset($update_id) && !empty($update_id)){
+			//$this->session->set_msg(array('status' => 'success','msg'=>'Driver '));
+			$this->db->trans_commit();
+			$response['success'] = true;
+			$response['error'] = false;
+			$response['successMsg'] = "Entity Updated Successfully";
+			$response['redirect'] = base_url()."account/ledgerList";
+
+		}else{
+			$this->db->trans_rollback();
+				$response['error'] = true;
+				$response['success'] = false;
+			$response['errorMsg'] = "Error!!! Please contact IT Dept";
+		}
+		echo json_encode($response);
+    }
+
+
+
+    public function groupList()
+	{
+		$this->header->index();
+		 
+		$grp_table = LEDGER_TABLE;
+		$where =  'entity_type != 3';
+ 	 	$led_data = $this->account_model->getDataWhereOrder('*',$grp_table,$where,'parent_id','asc');
+
+		$ret_arr = $this->helper_model->_getLedGrpListRecur($led_data, array(), 0, array(), $entity_type="group");
+		$data['ledgers'] = $ret_arr[0];
+		$this->load->view('groupList',$data);
+		$this->footer->index();
+	}
+
+	/*public function ledgerDelete(){
+
+        $ledger_id = $_POST['id'];
+        
+ 	 	if(isset($ledger_id) && !empty($ledger_id)) {
+
+ 	 	$select = " * ";
+		$transaction_table = TRANSACTION_TABLE ;
+	 	$this->db->trans_begin();
+		$where =  array('ledger_account_id' =>  $ledger_id );
+ 	 	$led_data = $this->account_model->getall($select,$transaction_table,$where);
+
+ 	 	foreach ($led_data as $led_data) {
+	 		$trans_data = array(
+		'ledger_account_name' => $account_name,
+		'transaction_type' => $nature_of_account,
+		'payment_reference' => $account_no,
+		'updated_by' => 1,
+		'updated_on' => date('Y-m-d h:i:s')
+		);
+	 		//$trans_data = 'ledger_account_id';
+		$trans_column = "txn_id";
+		$transaction_table =  TRANSACTION_TABLE;
+		$trans_id = $led_data->txn_id;	
+
+		$trans_result = $this->helper_model->delete($transaction_table,$trans_column,$trans_id);	
+			
+
+
+		}
+
+		 
+ 	   	$ledgertable =  LEDGER_TABLE;
+    	$resultMaster = $this->helper_model->delete($ledgertable,'ledger_account_id',$ledger_id);	
+ 	 
+ 	 	}
+    
+		if(empty($resultMaster) || $resultMaster == false) {
+
+			$response['success'] = false;
+			$response['successMsg'] = "Error!!! Please contact IT Dept";
+		
+		} else {
+			$this->db->trans_commit();
+			$response['success'] = true;
+			$response['successMsg'] = "Ledger Deleted Successfully";	
+		}
+		
+	 	echo json_encode($response);
+ 	}*/
+
+ 	 /**
+     * The Component action `disableLedger` is to Change status of ledger
+     * @method disableLedger.
+     * @access public
+     * @param INT $ledger_id
+     * @var integer $soc_id society id
+     * @uses ChsOne\Models\GrpLedgTree::__construct()
+     */
+    public function disableLedger($ledger_id) {
+        
+        $ledger_id = $_POST['id'];
+        if(isset($ledger_id) && !empty($ledger_id)) {
+        	$select = " * ";
+			$ledger_table = LEDGER_TABLE ;
+			$where =  array('ledger_account_id' =>  $ledger_id );
+		 	$ledger = $this->account_model->getLedger($ledger_id);
+		 	$data = $ledger;
+		 	$ledger_table = LEDGER_TABLE; 
+		 	$updat_column_Name = "ledger_account_id";
+		 	$pre_status = $data[0]['status'];
+        	 
+
+        	while(!empty($data[0]['parent_id']) && $data[0]['parent_id']!= 0 && $data[0]['parent_id']!= ''){
+			
+    			if(!empty($data[0]['parent_id']) && $data[0]['parent_id']!=1 && $data[0]['status']==0) {
+		            $leger_parent = $this->account_model->getLedger($data[0]['parent_id']);
+		            $data[0]['parent_id'] = $leger_parent[0]['parent_id'];
+		        } else {
+		            $data[0]['parent_id'] = 0;
+		        }
+
+		        if($leger_parent[0]['status'] == 0) {
+		        	$inactive_status = 0;
+		        } else {
+		        	$active_status = 1;
+		        }
+			}
+
+			if(isset($inactive_status) && $inactive_status == 0) {
+				$status = 0;
+			} else {
+
+				if($ledger[0]['status'] == 0) {
+					$status = 1; 
+				} else {
+					$status = 0; 
+				}
+			}
+
+			$update_data =  array('status' => $status);
+		 	$update_value = $ledger_id;
+		 	$update_id = $this->account_model->updateData($ledger_table,$update_data,$updat_column_Name,$update_value);         		
+        }
+
+        	if(empty($update_id) || $update_id == false) {
+
+			$response['success'] = false;
+			$response['successMsg'] = "Error!!! Please contact IT Dept";
+
+		
+			} else {
+				 
+				$response['success'] = true;
+				if($pre_status == $status) {
+				$response['successMsg'] = "Ledger Group is not Enabled";
+				$response['isredirect']	= 0;
+				}else if($status == 1) {
+				$response['successMsg'] = "Ledger Enabled Successfully";
+				$response['isredirect']	= 1;
+				} else{
+				$response['successMsg'] = "Ledger Disabled Successfully";
+				$response['isredirect']	= 1;	
+				}
+
+
+				$response['redirect'] = base_url()."account/ledgerList";	
+			}
+
+			echo json_encode($response);
+        
+    }
+    
+    /**
+     * The Component action `disableGroup` is to Change status of group aand its children
+     * @method disableGroup.
+     * @access public
+     * @param INT $group_id
+     * @var integer $soc_id
+     * @see _getLedgerChildren()
+     * @uses ChsOne\Models\GrpLedgTree::__construct()
+     */
+   public function disableGroup($ledger_id) {
+        
+        $ledger_id = $_POST['id'];
+        if(isset($ledger_id) && !empty($ledger_id)) {
+        	$select = " * ";
+			$ledger_table = LEDGER_TABLE ;
+			$where =  array('ledger_account_id' =>  $ledger_id );
+		 	$ledger = $this->account_model->getLedger($ledger_id);
+		 	$data = $ledger;
+		 	$ledger_table = LEDGER_TABLE; 
+		 	$updat_column_Name = "ledger_account_id";
+		 	$pre_status = $data[0]['status'];
+        	 
+
+        	while(!empty($data[0]['parent_id']) && $data[0]['parent_id']!= 0 && $data[0]['parent_id']!= ''){
+			
+    			if(!empty($data[0]['parent_id']) && $data[0]['parent_id']!=1 && $data[0]['status']==0) {
+		            $leger_parent = $this->account_model->getLedger($data[0]['parent_id']);
+		            $data[0]['parent_id'] = $leger_parent[0]['parent_id'];
+		        } else {
+		            $data[0]['parent_id'] = 0;
+		        }
+
+		        if($leger_parent[0]['status'] == 0) {
+		        	$inactive_status = 0;
+		        } else {
+		        	$active_status = 1;
+		        }
+			}
+
+			if(isset($inactive_status) && $inactive_status == 0) {
+				$status = 0;
+			} else {
+
+				if($ledger[0]['status'] == 0) {
+					$status = 1;
+					$flag = 1; 
+				} else {
+					$status = 0; 
+				}
+			}
+			 if($flag != 1) {
+		        $this->_getLedgerChildren($ledger_id, $status );
+	        }
+			$update_data =  array('status' => $status);
+		 	$update_value = $ledger_id;
+		 	$update_id = $this->account_model->updateData($ledger_table,$update_data,$updat_column_Name,$update_value);         		
+        }
+
+        	if(empty($update_id) || $update_id == false) {
+
+			$response['success'] = false;
+			$response['successMsg'] = "Error!!! Please contact IT Dept";
+
+		
+			} else {
+				 
+				$response['success'] = true;
+				if($pre_status == $status) {
+				$response['successMsg'] = "Parent Group is not Enabled";
+				$response['isredirect']	= 0;
+				}else if($status == 1) {
+				$response['successMsg'] = "Group Enabled Successfully";
+				$response['isredirect']	= 1;
+				} else{
+				$response['successMsg'] = "Group Disabled Successfully";
+				$response['isredirect']	= 1;	
+				}
+
+
+				$response['redirect'] = base_url()."account/groupList";	
+			}
+			
+			echo json_encode($response);
+        
+    }
+
+
+
+    /**
+     * The Component action `_getLedgerChildren` is to get children
+     * @method _getLedgerChildren.
+     * @access public
+     * @param integer $id
+     * @param string $status
+     * @see _getLedgerChildren()
+     * @uses ChsOne\Models\GrpLedgTree::__construct()
+     */
+    public function _getLedgerChildren($id, $status)
+    {
+        $ledger = $this->account_model->getParent($id);
+        $updat_column_Name = "ledger_account_id";
+        $ledger_table = LEDGER_TABLE ;
+        foreach ($ledger as $ldg) {
+            
+            $ldg->status = $status;
+            $update_data =  array('status' => $status);
+		 	$update_value = $ldg['ledger_account_id'];
+		 	$update_id = $this->account_model->updateData($ledger_table,$update_data,$updat_column_Name,$update_value);         		
+            if ( $update_id ) {
+                
+            } else {
+                
+            }
+            $this->_getLedgerChildren($ldg['ledger_account_id'], $status);
+            
+        }
+    }
  
 }

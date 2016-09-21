@@ -435,6 +435,14 @@ $(document).ready(function () {
            }
         }
         
+        if(formId=="addgroup") {
+             $("#lstParentAccount_errorlabel").html("");
+            var parent_id  = $("#lstParentAccount").val();
+             if(parent_id == "" || parent_id == undefined) {
+            $("#lstParentAccount_errorlabel").html("Select Parent Entity");
+            return false;
+            }
+        }
         var bulkfrm = ["frmSocUnitsAdd"];
         var error = false;
         var postData = 'null';
@@ -523,13 +531,19 @@ $(document).ready(function () {
 
     $(document).on('click','.delete', function(e){
         e.preventDefault();
-        if(confirm("Are you sure you want to delete!")){
+        var formId  = $('.form').attr('id');
+        if(formId == "ledList" || formId == "grpList") {
+            var msg = "Are you sure you want to disabled!";
+        } else {
+            var msg = "Are you sure you want to delete!";
+        }
+        if(confirm(msg)){
 
             var formId  = $('.form').attr('id');
             var id = $(this).attr('id');
              
-            if(formId=="accountList") {
-               var abc = confirm("Delete Ledger may lead to data inconsistancy");
+            if(formId=="accountList" || formId=="ledList" || formId=="grpList") {
+               var abc = confirm("Disable Entity may lead to data inconsistancy");
 
                if(abc == false) {
                 return false;
@@ -558,7 +572,12 @@ $(document).ready(function () {
                     //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
                 },
                 success: function (data) {
-                    point.parent().parent().parent().remove();
+                    if(formId == "ledList" || formId == "grpList") {
+                        
+                    } else {
+                        point.parent().parent().parent().remove();
+                    }
+                    
                     alert(data.successMsg);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -777,3 +796,61 @@ function commanajaxCall(id, url, postData, method, sucessCallBack, failCallBack,
         }
     });
 }
+
+
+$(document).on('click','.disabled', function(e){
+        e.preventDefault();
+        var formId  = $('.form').attr('id');
+        if(formId == "ledList") {
+            var msg = "Are you sure you want to disabled Ledger!";
+        } else {
+            var msg = "Are you sure you want to disabled Group!";
+        }
+        if(confirm(msg)){
+
+            var formId  = $('.form').attr('id');
+            var id = $(this).attr('id');
+             
+            if( formId=="ledList" || formId=="grpList") {
+               var abc = confirm("Disable Entity may lead to data inconsistancy");
+
+               if(abc == false) {
+                return false;
+
+               }
+            }
+            var obj = array.filter(function(obj){
+                return obj.name === formId
+            })[0];
+
+            var uri = obj['value'];
+
+            jobject = {
+                'id' : id
+            }
+
+            var point = $(this);
+            
+            $.ajax({
+                url: uri,
+                method: 'POST',
+                crossDomain: true,
+                data: jobject,
+                dataType: 'json',
+                beforeSend: function (xhr) {
+                    //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
+                },
+                success: function (data) {
+                    alert(data.successMsg);
+                    if(data.redirect != undefined && data.redirect != 'undefined' && data.redirect != '' &&
+                       data.isredirect != undefined && data.isredirect != 'undefined' && data.isredirect != 0 ){
+                    location.href = data.redirect;
+                    }
+                    
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            });
+        }
+    });

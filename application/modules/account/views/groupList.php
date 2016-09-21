@@ -10,9 +10,9 @@
 				</li>
 
 				<li>
-					<a href="#">Ledger</a>
+					<a href="#">Group</a>
 				</li>
-				<li class="active">Ledger Lists</li>
+				<li class="active">Group Lists</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -38,7 +38,7 @@
 			
 			<div class="page-header">
 				<h1>
-					Ledger List
+					Group List
 				</h1>
 			</div><!-- /.page-header -->
 
@@ -58,14 +58,14 @@
 								</a>
 							</div>
 						</div>
-						<form class="form" id="ledList"></form>
+						<form class="form" id="grpList"></form>
 						<div class="widget-body" style="display:none;">
 							<div class="widget-main no-padding">
 								 <?php     
                
 						                echo "<table border=\"0\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" class=\"fht-table mt2 tablerow\" >
 						                <thead>
-						                <th class=\"firstth\"  >Name</th>
+						                <th class=\"firstth\"  >Group Name</th>
 						                  <th>Group/Ledger</th>
 						                  <th>Nature</th>
 						                  <th>Behaviour</th>
@@ -126,7 +126,7 @@ function recursiveArr($ledgers){
                     <td><?php echo $val['behaviour']; ?></td>
                     <td><?php echo $val['context']; ?></td>
                     <td><?php if($val['status']==1){ echo "Active";$class = "times";} else {echo "Inactive"; $class = "check";}?></td>                    
-                    <td><?php if($val['entity_type']=='ledger' ){?><a href="editEntity/<?php echo $val["ledger_account_id"]; ?>"><i class="fa fa-edit"></i></a> <a href="<?php echo $config->system->full_base_url; ?>listTransaction/<?php echo $val["ledger_account_id"]; ?>" target="_blank"><i class="fa fa-credit-card"></i></a> <a class="red disabled" href="#" id="<?php echo  $val["ledger_account_id"]; ?>"><i class="fa fa-<?php echo $class; ?>"></i></a><?php } ?></td>
+                    <td><?php if($val['entity_type']=='group' ){?><a href="editEntity/<?php echo $val["ledger_account_id"]; ?>"><i class="fa fa-edit"></i></a> <a class="red disabled" href="#" id="<?php echo  $val["ledger_account_id"]; ?>"><i class="fa fa-<?php echo $class; ?>"></i></a><?php } ?></td>
                   </tr>
 <?php
             

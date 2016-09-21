@@ -833,6 +833,26 @@
 
 						<ul class="submenu">
 							 
+							 <li class="">
+								<a href="<?php echo base_url(); ?>account/addGroup">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Add Entity
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="<?php echo base_url(); ?>account/groupList">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Group Tree
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
 							<li class="">
 								<a href="<?php echo base_url(); ?>account/ledgerList">
 									<i class="menu-icon fa fa-caret-right"></i>

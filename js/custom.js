@@ -42,7 +42,12 @@ var array = [
 	{name: "journalvoucher", value: baseUrl + "payment/journalentrySubmit"},
 	{name: "package", value: baseUrl + "package/addPackage"},
 	{name: "package_update", value: baseUrl + "package/updatePackage"},
-	{name: "package-List-booking", value: baseUrl + "package/packageListBooking"}
+	{name: "package-List-booking", value: baseUrl + "package/packageListBooking"},
+	{name: "addgroup", value: baseUrl + "account/addgroupSubmit"},
+	{name: "ledList", value: baseUrl + "account/disableLedger"},
+	{name: "grpList", value: baseUrl + "account/disableGroup"},
+	{name: "editgroup", value: baseUrl + "account/updateGroup"},
+
 	
 	
 	

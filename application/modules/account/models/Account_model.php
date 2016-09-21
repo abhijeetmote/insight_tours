@@ -96,4 +96,14 @@ class Account_model extends CI_Model {
         $ledger_array = $this->helper_model->selectQuery($sql);
         return $ledger_array;
     }
+
+
+    public function getParent($parent_id) {
+    	$sql = "SELECT * FROM ledger_master WHERE parent_id = $parent_id";
+       // echo $sql;exit;
+        //$result = $this->soc_db_w->query($sql);exit;
+        
+        $parent_array = $this->helper_model->selectQuery($sql);
+        return $parent_array;
+    }
 }

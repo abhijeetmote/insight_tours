@@ -237,33 +237,21 @@ public function _getLedGrpListRecur($led_grp_objects, $master_array = array(), $
         $children = "";
         //$soc_id = $this->session->get("auth")["soc_id"];
         
-        $conditions = "parent_id";
-        $bind       = $group;
+        $conditions = "parent_id = $group";
+       // $bind       = $group;
         
         if ($entity_type == ENTITY_TYPE_LEDGER) {
             
-        } else if ($entity_type == ACC_TYPE_BANK || $entity_type == ACC_TYPE_CASH) {
-            
-            $conditions .= " AND (behaviour = ?3  ";
-            $bind[3] = "asset";
-            
-            
-            $conditions .= " OR behaviour = ?4)  ";
-            $bind[4] = "liability";
-            
-            
-            $conditions .= " AND (TRIM(LOWER(entity_type)) != ?5) ";
-            $bind[5] = trim(strtolower(ENTITY_TYPE_LEDGER));
-            
         } else if ($entity_type == ENTITY_TYPE_GROUP) {
             
-            $conditions .= " AND (TRIM(LOWER(entity_type)) != ?3) ";
-            $bind[3] = trim(strtolower(ENTITY_TYPE_LEDGER));
+            $conditions .= " AND entity_type != 'ledger' ";
+            //$bind[3] = trim(strtolower(ENTITY_TYPE_LEDGER));
         }
         $grp_table = LEDGER_TABLE;
         //print_r($conditions);
        // print_r($bind);
-        $where =  array($conditions => $bind);
+        //$where =  array($conditions => $bind);
+        $where =  $conditions;
         //$children = GrpLedgTree::find(array("conditions" => $conditions, "bind" => $bind, "order" => "ledger_account_name ASC"))->toArray();
          $children = $this->selectallWhereOrder('*',$grp_table,$where,'ledger_account_name','asc');
         if (count($children) > 0) {
