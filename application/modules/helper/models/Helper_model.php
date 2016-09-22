@@ -47,6 +47,7 @@ class Helper_model extends CI_Model {
 		$this->db->select($select);
 		$this->db->from($tableName);
 		$this->db->where($where);
+		//echo $this->db->_compile_select();
 		$query = $this->db->get();
 		return $query->result();
 	}

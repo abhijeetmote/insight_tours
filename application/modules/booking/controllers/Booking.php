@@ -21,6 +21,7 @@ class Booking extends MX_Controller {
 		$data['customerList'] = $this->Booking_model->getData($select, $tableName, $column, $value);
 		$select = 'cat_id,cat_name';
 		$tableName = 'vehicle_category';
+		$select = '*';
 		$data['vechileTList'] = $this->Booking_model->getData($select, $tableName, $column, $value);
 		//echo "<pre>"; print_r($data); exit();
 		$this->header->index();
@@ -29,7 +30,7 @@ class Booking extends MX_Controller {
 	}
 
 	public function addbooking() {	
-
+		//error_reporting(E_ALL);
 		//booking data
 		 $booking_date = isset($_POST['booking_date']) ? $_POST['booking_date'] : "";
 		 $cust_id = isset($_POST['customer_id']) ? $_POST['customer_id'] : "";
@@ -120,7 +121,7 @@ class Booking extends MX_Controller {
  		$response['success'] = false;
 		$response['errorMsg'] = "Error!!! Please contact IT Dept";
  	}
-
+ 	//exit;
  	 
 	echo json_encode($response);
  	}

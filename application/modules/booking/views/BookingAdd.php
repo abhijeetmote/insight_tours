@@ -4,11 +4,11 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="ace-icon fa fa-home home-icon"></i>
-					<a href="#">Home</a>
+					<a href="<?php echo base_url().""; ?>">Home</a>
 				</li>
 
 				<li>
-					<a href="#"> Booking</a>
+					<a href="<?php echo base_url()."booking/bookingList"; ?>"> Booking List</a>
 				</li>
 				<li class="active">Add Booking</li>
 			</ul><!-- /.breadcrumb -->
@@ -120,7 +120,7 @@
                             <label class="col-sm-2 no-padding-right" for="form-field-2">Package</label>
 
                             <div class="col-sm-4">
-                                <select name="package" id="package" class="form-control mandatory-field">
+                                <select name="package" id="package" placeholder="select package" class="form-control mandatory-field">
                                     <?php if(isset($booking)): ?>
                                     	<option><?php echo $booking[0]->package_name; ?></option>
                                 	<?php endif; ?>
@@ -210,7 +210,7 @@
 								</span>
 								</div>
 								<div class="col-sm-6">   
-								<input type="text"  id="passenger_number<?php echo $i;?>" value="<?php if(isset($passenger)): echo $passenger->passenger_number; endif; ?>" name="passenger_number_edit[<?php echo $passenger->id;?>]" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" />
+								<input type="text"  id="passenger_number<?php echo $i;?>" value="<?php if(isset($passenger)): echo $passenger->passenger_number; endif; ?>" name="passenger_number_edit[<?php echo $passenger->id;?>]" onblur="javascript:return check_ismobile(event,this,0);" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" />
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="passenger_number<?php echo $i;?>_errorlabel"></span>
 								</span>
@@ -252,7 +252,7 @@
 								</span>
 								</div>
 								<div class="col-sm-6">   
-								<input type="text" id="passenger_number" value="" name="passenger_number[]" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" />
+								<input type="text" id="passenger_number" value="" name="passenger_number[]" placeholder="Enter Mobile" onblur="javascript:return check_ismobile(event,this,0);" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" />
 								<span class="help-inline col-xs-12 col-sm-10">
 									<span class="middle input-text-error" id="passenger_number_errorlabel"></span>
 								</span>
@@ -354,7 +354,7 @@
 			 var tabId = id.split("_").pop();
 			 //alert(tabId);
 			 tabId =parseInt(tabId)+1;
-			 var htmlString = '<div class="form-group" id="passenger_details'+tabId+'"><label class="col-sm-2 no-padding-right" for="form-field-2">Passenger Details '+tabId+'*</label><button class="btn btn-success add_new_person" id="add_new_person_'+tabId+'" type="button"><i class="iconcategory"></i><b style="color:black;">+</b></button><div class="col-sm-8"><div class="col-sm-6"><input type="text" id="passenger_name'+tabId+'"  name="passenger_name[]" placeholder="Enter Passenger Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);" /><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="passenger_name'+tabId+'_errorlabel"></span></span></div><div class="col-sm-6"><input type="text" id="passenger_number'+tabId+'"  name="passenger_number[]" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" /><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="passenger_number'+tabId+'_errorlabel"></span></span></div></div><button class="btn btn-danger remove_person" id="remove_person_'+tabId+'" type="button"><i class="iconcategory"></i><b style="color:black;">-</b></button><div class="col-sm-8" style="margin-left:16.5%;"><div class="col-sm-6">   <textarea id="pass_pickup_address'+tabId+'" style="width: 100%; height: 40px;" name="pass_pickup_address[]" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" ></textarea><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="pass_pickup_address'+tabId+'_errorlabel"></span></span></div><div class="col-sm-6"><textarea id="pass_drop_address'+tabId+'" style="width: 100%; height: 40px;" name="pass_drop_address[]" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" ></textarea><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="pass_drop_address'+tabId+'_errorlabel"></span></span></div></div></div>';
+			 var htmlString = '<div class="form-group" id="passenger_details'+tabId+'"><label class="col-sm-2 no-padding-right" for="form-field-2">Passenger Details '+tabId+'*</label><button class="btn btn-success add_new_person" id="add_new_person_'+tabId+'" type="button"><i class="iconcategory"></i><b style="color:black;">+</b></button><div class="col-sm-8"><div class="col-sm-6"><input type="text" id="passenger_name'+tabId+'"  name="passenger_name[]" placeholder="Enter Passenger Name" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);" /><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="passenger_name'+tabId+'_errorlabel"></span></span></div><div class="col-sm-6"><input type="text" id="passenger_number'+tabId+'"  name="passenger_number[]" onblur="javascript:return check_ismobile(event,this,0);" placeholder="Enter Mobile" class="col-xs-10 col-sm-12 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this);" /><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="passenger_number'+tabId+'_errorlabel"></span></span></div></div><button class="btn btn-danger remove_person" id="remove_person_'+tabId+'" type="button"><i class="iconcategory"></i><b style="color:black;">-</b></button><div class="col-sm-8" style="margin-left:16.5%;"><div class="col-sm-6">   <textarea id="pass_pickup_address'+tabId+'" style="width: 100%; height: 40px;" name="pass_pickup_address[]" placeholder="Enter pickup Address" class="col-xs-10 col-sm-5 mandatory-field" ></textarea><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="pass_pickup_address'+tabId+'_errorlabel"></span></span></div><div class="col-sm-6"><textarea id="pass_drop_address'+tabId+'" style="width: 100%; height: 40px;" name="pass_drop_address[]" placeholder="Enter drop Address" class="col-xs-10 col-sm-5 mandatory-field" ></textarea><span class="help-inline col-xs-12 col-sm-10"><span class="middle input-text-error" id="pass_drop_address'+tabId+'_errorlabel"></span></span></div></div></div>';
 			 $('#passenger_div').append(htmlString);
 			 $("#"+id).remove();
 
@@ -456,7 +456,9 @@
 		                //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
 		            },
 		            success: function (data) {
+		            	 
 		                if(data.success == true){
+		                	 
 		                	$('#package').html(data.successMsg);
 		                }
 		            },
@@ -493,7 +495,9 @@
 		                //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
 		            },
 		            success: function (data) {
+		            	 
 		                if(data.success == true){
+		                	 
 		                	$('#package').html(data.successMsg);
 		                }
 		            },

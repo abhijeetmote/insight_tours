@@ -215,7 +215,7 @@
 										<label class="col-sm-2  no-padding-right" for="">Total kms</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="total_km" name="total_km" placeholder="Enter Total kms" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_kms); else: echo 0; endif; ?>" />
+											<input type="text" id="total_km" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" name="total_km" placeholder="Enter Total kms" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_kms); else: echo 0; endif; ?>" />
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="total_km_errorlabel"></span>
 											</span>
@@ -224,7 +224,7 @@
 										<label class="col-sm-2  no-padding-right" for="">Extra kms</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="extra_kms" name="extra_kms" placeholder="Enter Extra kms" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_kms); else: echo 0; endif; ?>" readonly/>
+											<input type="text" id="extra_kms" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" name="extra_kms" placeholder="Enter Extra kms" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_kms); else: echo 0; endif; ?>" readonly/>
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="extra_kms_errorlabel"></span>
 											</span>
@@ -235,7 +235,7 @@
 										<label class="col-sm-2  no-padding-right">Total Hrs</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="total_hrs" name="total_hrs" placeholder="Enter Total Hrs" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_hrs); else: echo 0; endif; ?>" />
+											<input type="text" id="total_hrs" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" name="total_hrs" placeholder="Enter Total Hrs" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_hrs); else: echo 0; endif; ?>" />
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="total_hrs_errorlabel"></span>
 											</span>
@@ -244,7 +244,7 @@
 										<label class="col-sm-2  no-padding-right" for="">Extra Hrs</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="extra_hrs" name="extra_hrs" placeholder="Enter Extra Hrs" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_hrs); else: echo 0; endif; ?>" readonly/>
+											<input type="text" id="extra_hrs" name="extra_hrs" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" placeholder="Enter Extra Hrs" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->extra_hrs); else: echo 0; endif; ?>" readonly/>
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="extra_hrs_errorlabel"></span>
 											</span>
@@ -257,7 +257,7 @@
 										<label class="col-sm-2  no-padding-right" for="">Toll Fess</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="toll_fess" name="toll_fess" placeholder="Enter Toll Fess" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->toll_fess); else: echo 0; endif; ?>" />
+											<input type="text" id="toll_fess" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" name="toll_fess" placeholder="Enter Toll Fess" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->toll_fess); else: echo 0; endif; ?>" />
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="toll_fess_errorlabel"></span>
 											</span>
@@ -266,7 +266,7 @@
 										<label class="col-sm-2  no-padding-right" for="">Parking Fees</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="parking_fees" name="parking_fees" placeholder="Enter Parking Fees" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->parking_fees); else: echo 0; endif; ?>" />
+											<input type="text" id="parking_fees" name="parking_fees" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" placeholder="Enter Parking Fees" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->parking_fees); else: echo 0; endif; ?>" />
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="parking_fees_errorlabel"></span>
 											</span>
@@ -280,7 +280,7 @@
 										<input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
 										<input type="hidden" name="duty_sleep_id" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->duty_sleep_id); endif; ?>">
 										<div class="col-sm-4">
-											<input type="text" id="advance_paid" name="advance_paid" placeholder="Enter Advance Paid" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->advance_paid); else: echo 0; endif; ?>" />
+											<input type="text" id="advance_paid" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" name="advance_paid" placeholder="Enter Advance Paid" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->advance_paid); else: echo 0; endif; ?>" />
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="advance_paid_errorlabel"></span>
 											</span>
@@ -289,7 +289,7 @@
 										<label class="col-sm-2  no-padding-right" for="">Total Amt</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="total_amt" name="total_amt" placeholder="Enter Total Amt" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_amt); else: echo 0; endif; ?>" readonly/>
+											<input type="text" id="total_amt" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" name="total_amt" placeholder="Enter Total Amt" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_amt); else: echo 0; endif; ?>" readonly/>
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="total_amt_errorlabel"></span>
 											</span>

@@ -21,9 +21,7 @@ class User extends MX_Controller {
 	public function adduser()
 	{	
 
-		echo "<pre>";
-		print_r($_POST);
-		print_r($_FILES);
+		 
 		 
 		 $user_type = isset($_POST['user_type']) ? $_POST['user_type'] : "";
 		 $user_fname = isset($_POST['first_name']) ? $_POST['first_name'] : "";
@@ -66,7 +64,7 @@ class User extends MX_Controller {
 			
 			if($isfile!=''){
 
-			echo $imgerr=$this->helper_model->do_upload($_FILES['profilephoto']['name'],$_FILES['profilephoto']['tmp_name'],$sizeinmb,$newname,$user_fname);
+			$imgerr=$this->helper_model->do_upload($_FILES['profilephoto']['name'],$_FILES['profilephoto']['tmp_name'],$sizeinmb,$newname,$user_fname);
 
 
 			}
@@ -84,11 +82,12 @@ class User extends MX_Controller {
 			 
 
 			if($result == true){
-				echo "in";
+				 
 				
 			    $response['success'] = true;
 				$response['error'] = false;
 				$response['successMsg'] = "Successfully Submit";
+				$response['redirect'] = base_url()."User/viewuser";
 			} else{
 				$response['success'] = false;
 				$response['error'] = true;

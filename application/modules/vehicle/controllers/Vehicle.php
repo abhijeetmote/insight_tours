@@ -28,6 +28,7 @@ class Vehicle extends MX_Controller {
 			$data = array(
 				'cat_name' => $_POST['category_name'],
 				'added_by' => '1',
+				'isactive' => '1',
 				'added_on' => date('Y-m-d h:i:s')
 			);
 
@@ -186,6 +187,7 @@ class Vehicle extends MX_Controller {
 				$response['success'] = true;
 				$response['error'] = false;
 				$response['successMsg'] = "Successfully Submit";
+				$response['redirect'] = base_url()."vehicle/vehicleList";
 			}else{
 				$response['success'] = false;
 				$response['error'] = true;
@@ -356,6 +358,7 @@ class Vehicle extends MX_Controller {
 			}
 			$response['success'] = true;
 			$response['successMsg'] = "Record Updated";
+			$response['redirect'] = base_url()."vehicle/vehicleList";
         }else{
         	$response['success'] = false;
 			$response['successMsg'] = "Something wrong please try again";

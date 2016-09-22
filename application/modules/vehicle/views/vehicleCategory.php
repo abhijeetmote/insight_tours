@@ -8,9 +8,9 @@
 				</li>
 
 				<li>
-					<a href="#">Forms</a>
+					<a href="#">Vechicle</a>
 				</li>
-				<li class="active">Form Elements</li>
+				<li class="active">Vechicle Category</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -37,7 +37,7 @@
 					<!-- PAGE CONTENT BEGINS -->
 					<form class="form-horizontal" role="form" id="vehiclecategory">						
 						<div class="form-group">
-							<label class="col-sm-3 control-label no-padding-right" for="">Enter Category Name*</label>
+							<label class="col-sm-3 control-label no-padding-right" for="">Enter Category Name<b class="red">*</b></label>
 
 							<div class="col-sm-9">
 								<input type="text" id="category_name" name="category_name" placeholder="Enter Category Name" class="col-xs-10 col-sm-5 mandatory-field" />

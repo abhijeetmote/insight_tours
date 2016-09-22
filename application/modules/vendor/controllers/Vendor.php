@@ -141,7 +141,7 @@ class Vendor extends MX_Controller {
 
  	public function vendorList(){
  		$vendor_table =  VENDOR_TABLE;
- 		$filds = "vendor_id,vendor_name,vendor_contact_number,vendor_address,vendor_email,vendor_pan_num,vendor_payee_name";
+ 		$filds = "vendor_id,vendor_name,vendor_contact_number,vendor_phone_number,vendor_address,vendor_email,vendor_pan_num,vendor_payee_name";
  		$data['list'] = $this->Vendor_model->getVendorLit($filds,$vendor_table);
  		//echo "<pre>";print_r($data['list']);
         $this->header->index();

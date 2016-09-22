@@ -321,7 +321,7 @@ function check_ismobile(e,obj){
     }
 
     else{
-       alert("Please Enter Valid Mobile Number");
+       //alert("Please Enter Valid Mobile Number");
        $(obj).val("");
        $("#" + filedid +"_errorlabel").html("Please enter valid Mobile");
        $("#" + filedid).focus();
@@ -336,7 +336,7 @@ function check_isemail(obj,event) {
     var email =  $(obj).val();
     var emailid = $(obj).attr('id');
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    $("#" + emailid +"_errorlabel").html("Please enter valid email id");
+    //$("#" + emailid +"_errorlabel").html("Please enter valid email id");
     if (!emailReg.test(email)) {
         //$(obj).val("");
         console.log(emailid);

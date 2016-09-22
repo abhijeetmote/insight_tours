@@ -37,7 +37,7 @@
 					<!-- PAGE CONTENT BEGINS -->
 					<form class="form-horizontal" role="form" method="post" id="<?php if(isset($package)): echo "package_update"; else: echo "package"; endif; ?>" enctype="multipart/form-data">						
 						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="">Select Vehicle*</label>
+							<label class="col-sm-2 no-padding-right" for="">Select Vehicle Cat*</label>
 
 							<div class="col-sm-4">
 								<select class="chosen-select form-control" name="vehicle" id="form-field-select-3" data-placeholder="Choose a State...">
