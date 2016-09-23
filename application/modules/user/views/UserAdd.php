@@ -4,7 +4,7 @@
 			<ul class="breadcrumb">
 				<li>
 					<i class="ace-icon fa fa-home home-icon"></i>
-					<a href="<?php echo base_url()."tours"; ?>">Home</a>
+					<a href="<?php echo base_url().""; ?>">Home</a>
 				</li>
 
 				<li>

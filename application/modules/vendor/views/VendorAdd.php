@@ -126,7 +126,7 @@
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Payee Name<b class="red">*</b></label>
 
 							<div class="col-sm-4">
-								<input type="text" id="vendor_payee_name" name="vendor_payee_name" onKeyUp="javascript:return check_isalphanumeric(event,this);"onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_payee_name; endif; ?>" placeholder="Enter Vendor Payee Name" class="col-xs-10 col-sm-12 mandatory-field" />
+								<input type="text" id="vendor_payee_name" name="vendor_payee_name" onKeyUp="javascript:return check_isalphanumeric(event,this);"  value="<?php if(isset($vendor)): echo $vendor[0]->vendor_payee_name; endif; ?>" placeholder="Enter Vendor Payee Name" class="col-xs-10 col-sm-12 mandatory-field" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_payee_name_errorlabel"></span>
 								</span>

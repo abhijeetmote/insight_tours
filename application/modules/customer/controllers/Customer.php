@@ -62,7 +62,7 @@ class Customer extends MX_Controller {
 			'cust_city' => $city,
 			'cust_pin' => $pin,			
 			'cust_username' =>$user_name,
-			'cust_password' => $password,
+			'cust_password' => md5($password),
 			'ledger_id'=>'8',
 			'is_service_tax' =>'0',
 			'package_id' =>$package_id,
@@ -214,9 +214,25 @@ class Customer extends MX_Controller {
 		$user_name = isset($_POST['user_name']) ? $_POST['user_name'] : "";		
 		$password = isset($_POST['password']) ? $_POST['password'] : "";
 
+
 		$customer_ledger_id = isset($_POST['ledger_id']) ? $_POST['ledger_id'] : "";
-		$customer_id =isset($_POST['cust_id']) ? $_POST['cust_id'] : "";
+		$customer_id =isset($_POST['id']) ? $_POST['id'] : "";
 		$package_id = isset($_POST['package']) ? $_POST['package'] : "0";
+
+
+
+		$select = '*';
+		$tableName = 'customer_master';
+		$column = 'cust_id';
+		$value = $customer_id;
+		$cus_data = $this->Customer_model->getData($select, $tableName, $column, $value);
+		
+		if($cus_data[0]->cust_password == $password) {
+			$password = $password;
+		} else {
+			$password = md5($password);
+		}
+
 		 $customer_update = array(			
 			'cust_firstname' => $first_name,
 			'cust_middlename' => $last_name,
@@ -276,6 +292,7 @@ class Customer extends MX_Controller {
 				$response['success'] = true;
 				$response['error'] = false;
 				$response['successMsg'] = "Customer Updated Successfully";
+				$response['redirect'] = base_url()."customer/customerList";
 			}
 		} else {
 

@@ -55,7 +55,7 @@ class User extends MX_Controller {
 			'user_email_id' => $user_email_id,
 			'user_dob' => isset($_POST['user_dob']) ? $_POST['user_dob'] : "",
 			'user_name' => isset($_POST['user_name']) ? $_POST['user_name'] : "",
-			'password' => isset($_POST['password']) ? $_POST['password'] : "",
+			'password' => isset($_POST['password']) ? md5($_POST['password']) : "",
 			'user_mobile_number' => isset($_POST['mob_no']) ? $_POST['mob_no'] : "",
 			'user_profile_photo' => isset($_FILES['profilephoto']) ? $user_profile_photo : "",
 			'added_on' => date('Y-m-d')
@@ -160,7 +160,7 @@ class User extends MX_Controller {
 			'user_email_id' => $_POST['email_id'],
 			'user_dob' => $_POST['user_dob'],
 			'user_name' => $_POST['user_name'],
-			'password' => $_POST['password'],
+			'password' => md5($_POST['password']),
 			'user_mobile_number' => $_POST['mob_no'],
 			'user_profile_photo' => $user_profile_photo,
 			'updated_on' => date('Y-m-d h:i:s')
@@ -181,6 +181,7 @@ class User extends MX_Controller {
 		if($result == true){
 			$response['success'] = true;
 			$response['successMsg'] = "Record Updated";
+			$response['redirect'] = base_url()."User/viewuser";
         }else{
         	$response['success'] = false;
 			$response['successMsg'] = "Something wrong please try again";
