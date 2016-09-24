@@ -47,6 +47,9 @@ var array = [
 	{name: "ledList", value: baseUrl + "account/disableLedger"},
 	{name: "grpList", value: baseUrl + "account/disableGroup"},
 	{name: "editgroup", value: baseUrl + "account/updateGroup"},
+	{name: "invoicePaid", value: baseUrl + "invoice/invoicePaidSubmit"},
+	{name: "get-driver-sal", value: baseUrl + "payment/getDriverSal"},
+	{name: "sal-paid", value: baseUrl + "payment/salPaid"},
 
 	
 	

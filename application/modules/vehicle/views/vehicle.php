@@ -49,7 +49,12 @@
 							<label class="col-sm-2 no-padding-right" for="">Enter Vehicle Type<b class="red">*</b></label>
 
 							<div class="col-sm-4">
-								<input type="text" id="vehicle_type" name="vehicle_type" placeholder="Enter Vehicle Type" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_type; endif; ?>" />
+								<select class="chosen-select form-control" name="vehicle_type" id="form-field-select-3" data-placeholder="Enter Vehicle Type">
+									<option value="AC" <?php if(isset($vehicle) && $vehicle[0]->vehicle_type == "AC")  : echo "selected"; endif;?>>AC</option>
+                                    <option value="NONAC" <?php if(isset($vehicle) && $vehicle[0]->vehicle_type == "NONAC")  : echo "selected"; endif;?>>NONAC</option>
+									
+								</select>
+
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vehicle_type_errorlabel"></span>
 								</span>
@@ -70,7 +75,13 @@
 							<label class="col-sm-2 no-padding-right" for="">Enter Fuel Type<b class="red">*</b></label>
 
 							<div class="col-sm-4">
-								<input type="text" id="fuel_type" name="fuel_type" placeholder="Enter Fuel Type" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->fuel_type; endif; ?>"/>
+								<select class="chosen-select form-control" name="fuel_type" id="form-field-select-3" data-placeholder="Enter Fuel Type">
+									<option value="Petrol" <?php if(isset($vehicle) && $vehicle[0]->fuel_type == "Petrol")  : echo "selected"; endif;?>>Petrol</option>
+                                    <option value="Diesel" <?php if(isset($vehicle) && $vehicle[0]->fuel_type == "Diesel")  : echo "selected"; endif;?>>Diesel</option>
+                                    <option value="CNG" <?php if(isset($vehicle) && $vehicle[0]->fuel_type == "CNG")  : echo "selected"; endif;?>>CNG</option>
+									
+								</select>
+								
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="fuel_type_errorlabel"></span>
 								</span>

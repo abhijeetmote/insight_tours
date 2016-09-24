@@ -298,11 +298,21 @@ class Driver extends MX_Controller {
  	public function driverAttnSubmit(){
         $driver_id = $_POST['driver_name'];
         $date = $_POST['driver_in_dt'];
+
+		$d = date_parse_from_format("Y-m-d", $date);
+
+		if($d['month'] < 10){
+	       	$month = "0".$d['month'];
+	       }else{
+	       	$month = $d['month'];
+	       }
 		$data = array(
-			'driver_id' => $driver_id,
-			'user_check_in' => $date,
-			'added_by' => '1',
-			'added_on' => date('Y-m-d h:i:s')
+		'driver_id' => $driver_id,
+		'user_check_in' => $date,
+		'month' => $month,
+		'year' => $d['year'],
+		'added_by' => '1',
+		'added_on' => date('Y-m-d h:i:s')
 		);
  		$tableName =  DRIVER_ATTENDANCE_TABLE;
 		$result = $this->driver_model->saveData($tableName, $data);

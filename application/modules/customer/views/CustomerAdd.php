@@ -46,10 +46,17 @@
 								</span>
 							</div>
 
+<<<<<<< 9862e2053787d0ab7e6292734828b9031f2ecdba
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Middle Name<b class="red">*</b></label>
 
 							<div class="col-sm-4">
 								<input type="text" id="middle_name" name="middle_name" value="<?php if(isset($customer)): echo $customer[0]->cust_middlename; endif; ?>" placeholder="Enter Middle Name" class="col-xs-10 form-control col-sm-5 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
+=======
+							<label class="col-sm-2 no-padding-right" for="form-field-2"> Middle Name</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="middle_name" name="middle_name" value="<?php if(isset($customer)): echo $customer[0]->cust_middlename; endif; ?>" placeholder="Enter Middle Name" class="col-xs-10 form-control col-sm-5 " onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
+>>>>>>> 1b9cb81d52b56e902b2e4de89bb9b6cdd2851a9a
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="middle_name_errorlabel"></span>
 								</span>

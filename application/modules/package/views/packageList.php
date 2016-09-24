@@ -52,6 +52,7 @@
 											 
 											<th>Package Name</th>
 											<th>Vehicle Type</th>
+											<th>Travel Type</th>
 											<th>Package Amount</th>
 											<th>Hours</th>
 											<th>Distance</th>
@@ -70,6 +71,7 @@
 
 												<td><?php echo $val->package_name; ?></td>
 												<td><?php echo $val->cat_name; ?></td>
+												<td><?php echo $val->travel_type; ?></td>
 												<td><?php echo $val->package_amt; ?></td>
 												<td><?php echo $val->hours; ?></td>
 												<td><?php echo $val->distance; ?></td>

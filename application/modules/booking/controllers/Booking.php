@@ -236,6 +236,7 @@ class Booking extends MX_Controller {
 		 $booking_status = isset($_POST['booking_status']) ? $_POST['booking_status'] : "";
 		 $cancel_comment = isset($_POST['cancel_comment']) ? $_POST['cancel_comment'] : "";
 		 
+		 
 		 //echo $booking_date;
 		 //bdate conversion
 		 if(isset($booking_date) && !empty($booking_date)){
@@ -456,11 +457,9 @@ class Booking extends MX_Controller {
 			'total_hrs' => $_POST['total_hrs'],
 			'toll_fess' => $_POST['toll_fess'],
 			'parking_fees' => $_POST['parking_fees'],
-			'advance_paid' => $_POST['advance_paid'],
 			'total_amt' => $_POST['total_amt'],
 			'booking_id' => $_POST['booking_id'],
 			'comments' => $_POST['comments'],
-			'payment_status' => $_POST['payment_status'],
 			'status' => 1,
 			'added_by' => '1',
 			'added_on' => date('Y-m-d h:i:s')
@@ -476,7 +475,9 @@ class Booking extends MX_Controller {
 			$columnName = 'booking_id';
 			$value = $_POST['booking_id'];
 			$this->Booking_model->updateData($tableName,$data,$columnName,$value);
-			$this->addInvoice($result,$_POST['start_date'],$_POST['total_amt'],$_POST['booking_id']);
+			if($_POST['end_date'] != ""){
+				$this->addInvoice($result,$_POST['start_date'],$_POST['total_amt'],$_POST['booking_id']);
+			}
 
 			$response['success'] = true;
 			$response['successMsg'] = "Successfully Submit";
@@ -501,10 +502,8 @@ class Booking extends MX_Controller {
 			'total_hrs' => $_POST['total_hrs'],
 			'toll_fess' => $_POST['toll_fess'],
 			'parking_fees' => $_POST['parking_fees'],
-			'advance_paid' => $_POST['advance_paid'],
 			'total_amt' => $_POST['total_amt'],
 			'comments' => $_POST['comments'],
-			'payment_status' => $_POST['payment_status'],
 			'status' => 1,
 			'updated_by' => '1',
 			'updated_on' => date('Y-m-d h:i:s')
@@ -516,12 +515,22 @@ class Booking extends MX_Controller {
 
 		$result = $this->Booking_model->updateData($duty_table, $updatdDutySlip, $duty_column, $duty_sleep_id);
 		if($result != false){
-			$this->updateInvoice($_POST['total_amt'],$_POST['start_date']);
+			if(strtolower($_POST['payment_status']) != "paid" && $_POST['end_date'] != ""){
+				$tableName =  'invoice_master';
+		 		$select = 'invoice_id';
+				$column = 'duty_sleep_id';
+				$value = $_POST['duty_sleep_id'];
+				$dutySlipDetails = $this->Booking_model->getData($select, $tableName, $column, $value);
+				if(empty($dutySlipDetails)){
+					$this->addInvoice($_POST['duty_sleep_id'],$_POST['start_date'],$_POST['total_amt'],$_POST['booking_id']);
+				}else{
+					$this->updateInvoice($_POST['total_amt'],$_POST['start_date'],$_POST['duty_sleep_id']);
+				}
+			}
 			$response['success'] = true;
 			$response['successMsg'] = "Successfully Updated";
 			$response['redirect'] = base_url()."booking/bookingList";
 		}else{
-			$this->updateInvoice($_POST['total_amt'],$_POST['start_date']);
 			$response['success'] = false;
 			$response['error'] = error;
 			$response['errorMsg'] = "Error!!! Please contact IT Dept";
@@ -549,7 +558,7 @@ class Booking extends MX_Controller {
 		return $this->Booking_model->saveData($tableName,$invoiceData);
 	}
 
-	public function updateInvoice($total_amt,$start_date){
+	public function updateInvoice($total_amt,$start_date,$duty_sleep_id){
 		$invoiceData = array(
 			'invoice_start_date' => $start_date,
 			'payment_mode' => 'cash',
@@ -563,7 +572,7 @@ class Booking extends MX_Controller {
 
 		$duty_table = 'invoice_master';
 		$duty_column = 'duty_sleep_id';
-		$duty_sleep_id = $_POST['duty_sleep_id'];
+		$duty_sleep_id = $duty_sleep_id;
 
 		return $this->Booking_model->updateData($duty_table, $invoiceData, $duty_column, $duty_sleep_id);
 	}

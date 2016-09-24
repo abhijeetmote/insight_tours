@@ -71,7 +71,7 @@
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Email<b class="red">*</b></label>
 
 							<div class="col-sm-4">
-								<input type="text" id="vendor_email" name="vendor_email" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_email; endif; ?>" placeholder="Enter Vendor Email" class="col-xs-10 col-sm-12 mandatory-field" />
+								<input type="text" id="vendor_email" name="vendor_email" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_email; endif; ?>" placeholder="Enter Vendor Email" class="col-xs-10 col-sm-12 mandatory-field" onblur="check_isemail(this,event);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_email_errorlabel"></span>
 								</span>

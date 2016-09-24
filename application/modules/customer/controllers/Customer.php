@@ -66,7 +66,7 @@ class Customer extends MX_Controller {
 			'ledger_id'=>'8',
 			'is_service_tax' =>'0',
 			'package_id' =>$package_id,
-			'isactive' =>'0',			
+			'isactive' =>'1',			
 			'added_by' =>'1',
 			'added_on' => date('Y-m-d h:i:s'),
 			'updated_by' =>'1',
@@ -91,7 +91,7 @@ class Customer extends MX_Controller {
 	 	 	$groupid = $this->Customer_model->getGroupId($select,$ledgertable,$context,$entity_type,$where);
 	 	 	
 	 	 	$parent_data = $groupid->ledger_account_id;
-	 	 	$reporting_head ='REPORT_HEAD_EXPENSE';
+	 	 	$reporting_head ='REPORT_HEAD_INCOME';
 	 	 	$nature_of_account ='DR';
 	 	 	// ledger data preparation
 
@@ -104,7 +104,7 @@ class Customer extends MX_Controller {
 			'context' => $context,
 			'ledger_start_date' => date('Y-m-d h:i:s'),
 			'behaviour' => $reporting_head,
-			'entity_type' => 2,
+			'entity_type' => 3,
 			'defined_by' => 1,
 			'status' => '1',
 			'added_by' => '1',
@@ -129,7 +129,7 @@ class Customer extends MX_Controller {
 	 	}
 
 	 	//Vndor update with ledger id start
-	 	$update_data =  array('ledger_id' => $customer_id);
+	 	$update_data =  array('ledger_id' => $ledger_id);
 	 	$updat_column_Name = "cust_id";
 	 	$update_value = $customer_id;
 	 	$update_id = $this->Customer_model->updateData($customer_table,$update_data,$updat_column_Name,$update_value);

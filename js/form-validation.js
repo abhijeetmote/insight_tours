@@ -317,7 +317,7 @@ function check_ismobile(e,obj){
     var filedid = obj.id;
     var IndNum = /^[+91]?[0]?[789]\d{9}$/;
     if(IndNum.test(Number)){
-        //do Nothing
+         $("#" + filedid +"_errorlabel").html("");
     }
 
     else{
@@ -347,6 +347,7 @@ function check_isemail(obj,event) {
         return false;
     } else {
         //do Nothing
+        $("#" + emailid +"_errorlabel").html("");
         $("button[type=submit]").prop('disabled', false);
         return true;
     }
@@ -371,6 +372,7 @@ function check_ispan(obj,event) {
         return false;
     } else {
         //do Nothing
+         $("#" + panid +"_errorlabel").html("");
         $("button[type=submit]").prop('disabled', false);
         return true;
     }
@@ -853,4 +855,22 @@ $(document).on('click','.disabled', function(e){
                 }
             });
         }
+    });
+
+
+
+$("#from_ledger > optgroup").each(function() {
+    //alert(this.text + ' ' + this.parent_id);
+    var parent_id = $(this).attr("parent_id");
+    if(parent_id == undefined || parent_id == "") {
+         $(this).remove();
+    }
+    });
+
+$("#to_ledger > optgroup").each(function() {
+    //alert(this.text + ' ' + this.parent_id);
+    var parent_id = $(this).attr("parent_id");
+    if(parent_id == undefined || parent_id == "") {
+         $(this).remove();
+    }
     });

@@ -204,7 +204,7 @@
 										<label class="col-sm-2  no-padding-right" for="">End Date</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="end_date" name="end_date" placeholder="Enter End Date" class="col-xs-10 form-control col-sm-5  date-picker" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->end_date); endif; ?>"/>
+											<input type="text" id="end_date" name="end_date" placeholder="Enter End Date" class="col-xs-10 form-control col-sm-5  date-picker" value="<?php if(isset($DutySlip) && $DutySlip[0]->end_date != "0000-00-00 00:00:00"): echo trim($DutySlip[0]->end_date); endif; ?>"/>
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="end_date_errorlabel"></span>
 											</span>
@@ -254,7 +254,7 @@
 										
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2  no-padding-right" for="">Toll Fess</label>
+										<label class="col-sm-2  no-padding-right" for="">Toll Fees</label>
 
 										<div class="col-sm-4">
 											<input type="text" id="toll_fess" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" name="toll_fess" placeholder="Enter Toll Fess" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->toll_fess); else: echo 0; endif; ?>" />
@@ -276,29 +276,19 @@
 										
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2  no-padding-right" for="">Advance Paid</label>
+										
 										<input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
 										<input type="hidden" name="duty_sleep_id" value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->duty_sleep_id); endif; ?>">
-										<div class="col-sm-4">
-											<input type="text" id="advance_paid" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" name="advance_paid" placeholder="Enter Advance Paid" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->advance_paid); else: echo 0; endif; ?>" />
-											<span class="help-inline col-xs-12 col-sm-7">
-												<span class="middle input-text-error" id="advance_paid_errorlabel"></span>
-											</span>
-										</div>
 
 										<label class="col-sm-2  no-padding-right" for="">Total Amt</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="total_amt" onKeyUp="javascript:return check_isammount(event,this);" onblur="sanitize_float(event,this);" name="total_amt" placeholder="Enter Total Amt" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_amt); else: echo 0; endif; ?>" readonly/>
+											<input type="text" id="total_amt" name="total_amt" placeholder="Enter Total Amt" class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->total_amt); else: echo 0; endif; ?>" readonly/>
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="total_amt_errorlabel"></span>
 											</span>
 										</div>
-									</div>
-									<div class="form-group">
-										
-									</div>
-									<div class="form-group">
+
 										<label class="col-sm-2  no-padding-right" for="">Comments</label>
 
 										<div class="col-sm-4">
@@ -307,29 +297,27 @@
 												<span class="middle input-text-error" id="comments_errorlabel"></span>
 											</span>
 										</div>
-
-										<label class="col-sm-2  no-padding-right" for="">Payment Status</label>
+									</div>
+									<div class="form-group">
 										
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2  no-padding-right" for="">Payment Status</label>
+
 										<div class="col-sm-4">
-											<select class="chosen-select form-control" name="payment_status" id="form-field-select-3" data-placeholder="Choose a State...">
-												<?php
-													if(isset($DutySlip)){
+											<input type="text" name="payment_status" class="col-xs-10 form-control col-sm-5 " value="<?php 
+													if(isset($DutySlip)): 
 														if($DutySlip[0]->payment_status == 1){
-															echo '<option value="1">Paid</option>';
-															echo '<option value="0">UnPaid</option>';
+															echo "Paid";
 														}else{
-															echo '<option value="0">UnPaid</option>';
-															echo '<option value="1">Paid</option>';
+															echo "Unpaid";
 														}
-														
-													}else{
-														echo '<option value="0">UnPaid</option>';	
-														echo '<option value="1">Paid</option>';
-													}
-												?>
-												
-											</select>
+													else: 
+														echo "Unpaid"; 
+													endif; 
+												?>" readonly />
 										</div>
+
 									</div>
 									<div class="form-group">
 										
@@ -337,14 +325,17 @@
 									
 									<div class="clearfix form-actions">
 										<div class="col-md-offset-3 col-md-9">
+											<?php if(isset($DutySlip[0]->payment_status) == 0){ ?>
 											<button class="btn btn-info test" type="submit">
 												<i class="iconvehicle"></i>
-												<?php if(isset($update) && $update == true){
-													echo "Update";
-												}else{
-													echo "Submit";
-												} ?>
+												
+													<?php if(isset($update) && $update == true){
+														echo "Update";
+													}else{
+														echo "Submit";
+													} ?>
 											</button>
+											<?php } ?>
 
 											&nbsp; &nbsp; &nbsp;
 											<button class="btn" type="reset">
@@ -800,7 +791,7 @@
 			}else{
 				var extraKmCost = extrakm*charge_distance;
 			}
-			$('#extra_kms').val(extrakm);
+			$('#extra_kms').val(extrakm.toFixed(2));
 			var extrahr = hr - hours;
 			if(extrahr < 0){
 				extrahr = 0;
@@ -808,7 +799,7 @@
 				var extrahrCost = extrahr*charge_hour;
 			}
 
-			$('#extra_hrs').val(extrahr);
+			$('#extra_hrs').val(extrahr.toFixed(2));
 			var toll_fess = $('#toll_fess').val();
 			var parking_fees = $('#parking_fees').val();
 			var amount = parseFloat(extraKmCost) + parseFloat(package_amt) + parseFloat(extrahrCost) + parseFloat(toll_fess) + parseFloat(parking_fees);

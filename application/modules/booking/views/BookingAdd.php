@@ -122,7 +122,7 @@
                             <div class="col-sm-4">
                                 <select name="package" id="package" placeholder="select package" class="form-control mandatory-field">
                                     <?php if(isset($booking)): ?>
-                                    	<option><?php echo $booking[0]->package_name; ?></option>
+                                    	<option value="<?php echo $booking[0]->package_id; ?>"><?php echo $booking[0]->package_name; ?></option>
                                 	<?php endif; ?>
                                 </select>
                                 <span class="help-inline col-xs-12 col-sm-7">

@@ -22,12 +22,21 @@ class Company extends MX_Controller {
         $date = $_POST['date'];
         $date = date('Y-m-d', strtotime($date));
         $desc = $_POST['desc'];
+		if($d['month'] < 10){
+       		$month = "0".$d['month'];
+	       }else{
+	       	$month = $d['month'];
+	       }
 		$data = array(
-			'holiday_date' => $date,
-			'holiday_desc' => $desc,
-			'added_by' => '1',
-			'added_on' => date('Y-m-d h:i:s')
+		'holiday_date' => $date,
+		'holiday_desc' => $desc,
+		'month' => $month,
+		'year' => $d['year'],
+		'added_by' => '1',
+		'added_on' => date('Y-m-d h:i:s')
 		);
+
+
  		$tableName =  HOLIDAY_TABLE;
  		$select = "holiday_id";
  		$where = array(

@@ -52,6 +52,8 @@ define("PAGE_NUMBER", 10);
 define("DIRECT", "direct");
 define("INDIRECT", "indirect");
 define("ADVANCE_SALARY", "advance_salary");
+define("SALARY_PAID_NARRATION", "salary paid");
+define("INVOICE_PAID_NARRATION", "booking payment");
 
 /*
 |--------------------------------------------------------------------------
