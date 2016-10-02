@@ -9,13 +9,14 @@ class Vendor extends MX_Controller {
 		$this->load->module('footer/footer');
 		$this->load->model('vendor/Vendor_model');
 		$this->load->model('helper/helper_model');
+		$this->active = "vendor";
 	}
 
 	
 
 	public function vendorMaster()
 	{
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('VendorAdd');
 		$this->footer->index();
 	}
@@ -144,7 +145,7 @@ class Vendor extends MX_Controller {
  		$filds = "vendor_id,vendor_name,vendor_contact_number,vendor_phone_number,vendor_address,vendor_email,vendor_pan_num,vendor_payee_name";
  		$data['list'] = $this->Vendor_model->getVendorLit($filds,$vendor_table);
  		//echo "<pre>";print_r($data['list']);
-        $this->header->index();
+        $this->header->index($this->active);
 		$this->load->view('vendorList', $data);
 		$this->footer->index();
  	}
@@ -171,7 +172,7 @@ class Vendor extends MX_Controller {
 		$value = $id;
 		$data['vendor'] = $this->Vendor_model->getData($select, $tableName, $column, $value);
 		$data['update'] = true;
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('VendorAdd', $data);
 		$this->footer->index();
  	}

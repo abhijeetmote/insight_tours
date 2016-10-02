@@ -9,17 +9,18 @@ class Customer extends MX_Controller {
 		$this->load->module('footer/footer');
 		$this->load->model('customer/Customer_model');
 		$this->load->model('helper/helper_model');
+		$this->active = "customer";
 	}
 
 	
 
 	public function customerMaster()
 	{
-		$select = 'package_id,package_name';
+		$select = 'package_id,package_name,travel_type';
 		$tableName = 'package_master';
 		$data['package'] = $this->helper_model->selectAll($select, $tableName);
 
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('CustomerAdd', $data);
 		$this->footer->index();
 	}
@@ -42,7 +43,8 @@ class Customer extends MX_Controller {
 		$pin = isset($_POST['pin']) ? $_POST['pin'] : "";		
 		$user_name = isset($_POST['user_name']) ? $_POST['user_name'] : "";		
 		$password = isset($_POST['password']) ? $_POST['password'] : "";
-		$package_id = isset($_POST['package']) ? $_POST['package'] : "0";
+		$localpackage = isset($_POST['localpackage']) ? $_POST['localpackage'] : "0";
+		$outstationpackage = isset($_POST['outstationpackage']) ? $_POST['outstationpackage'] : "0";
 		$cust_type_id=1;
 		$data = array(
 			'cust_type_id' => $cust_type_id,
@@ -65,8 +67,9 @@ class Customer extends MX_Controller {
 			'cust_password' => md5($password),
 			'ledger_id'=>'8',
 			'is_service_tax' =>'0',
-			'package_id' =>$package_id,
-			'isactive' =>'1',			
+			'local_package_id' =>$localpackage,
+			'outstation_package_id' =>$outstationpackage,
+			'isactive' =>'0',			
 			'added_by' =>'1',
 			'added_on' => date('Y-m-d h:i:s'),
 			'updated_by' =>'1',
@@ -159,7 +162,7 @@ class Customer extends MX_Controller {
  		$filds = "cust_id,cust_firstname,cust_middlename,cust_lastname,cust_compname,cust_telno, cust_mob1,cust_email1,cust_address";
  		$data['list'] = $this->Customer_model->getCustomerList($filds,$customer_table);
  		//echo "<pre>";print_r($data['list']);
-        $this->header->index();
+        $this->header->index($this->active);
 		$this->load->view('customerList', $data);
 		$this->footer->index();
  	}
@@ -185,11 +188,11 @@ class Customer extends MX_Controller {
 		$column = 'cust_id';
 		$value = $id;
 		$data['customer'] = $this->Customer_model->getData($select, $tableName, $column, $value);
-		$select = 'package_id,package_name';
+		$select = 'package_id,package_name,travel_type';
 		$tableName = 'package_master';
 		$data['package'] = $this->helper_model->selectAll($select, $tableName);
 		$data['update'] = true;
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('customerAdd', $data);
 		$this->footer->index();
  	}
@@ -217,7 +220,8 @@ class Customer extends MX_Controller {
 
 		$customer_ledger_id = isset($_POST['ledger_id']) ? $_POST['ledger_id'] : "";
 		$customer_id =isset($_POST['id']) ? $_POST['id'] : "";
-		$package_id = isset($_POST['package']) ? $_POST['package'] : "0";
+		$localpackage = isset($_POST['localpackage']) ? $_POST['localpackage'] : "0";
+		$outstationpackage = isset($_POST['outstationpackage']) ? $_POST['outstationpackage'] : "0";
 
 
 
@@ -253,7 +257,8 @@ class Customer extends MX_Controller {
 			'cust_password' => $password,
 			'ledger_id'=>$customer_ledger_id,
 			'is_service_tax' =>'0',
-			'package_id' =>$package_id,
+			'local_package_id' =>$localpackage,
+			'outstation_package_id' =>$outstationpackage,
 			'isactive' =>'0',			
 			'added_by' =>'1',
 			'added_on' => date('Y-m-d h:i:s'),

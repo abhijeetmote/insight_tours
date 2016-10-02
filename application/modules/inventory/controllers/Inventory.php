@@ -9,11 +9,12 @@ class Inventory extends MX_Controller {
 		$this->load->module('footer/footer');
 		$this->load->model('inventory_model');
 		$this->load->model('helper/helper_model');
+		$this->active = "inventory";
 	}
 
 	public function index()
 	{
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('InventoryAdd');
 		$this->footer->index();
 	}

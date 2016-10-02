@@ -6,3 +6,19 @@
 .input-text-error{
 	color:red;
 }
+
+.images:hover .cross{
+	z-index: 9999;
+}
+
+.cross{
+	z-index: -9;
+	position: relative;
+    left: -24px;
+    color: #000;
+    background: #fff;
+    padding: 1px 5px;
+    top: -75px;
+    cursor: pointer;
+    border-radius: 24px;
+}

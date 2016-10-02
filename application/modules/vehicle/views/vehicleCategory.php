@@ -27,7 +27,14 @@
 			
 			<div class="page-header">
 				<h1>
-					Add Category
+					<?php 
+						if(isset($update))
+						{
+							echo "Update Category";
+						} else{
+							echo "Add Category";
+						}
+					?>
 				</h1>
 			</div><!-- /.page-header -->
 
@@ -35,23 +42,30 @@
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" id="vehiclecategory">						
+					<form class="form-horizontal" role="form" id="<?php if(isset($update)): echo "category-update"; else: echo "vehiclecategory"; endif; ?>">						
 						<div class="form-group">
 							<label class="col-sm-3 control-label no-padding-right" for="">Enter Category Name<b class="red">*</b></label>
 
 							<div class="col-sm-9">
-								<input type="text" id="category_name" name="category_name" placeholder="Enter Category Name" class="col-xs-10 col-sm-5 mandatory-field" />
+								<input type="text" id="category_name" name="category_name" placeholder="Enter Category Name" class="col-xs-10 col-sm-5 mandatory-field" value="<?php if(isset($update)): echo $category[0]->cat_name; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="category_name_errorlabel"></span>
 								</span>
 							</div>
+							<input type="hidden" value="<?php if(isset($update)): echo $category[0]->cat_id; endif; ?>" name="cat_id">
 						</div>
 						
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 								<button class="btn btn-info test" type="submit">
 									<i class="iconcategory"></i>
-									Submit
+									<?php 
+										if(isset($update)): 
+											echo "Update";
+										else:
+											echo "Submit";
+										endif;
+									?>
 								</button>
 
 								&nbsp; &nbsp; &nbsp;

@@ -58,6 +58,7 @@
 											<th>Distance</th>
 											<th>Charge Distance</th>
 											<th>Charge Hour</th>
+											<th>Defalut Package</th>
 											<th>Status</th>
 											<th>Added on</th>
 											<th>Action</th>
@@ -77,7 +78,8 @@
 												<td><?php echo $val->distance; ?></td>
 												<td><?php echo $val->charge_distance; ?></td>
 												<td><?php echo $val->charge_hour; ?></td>
-												<td><?php if($val->isactive == 1): echo "Active"; else: "Inactive"; endif; ?></td>
+												<td><?php if($val->default == 1): echo "Yes"; else: echo "No"; endif; ?></td>
+												<td><?php if($val->isactive == 1): echo "Active"; else: echo "Inactive"; endif; ?></td>
 												<td><?php echo $val->added_on; ?></td>
 
 												<td>

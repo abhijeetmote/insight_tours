@@ -11,9 +11,10 @@ class Header extends MX_Controller {
 	    }
 	}
 	
-	public function index()
+	public function index($active = "")
 	{
-		$this->load->view('header');
+		$data['active'] = $active;
+		$this->load->view('header', $data);
 	}
 }
 

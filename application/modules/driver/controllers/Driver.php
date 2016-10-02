@@ -9,13 +9,14 @@ class Driver extends MX_Controller {
 		$this->load->module('footer/footer');
 		$this->load->model('driver/driver_model');
 		$this->load->model('helper/helper_model');
+		$this->active = "driver";
 		//$this->load->library('session');
 		
 	}
 
 	public function driverMaster()
 	{
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('driverMaster');
 		$this->footer->index();
 	}
@@ -157,7 +158,7 @@ class Driver extends MX_Controller {
  		$filds = "driver_id,driver_fname,driver_mname,driver_lname,driver_add,driver_photo,driver_bdate,driver_mobno,driver_mobno1,driver_licno,driver_licexpdate,driver_panno,is_da,is_night_allowance,ledger_id";
  		$data['list'] = $this->driver_model->getDriverLit($filds,$driver_table);
  		//echo "<pre>";print_r($data['list']);
-        $this->header->index();
+        $this->header->index($this->active);
 		$this->load->view('driverList', $data);
 		$this->footer->index();
  	}
@@ -184,7 +185,7 @@ class Driver extends MX_Controller {
 		$value = $id;
 		$data['driver'] = $this->driver_model->getData($select, $tableName, $column, $value);
 		$data['update'] = true;
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('driverMaster', $data);
 		$this->footer->index();
  	}
@@ -290,7 +291,7 @@ class Driver extends MX_Controller {
  		$date = date('Y-m-d');
         $data['driverdetails'] = $this->helper_model->selectQuery("SELECT driver_id,driver_fname,driver_lname FROM driver_master where driver_id not in (select driver_id from driver_attendance where DATE_FORMAT(user_check_in, '%Y-%m-%d') = '$date')");
         //echo "<pre>"; print_r($data);exit();
-        $this->header->index();
+        $this->header->index($this->active);
         $this->load->view('driverAttend',$data);
 		$this->footer->index();
  	}
@@ -333,7 +334,7 @@ class Driver extends MX_Controller {
  		$filds = "driver_id,driver_fname,driver_lname";
  		$data['driver'] = $this->driver_model->getDriverLit($filds,$driver_table);
 		//echo "<pre>"; print_r($data);exit();
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('driverAttnReport', $data);
 		$this->footer->index();
  	}

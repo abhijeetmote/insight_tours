@@ -137,6 +137,19 @@
 									<option value="Outstation" <?php if(isset($package) && $package[0]->travel_type == 'Outstation'): echo "selected"; endif; ?>>Outstation</option>
 								</select>
 							</div>
+
+							<label class="col-sm-2 no-padding-right" for="">Package</label>
+
+							<div class="col-sm-4">
+								<div class="control-group">
+									<label>
+										<input type="checkbox" class="ace" <?php if(isset($package[0]->default) && $package[0]->default == 1) { echo "checked";} ?> value="1" name="default">
+										<span class="lbl">Default Package</span>
+									</label>
+											
+								</div>
+								
+							</div>
 						</div>
 						
 						<div class="clearfix form-actions">

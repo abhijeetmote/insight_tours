@@ -9,12 +9,13 @@ class User extends MX_Controller {
 		$this->load->module('footer/footer');
 		$this->load->model('User_model');
 		$this->load->model('helper/helper_model');
+		$this->active = "user";
 	}
 
 	public function index()
 	{
 		
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('UserAdd');
 		$this->footer->index();
 	}
@@ -108,7 +109,7 @@ class User extends MX_Controller {
  		print_r($data);
  		exit();*/
 
-        $this->header->index();
+        $this->header->index($this->active);
 		$this->load->view('userlist', $data);
 		$this->footer->index();
 	}
@@ -117,7 +118,7 @@ class User extends MX_Controller {
 		$siteid=$_GET['id'];
 		$result = $this->User_model->viewuserdet($siteid);
 		$result['sitedata']=$result;
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('editsite',$result);
 		$this->footer->index();
 	}
@@ -128,7 +129,7 @@ class User extends MX_Controller {
 		$value = $id;
 		$data['user'] = $this->helper_model->select($select, $tableName, $column, $value);
 		$data['update'] = true;
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('UserAdd', $data);
 		$this->footer->index();
  	}

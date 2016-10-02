@@ -9,11 +9,12 @@ class Company extends MX_Controller {
 		$this->load->module('footer/footer');
 		$this->load->model('company/Company_model');
 		$this->load->model('helper/helper_model');
+		$this->active = "company";
 	}
 
 	public function holiday(){
 
-        $this->header->index();         
+        $this->header->index($this->active);         
 		$this->load->view('addHoliday');
 		$this->footer->index();
  	}
@@ -69,7 +70,7 @@ class Company extends MX_Controller {
  		$select = "*";
  		$data['holidayList'] = $this->Company_model->selectAll($select,$tableName);
  		//echo "<pre>";print_r($data);exit;
-        $this->header->index();
+        $this->header->index($this->active);
 		$this->load->view('holidayList', $data);
 		$this->footer->index();
  	}

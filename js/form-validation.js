@@ -574,10 +574,14 @@ $(document).ready(function () {
                     //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
                 },
                 success: function (data) {
-                    if(formId == "ledList" || formId == "grpList") {
+                    if(data.success == false){
                         
-                    } else {
-                        point.parent().parent().parent().remove();
+                    }else{
+                        if(formId == "ledList" || formId == "grpList") {
+                            
+                        } else {
+                            point.parent().parent().parent().remove();
+                        }
                     }
                     
                     alert(data.successMsg);

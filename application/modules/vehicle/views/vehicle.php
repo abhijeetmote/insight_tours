@@ -7,10 +7,7 @@
 					<a href="<?php echo base_url(); ?>">Home</a>
 				</li>
 
-				<li>
-					<a href="<?php echo base_url()."vehicle/vehicleList"; ?>">Vehicle</a>
-				</li>
-				<li class="active">Add Vehicle</li>
+				<li class="active">Vehicle</li>
 			</ul><!-- /.breadcrumb -->
 
 			<div class="nav-search" id="nav-search">
@@ -27,9 +24,45 @@
 			
 			<div class="page-header">
 				<h1>
-					Add Vehicle
+					<?php if(isset($update) && $update == true){
+						echo "Update Vehicle";
+					}else{
+						echo "Add Vehicle";
+					} ?>
 				</h1>
 			</div><!-- /.page-header -->
+
+			<?php if(isset($update) && $update == true): ?>
+			<div class="row" style="margin-bottom: 2%;">
+				<div class="col-xs-12 col-sm-22 widget-container-col ui-sortable" id="widget-container-col-1">
+					<div class="widget-box ui-sortable-handle collapsed" id="widget-box-1" style="margin-top:0;">
+						<div class="widget-header">
+							<h5 class="widget-title">Vehicle Images</h5>
+
+							<div class="widget-toolbar">
+								
+
+								<a href="#" data-action="collapse">
+									<i class="ace-icon fa fa-chevron-up"></i>
+								</a>
+							</div>
+						</div>
+						
+						<div class="widget-body" style="display:none;">
+							<div class="widget-main">
+								
+								<?php foreach ($vehicleImages as $key => $val) { ?>
+									<span class="images">
+										<img  style="width:20%;margin-bottom:1%;" src="<?php echo base_url()."assets/vehicles/".$val->image_name; ?>">
+										<span class="cross" id="<?php echo $val->image_id ?>">X</span>
+									</span>	
+								<?php } ?>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<?php endif; ?>
 
 			<div class="row">
 				<div class="col-xs-12">
@@ -310,7 +343,49 @@
 			$(this).prev().focus();
 		});
 		
-		 
+		$(document).on('click','.cross', function(e){
+	        e.preventDefault();
+	        
+	        if(confirm("Are you sure you want to delete!")){
+
+	            var id = $(this).attr('id');
+
+	            var obj = array.filter(function(obj){
+	                return obj.name === "vehicle-img-remove"
+	            })[0];
+
+	            var uri = obj['value'];
+
+	            jobject = {
+	                'id' : id
+	            }
+
+	            var point = $(this);
+	            
+	            $.ajax({
+	                url: uri,
+	                method: 'POST',
+	                crossDomain: true,
+	                data: jobject,
+	                dataType: 'json',
+	                beforeSend: function (xhr) {
+	                    //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
+	                },
+	                success: function (data) {
+	                    if(data.success == false){
+	                        
+	                    }else{
+	                       	point.parent().remove();
+	                    }
+	                    
+	                    alert(data.successMsg);
+	                },
+	                error: function (xhr, ajaxOptions, thrownError) {
+	                    console.log(thrownError);
+	                }
+	            });
+	        }
+	    });
 	
 	});
 </script>

@@ -11,6 +11,7 @@ class Payment extends MX_Controller {
 		$this->load->model('helper/helper_model');
 		$this->load->model('helper/selectEnhanced');
 		$this->load->model('helper/selectEnhanced_to');
+		$this->active = "payment";
 		//SelectEnhanced
 		//$this->load->library('session');
 		
@@ -18,7 +19,7 @@ class Payment extends MX_Controller {
 
 	public function expenseMaster()
 	{
-		$this->header->index();
+		$this->header->index($this->active);
 		$grp_table = LEDGER_TABLE;
 		 
 
@@ -77,7 +78,7 @@ class Payment extends MX_Controller {
 	
 	public function expenseMasterSubmit()
 	{
-		//$this->header->index();
+		//$this->header->index($this->active);
 		//echo "<pre>";
 		//print_r($_POST);
 		//echo "test";
@@ -179,7 +180,7 @@ class Payment extends MX_Controller {
  	
  	public function journalEntry()
 	{
-		$this->header->index();
+		$this->header->index($this->active);
 		$grp_table = LEDGER_TABLE;
 		 
 
@@ -238,7 +239,7 @@ class Payment extends MX_Controller {
 	
 	public function journalentrySubmit()
 	{
-		//$this->header->index();
+		//$this->header->index($this->active);
 		//echo "<pre>";
 		//print_r($_POST);
 		//echo "test";
@@ -341,7 +342,7 @@ class Payment extends MX_Controller {
 public function advancesalaryMaster()
 	{
 		
-		$this->header->index();
+		$this->header->index($this->active);
 		$grp_table = LEDGER_TABLE;
 		 
 
@@ -409,7 +410,7 @@ public function advancesalaryMaster()
 	
 	public function advancesalaryMasterSubmit()
 	{
-		//$this->header->index();
+		//$this->header->index($this->active);
 		//echo "<pre>";
 		//print_r($_POST);
 		//echo "test";

@@ -190,7 +190,7 @@
 				 
 
 				<ul class="nav nav-list">
-					<li class="active">
+					<li class="">
 						<a href="<?php echo base_url(); ?>">
 							<i class="menu-icon fa fa-tachometer"></i>
 							<span class="menu-text"> Dashboard </span>
@@ -199,7 +199,7 @@
 						<b class="arrow"></b>
 					</li>
 
-					<li class="">
+					<li class="<?php if(isset($active) && $active == "vehicle"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -217,6 +217,15 @@
 									<i class="menu-icon fa fa-caret-right"></i>
 
 									Add Category
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="<?php echo base_url(); ?>vehicle/categoryList">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Category List
 								</a>
 
 								<b class="arrow"></b>
@@ -244,7 +253,7 @@
 					</li>
 
 
-					<li class="">
+					<li class="<?php if(isset($active) && $active == "driver"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -299,7 +308,7 @@
 					</li>
 
 
-					<li class="">
+					<li class="<?php if(isset($active) && $active == "user"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -337,7 +346,7 @@
 
 
 
-					<li class="">
+					<li class="<?php if(isset($active) && $active == "vendor"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -376,7 +385,7 @@
 
 
 
-					<li class="">
+					<li class="<?php if(isset($active) && $active == "booking"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -412,7 +421,7 @@
 						</ul>
 					</li>
 
-					<li class="">
+					<li class="<?php if(isset($active) && $active == "customer"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -448,7 +457,7 @@
 						</ul>
 					</li>
 
-					<li class="">
+					<li class="<?php if(isset($active) && $active == "company"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -485,7 +494,7 @@
 					</li>
 
 
-					<li class="">
+					<li class="<?php if(isset($active) && $active == "payment"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -534,7 +543,7 @@
 					</li>
 
 
-					<li class="">
+					<li class="<?php if(isset($active) && $active == "account"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -584,7 +593,7 @@
 
 
 
-					<li class="">
+					<li class="<?php if(isset($active) && $active == "ledger"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -642,7 +651,7 @@
 						</ul>
 					</li>
 
-<li class="">
+					<li class="<?php if(isset($active) && $active == "package"): echo "active"; endif; ?>">
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
@@ -678,6 +687,31 @@
 						</ul>
 					</li>
 
+					<li class="<?php if(isset($active) && $active == "invoice"): echo "active"; endif; ?>">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-desktop"></i>
+							<span class="menu-text">
+								Invoice
+							</span>
+
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+
+						<b class="arrow"></b>
+
+						<ul class="submenu">
+							
+							<li class="">
+								<a href="<?php echo base_url(); ?>invoice/invoiceList">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Invoice List
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>
+					</li>
 
 
 

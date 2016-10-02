@@ -16,6 +16,7 @@ class Account extends MX_Controller {
 		$this->load->model('helper/MonthlyPeriodListener');
 		$this->load->model('helper/YearlyPeriodListener');
 		$this->load->model('helper/ReporttransactiontotalListener');
+		$this->active = "account";
 		//SelectEnhanced
 		//$this->load->library('session');
 		
@@ -23,7 +24,7 @@ class Account extends MX_Controller {
 
 	public function addAccount()
 	{
-		$this->header->index();
+		$this->header->index($this->active);
 		
 		
 		$select = " ledger_account_id ";
@@ -182,7 +183,7 @@ class Account extends MX_Controller {
  		$data['list'] = $this->account_model->getAccountLit($filds,$driver_table);
 
  		//echo "<pre>";print_r($data['list']);
-        $this->header->index();
+        $this->header->index($this->active);
 		$this->load->view('accountList', $data);
 		$this->footer->index();
  	}
@@ -274,7 +275,7 @@ class Account extends MX_Controller {
  	 	$data['cash_group'] = $cash_group;
  	 	$data['bank_group'] = $bank_group;
 
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('addAccount', $data);
 		$this->footer->index();
  	}
@@ -399,7 +400,7 @@ class Account extends MX_Controller {
  	public function addAmount()
 	{
 		
-		$this->header->index();
+		$this->header->index($this->active);
 		$grp_table = LEDGER_TABLE;
 		 
 
@@ -493,7 +494,7 @@ class Account extends MX_Controller {
 
 	public function ledgerList()
 	{
-		$this->header->index();
+		$this->header->index($this->active);
 		$grp_table = LEDGER_TABLE;
 		//error_reporting(1);
 
@@ -518,7 +519,7 @@ class Account extends MX_Controller {
 
     public function listTransaction($ledger_id, $offset=0, $length=10)
     {
-    	$this->header->index();
+    	$this->header->index($this->active);
     	//error_reporting(5);
         //echo $ledger_id;exit;
        // $number_page = $this->request->getQuery("page", "int");
@@ -933,7 +934,7 @@ class Account extends MX_Controller {
 		
         $data['from_data'] = $trans_from;
         $data['id'] = $id;
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('editTransaction', $data);
 		$this->footer->index();
  	}
@@ -1045,7 +1046,7 @@ class Account extends MX_Controller {
        // echo "<pre>";
         //$request = $this->request;
         //$arrPostData = $request->getPost();
-       $this->header->index();
+       $this->header->index($this->active);
         $type = isset($_POST['type']) ? $_POST['type'] : "monthly";
         $lstMonth = isset($_POST['lstMonth']) ? $_POST['lstMonth'] : "";
             //echo "<pre>";print_r($arrPostData);exit();
@@ -1322,7 +1323,7 @@ class Account extends MX_Controller {
 
     public function addGroup() {
     	//error_reporting(E_ALL);
-    	$this->header->index();
+    	$this->header->index($this->active);
 		$grp_table = LEDGER_TABLE;
 		$where =  'entity_type != 3';
  	 	$led_data = $this->account_model->getDataWhereOrder('*',$grp_table,$where,'parent_id','asc');
@@ -1374,7 +1375,7 @@ class Account extends MX_Controller {
 
     public function editEntity($id) {
     	//error_reporting(E_ALL);
-    	$this->header->index();
+    	$this->header->index($this->active);
     	$ledger_id = $id;
     	
     	$grp_table = LEDGER_TABLE;
@@ -1583,7 +1584,7 @@ class Account extends MX_Controller {
 
     public function groupList()
 	{
-		$this->header->index();
+		$this->header->index($this->active);
 		 
 		$grp_table = LEDGER_TABLE;
 		$where =  'entity_type != 3';

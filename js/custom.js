@@ -50,6 +50,9 @@ var array = [
 	{name: "invoicePaid", value: baseUrl + "invoice/invoicePaidSubmit"},
 	{name: "get-driver-sal", value: baseUrl + "payment/getDriverSal"},
 	{name: "sal-paid", value: baseUrl + "payment/salPaid"},
+	{name: "category-update", value: baseUrl + "vehicle/categoryUpdate"},
+	{name: "categoryList", value: baseUrl + "vehicle/categoryDelete"},
+	{name: "vehicle-img-remove", value: baseUrl + "vehicle/vehicleImgDelete"},
 
 	
 	

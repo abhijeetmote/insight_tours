@@ -224,17 +224,40 @@
 								</span>
 							</div>
 
-							<label class="col-sm-2 no-padding-right" for="">Select Package<b class="red">*</b></label>
+							<label class="col-sm-2 no-padding-right" for="">Select Local Package<b class="red">*</b></label>
 
 							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="package" id="form-field-select-3" data-placeholder="Choose a Package...">
+								<select class="chosen-select form-control" name="localpackage" id="form-field-select-3" data-placeholder="Choose a Package...">
 									<option></option>
 									<?php
 										foreach ($package as $val) 
 										{			
+											if($val->travel_type == "Local"){
 									?>								
-											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
+											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->local_package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
 									<?php
+											}
+										}
+									?>
+									
+								</select>
+							</div>
+						</div>	
+
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Select Outstation Package<b class="red">*</b></label>
+
+							<div class="col-sm-4">
+								<select class="chosen-select form-control" name="outstationpackage" id="form-field-select-3" data-placeholder="Choose a Package...">
+									<option></option>
+									<?php
+										foreach ($package as $val) 
+										{			
+											if($val->travel_type == "Outstation"){
+									?>								
+											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->outstation_package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
+									<?php
+											}
 										}
 									?>
 									

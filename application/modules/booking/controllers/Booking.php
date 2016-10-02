@@ -9,6 +9,7 @@ class Booking extends MX_Controller {
 		$this->load->module('footer/footer');
 		$this->load->model('booking/Booking_model');
 		$this->load->model('helper/helper_model');
+		$this->active = "booking";
 	}
 
 	public function bookingMaster()
@@ -24,7 +25,7 @@ class Booking extends MX_Controller {
 		$select = '*';
 		$data['vechileTList'] = $this->Booking_model->getData($select, $tableName, $column, $value);
 		//echo "<pre>"; print_r($data); exit();
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('BookingAdd',$data);
 		$this->footer->index();
 	}
@@ -137,7 +138,7 @@ class Booking extends MX_Controller {
  		$filds = "*";
  		$data['pass_list'] = $this->Booking_model->getwheredata($select,$tableName,$where);
  		//echo "<pre>";print_r($data['booking_list']);exit;
-        $this->header->index();
+        $this->header->index($this->active);
 		$this->load->view('bookingList', $data);
 		$this->footer->index();
  	}
@@ -204,7 +205,7 @@ class Booking extends MX_Controller {
  		//echo "<pre>";
  		//print_r($data['passenger']);
 		$data['update'] = true;
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('BookingAdd', $data);
 		$this->footer->index();
  	}
@@ -439,7 +440,7 @@ class Booking extends MX_Controller {
 			$data['driverList'] = $this->Booking_model->getVehicleList($select,$tableName);
 			$data['booking_id'] = $booking_id;
 			//echo "<pre>"; print_r($data); exit();
-			$this->header->index();
+			$this->header->index($this->active);
 			$this->load->view('DutySlip', $data);
 			$this->footer->index();
 		}
@@ -540,7 +541,9 @@ class Booking extends MX_Controller {
 	}
 
 	public function addInvoice($duty_sleep_id,$start_date,$total_amt,$booking_id){
+		$invoice_no = strtoupper($this->generateRandomString(4));
 		$invoiceData = array(
+			'invoice_no' => $invoice_no,
 			'duty_sleep_id' => $duty_sleep_id,
 			'booking_id' => $booking_id,
 			'invoice_start_date' => $start_date,
@@ -578,8 +581,13 @@ class Booking extends MX_Controller {
 	}
 	
 
- 	
-
-
- 	
+	public function generateRandomString($length) {
+	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	    $charactersLength = strlen($characters);
+	    $randomString = '';
+	    for ($i = 0; $i < $length; $i++) {
+	        $randomString .= $characters[rand(0, $charactersLength - 1)];
+	    }
+	    return $randomString;
+	}
 }

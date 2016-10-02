@@ -8,13 +8,33 @@ class Vehicle extends MX_Controller {
 		$this->load->module('header/header');
 		$this->load->module('footer/footer');
 		$this->load->model('helper/helper_model');
+		$this->active = "vehicle";
 		//$this->load->helper(array('form', 'url'));
 	}
 
 	public function category()
 	{
-		$this->header->index();
-		$this->load->view('vehicleCategory');
+		@$catId = $this->uri->segment(3);
+		$data = "";
+		if($catId != ""){
+			$select = 'cat_name,cat_id';
+			$tableName = 'vehicle_category';
+			$column = 'cat_id';
+			$value = $catId;
+
+			$check = $this->helper_model->select($select, $tableName, $column, $value);
+			if(!empty($check)){
+				$data['category'] = $check;
+				$data['update'] = true;
+			}else{
+				redirect(base_url() .'vehicle/categoryList');
+			}
+		}
+
+		
+
+		$this->header->index($this->active);
+		$this->load->view('vehicleCategory', $data);
 		$this->footer->index();
 	}
 
@@ -66,7 +86,7 @@ class Vehicle extends MX_Controller {
 		$column = '1';
 		$value = '1';
 		$data['category'] = $this->helper_model->selectAll($select, $tableName);
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('vehicle', $data);
 		$this->footer->index();
 	}
@@ -209,13 +229,7 @@ class Vehicle extends MX_Controller {
  		$data['list'] = $this->helper_model->selectwhere($select,$tableName,$where);
 
 
- 		// /$data['list'] = $this->helper_model->selectAll('', 'vehicle_master');
-
- 		/*echo "<pre>";
- 		print_r($data);
- 		exit();*/
-
-        $this->header->index();
+        $this->header->index($this->active);
 		$this->load->view('vehicleList', $data);
 		$this->footer->index();
  	}
@@ -253,8 +267,15 @@ class Vehicle extends MX_Controller {
 		$column = '1';
 		$value = '1';
 		$data['category'] = $this->helper_model->selectAll($select, $tableName);
+
+		$select = "image_name,image_id";
+		$tableName = 'vehicle_images';
+		$column = 'vehicle_id';
+		$value = $id;
+		$data['vehicleImages'] = $this->helper_model->select($select, $tableName, $column, $value);
+
 		$data['update'] = true;
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('vehicle', $data);
 		$this->footer->index();
  	}
@@ -342,7 +363,7 @@ class Vehicle extends MX_Controller {
 					$imageResult = move_uploaded_file($imagetmp, $path);
 					if($imageResult == true){
 						$vehicleImages = array(
-							'vehicle_id' => $result,
+							'vehicle_id' => $_POST['id'],
 							'image_size' => $imageSize,
 							'image_name' => $imageName,
 							'added_by' => '1',
@@ -386,5 +407,96 @@ class Vehicle extends MX_Controller {
 			$response['successMsg'] = "Something wrong please try again";
  		}
  		echo json_encode($response);
+ 	}
+
+ 	public function categoryList(){
+ 		$tableName =  'vehicle_category';
+ 		$select = "*";
+ 		$data['list'] = $this->helper_model->selectAll($select,$tableName);
+
+        $this->header->index($this->active);
+		$this->load->view('categoryList', $data);
+		$this->footer->index();
+ 	}
+
+ 	public function categoryUpdate(){        
+ 		@$cat_id = $_POST['cat_id'];
+ 		@$cat_name = $_POST['category_name'];
+
+ 		$select = 'cat_name,cat_id';
+		$tableName = 'vehicle_category';
+		$column = 'cat_id';
+		$value = $cat_id;
+
+		$checkCategory = $this->helper_model->select($select, $tableName, $column, $value);
+		if(!empty($checkCategory)){
+			$category = array(
+				'cat_name' => $cat_name,
+				'updated_by' => '1',
+				'updated_on' => date('Y-m-d h:i:s')
+			);
+
+			$tableName = 'vehicle_category';
+			$column = 'cat_id';
+			$value = $cat_id;
+
+			$result = $this->helper_model->update($tableName, $category, $column, $value);
+			if($result == true)
+			{				
+				$response['success'] = true;
+				$response['successMsg'] = "Record Updated";
+				$response['redirect'] = base_url()."vehicle/categoryList";
+	        }
+	        else
+	        {
+	        	$response['success'] = false;
+				$response['successMsg'] = "Something wrong please try again";
+	        }
+		}else{
+			$response['success'] = false;
+			$response['successMsg'] = "Something wrong please try again";
+		}
+        echo json_encode($response);
+ 	}
+
+ 	public function categoryDelete(){
+        @$cat_id = $_POST['id'];
+        $select = 'vehicle_id';
+		$tableName = 'vehicle_master';
+		$column = 'vehicle_category';
+		$value = $cat_id;
+
+		$checkCategory = $this->helper_model->select($select, $tableName, $column, $value);
+		if(empty($checkCategory)){
+			$resultMaster = $this->helper_model->delete('vehicle_category', 'cat_id', $cat_id);
+	        if($resultMaster != false){
+	        	$response['success'] = true;
+				$response['successMsg'] = "Record Deleted";
+	        }else{
+	        	$response['success'] = false;
+				$response['successMsg'] = "Something wrong please try again";
+	        }
+		}else{
+			$response['success'] = false;
+			$response['successMsg'] = "This category already assigned to vehicle";
+		}
+
+        
+        echo json_encode($response);
+ 	}
+
+ 	public function vehicleImgDelete(){
+        @$img_id = $_POST['id'];
+        
+		$resultMaster = $this->helper_model->delete('vehicle_images', 'image_id', $img_id);
+        if($resultMaster != false){
+        	$response['success'] = true;
+			$response['successMsg'] = "Record Deleted";
+        }else{
+        	$response['success'] = false;
+			$response['successMsg'] = "Something wrong please try again";
+        }
+
+        echo json_encode($response);
  	}
 }

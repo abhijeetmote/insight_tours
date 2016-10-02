@@ -8,6 +8,7 @@ class Package extends MX_Controller {
 		$this->load->module('header/header');
 		$this->load->module('footer/footer');
 		$this->load->model('helper/helper_model');
+		$this->active = "package";
 		//$this->load->helper(array('form', 'url'));
 	}
 
@@ -17,7 +18,7 @@ class Package extends MX_Controller {
 		$tableName = 'vehicle_category';
 		$data['vehicle'] = $this->helper_model->selectAll($select, $tableName);
 
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('packageMaster', $data);
 		$this->footer->index();
 	}
@@ -26,6 +27,9 @@ class Package extends MX_Controller {
 	{
 		$package_name = $_POST['package_name'];
 		$vehicle_cat_id = $_POST['vehicle'];
+		$travel_type = $_POST['travel_type'];
+		$default = isset($_POST['default']) ? $_POST['default'] : "0";
+		
 		$data = array(
 			'vehicle_cat_id' => $vehicle_cat_id,
 			'package_name' => $package_name,
@@ -34,7 +38,8 @@ class Package extends MX_Controller {
 			'package_amt' => $_POST['min_cost'],
 			'charge_distance' => $_POST['charge_distance'],
 			'charge_hour' => $_POST['charge_hour'],
-			'travel_type' => $_POST['travel_type'],
+			'travel_type' => $travel_type,
+			'default' => $default,
 			'isactive' => $_POST['status'],
 			'added_by' => '1',
 			'added_on' => date('Y-m-d h:i:s')
@@ -46,6 +51,19 @@ class Package extends MX_Controller {
 
 		$check = $this->helper_model->selectwhere($select, $tableName, $where);
 		if(empty($check)){
+			if($default == 1)
+			{
+				$update = array(
+					'default' => 0
+				);
+
+				$tableName = 'package_master';
+				$column = 'travel_type';
+				$value = $travel_type;
+
+				$this->helper_model->update($tableName, $update, $column, $value);
+			}
+
 			$result = $this->helper_model->insert($tableName,$data);
 			if($result == true){
 				$response['error'] = false;
@@ -76,7 +94,7 @@ class Package extends MX_Controller {
 		$tableName = 'package_master';
 		$data['packageList'] = $this->helper_model->selectAll($select, $tableName);*/
 
-        $this->header->index();
+        $this->header->index($this->active);
 		$this->load->view('packageList', $data);
 		$this->footer->index();
  	}
@@ -92,10 +110,7 @@ class Package extends MX_Controller {
 		$tableName = 'vehicle_category';
 		$data['vehicle'] = $this->helper_model->selectAll($select, $tableName);
  		$data['update'] = true;
- 		/*echo "<pre>";
- 		print_r($data);
- 		exit();*/
- 		$this->header->index();
+ 		$this->header->index($this->active);
 		$this->load->view('packageMaster', $data);
 		$this->footer->index();
  	}
@@ -103,6 +118,20 @@ class Package extends MX_Controller {
  	public function updatePackage(){        
        	$package_name = $_POST['package_name'];
 		$vehicle_cat_id = $_POST['vehicle'];
+		$travel_type = $_POST['travel_type'];
+		$default = isset($_POST['default']) ? $_POST['default'] : "0";
+		if($default == 1)
+		{
+			$update = array(
+				'default' => 0
+			);
+
+			$tableName = 'package_master';
+			$column = 'travel_type';
+			$value = $travel_type;
+
+			$this->helper_model->update($tableName, $update, $column, $value);
+		}
 		$data = array(
 			'vehicle_cat_id' => $vehicle_cat_id,
 			'package_name' => $package_name,
@@ -112,6 +141,7 @@ class Package extends MX_Controller {
 			'charge_distance' => $_POST['charge_distance'],
 			'charge_hour' => $_POST['charge_hour'],
 			'travel_type' => $_POST['travel_type'],
+			'default' => $default,
 			'isactive' => $_POST['status'],
 			'added_by' => '1',
 			'added_on' => date('Y-m-d h:i:s')

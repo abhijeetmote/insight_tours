@@ -11,6 +11,7 @@ class Invoice extends MX_Controller {
 		$this->load->model('helper/helper_model');
 		$this->load->model('helper/selectEnhanced');
 		$this->load->model('helper/selectEnhanced_to');
+		$this->active = "invoice";
 	}
 
 	public function InvoiceList()
@@ -21,7 +22,7 @@ class Invoice extends MX_Controller {
 		$data['invoiceList'] = $this->Invoice_model->getwheredata($select,$tableName,$where);
 		
 		//echo "<pre>"; print_r($data); exit();
-		$this->header->index();
+		$this->header->index($this->active);
 		$this->load->view('InvoiceList',$data);
 		$this->footer->index();
 	}
@@ -35,7 +36,7 @@ class Invoice extends MX_Controller {
  		$where =  "cm.cust_id = bm.cust_id and bm.booking_id = im.booking_id and im.invoice_id = '$invoiceId'";
 		$customerDetails = $this->Invoice_model->getwheredata($select,$tableName,$where);
 		
-		$this->header->index();
+		$this->header->index($this->active);
 		$grp_table = LEDGER_TABLE;
 		 
 
@@ -221,7 +222,7 @@ class Invoice extends MX_Controller {
 	 		print_r($data);
 	 		exit();*/
 
-	 		$this->header->index();
+	 		$this->header->index($this->active);
 			$this->load->view('invoicehtml', $data);
 			$this->footer->index();
 		}else{
