@@ -984,7 +984,8 @@ jQuery(function($) {
 	            },
 	            success: function (data) {
 	            	if(data.success == true){
-	            		//location.reload();
+	            		alert(data.successMsg);
+	            		location.reload();
 	            	}else{
 	            		alert(data.errorMsg);
 	            	}

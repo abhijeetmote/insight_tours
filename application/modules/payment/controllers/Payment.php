@@ -724,7 +724,7 @@ public function advancesalaryMaster()
 							'transaction_date' => date('Y-m-d h:i:s'),
 							'ledger_account_id' => $from_ledger,
 							'ledger_account_name' => $from_ledger_name,
-							'transaction_type' => $dr,
+							'transaction_type' => $cr,
 							'payment_reference' => "",
 							'transaction_amount' => $sal,
 							'txn_from_id' => 0,
@@ -754,7 +754,7 @@ public function advancesalaryMaster()
 									'transaction_date' => date('Y-m-d h:i:s'),
 									'ledger_account_id' => $to_ledger,
 									'ledger_account_name' => $to_ledger_name,
-									'transaction_type' => $cr,
+									'transaction_type' => $dr,
 									'payment_reference' => "",
 									'transaction_amount' => $sal,
 									'txn_from_id' => $from_transaction_id,
@@ -770,6 +770,10 @@ public function advancesalaryMaster()
 
 					 	 	if(isset($to_transaction) && !empty($to_transaction)){
 					 	 		$this->db->trans_commit();
+					 	 		$response['error'] = false;
+						 		$response['success'] = true;
+								$response['successMsg'] = "Paid SuccsessFully";
+								$response['redirect'] = base_url()."payment/driverSal";
 					 	 	} else {
 						 		$this->db->trans_rollback();
 					 		}
@@ -781,13 +785,18 @@ public function advancesalaryMaster()
 							$response['errorMsg'] = "Error!!! Please contact IT Dept";
 					 	}
 				 	}
+		 		} else {
+
+		 				//$this->db->trans_commit();
+			 	 		$response['error'] = false;
+				 		$response['success'] = true;
+						$response['successMsg'] = "salary allready paid";
+						$response['redirect'] = base_url()."payment/driverSal";
 		 		}
 		 	}
  		}
 
- 		$response['error'] = false;
- 		$response['success'] = true;
-		$response['successMsg'] = "Paid SuccsessFully";
+
 
  		echo json_encode($response);
  	}

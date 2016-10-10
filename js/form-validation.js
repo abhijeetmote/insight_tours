@@ -678,6 +678,7 @@ function ajaxCall(id, postData, method, sucessCallBack, failCallBack, timeout) {
             $('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
         },
         success: function (data) {
+            console.log("data");
             console.log(data);
             if(data.success == true) {
             $('.icon'+id).removeClass('ace-icon fa fa-spinner fa-spin orange bigger-125');

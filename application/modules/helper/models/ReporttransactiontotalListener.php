@@ -4,7 +4,7 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class ReporttransactiontotalListener extends CI_Model{
+class Reporttransactiontotallistener extends CI_Model{
 
     /**
      * function set default values
