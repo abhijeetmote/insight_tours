@@ -49,6 +49,20 @@ class Driver extends MX_Controller {
 		 if(isset($driver_licence_exp) && !empty($driver_licence_exp)){
 		 	$driver_licence_exp = $this->helper_model->dbDate($driver_licence_exp);
 		 }
+
+		$driver_photo = "";
+		for ($i=1; $i <= count($_FILES); $i++) { 
+			if($_FILES['driverImage']['error'] == 0){
+				$imageName = rand(0,555555555).$_FILES['driverImage']["name"]; 
+				$imageSize = $_FILES['driverImage']["size"]; 
+				$imagetmp = $_FILES['driverImage']['tmp_name'];
+				$path = "./assets/drivers/".$imageName;
+				$imageResult = move_uploaded_file($imagetmp, $path);
+				if($imageResult == true){
+					$driver_photo = $imageName;
+				}
+			}
+		}
 		 
 	 // driver data insertion start
 		 $data = array(
@@ -59,6 +73,7 @@ class Driver extends MX_Controller {
 				'driver_mobno' => $driver_mobile,
 				'driver_mobno1' => $driver_mobile1,
 				'driver_add' => $driver_address,
+				'driver_photo' => $driver_photo,
 				'driver_licno' => $driver_licence,
 				'driver_licexpdate' => $driver_licence_exp,
 				'driver_fix_pay' => $driver_fix_pay,
@@ -218,6 +233,20 @@ class Driver extends MX_Controller {
 		 	$driver_licence_exp = $this->helper_model->dbDate($driver_licence_exp);
 		 }
 
+		$driver_photo = "";
+		for ($i=1; $i <= count($_FILES); $i++) { 
+			if($_FILES['driverImage']['error'] == 0){
+				$imageName = rand(0,555555555).$_FILES['driverImage']["name"]; 
+				$imageSize = $_FILES['driverImage']["size"]; 
+				$imagetmp = $_FILES['driverImage']['tmp_name'];
+				$path = "./assets/drivers/".$imageName;
+				$imageResult = move_uploaded_file($imagetmp, $path);
+				if($imageResult == true){
+					$driver_photo = $imageName;
+				}
+			}
+		}
+
 	 // driver data insertion start
 		 $driver_update = array(
 				'driver_fname' => $driver_fname,
@@ -227,6 +256,7 @@ class Driver extends MX_Controller {
 				'driver_mobno' => $driver_mobile,
 				'driver_mobno1' => $driver_mobile1,
 				'driver_add' => $driver_address,
+				'driver_photo' => $driver_photo,
 				'driver_licno' => $driver_licence,
 				'driver_licexpdate' => $driver_licence_exp,
 				'driver_panno' => $driver_pan,

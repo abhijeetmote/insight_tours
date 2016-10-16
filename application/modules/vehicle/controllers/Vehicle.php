@@ -96,9 +96,11 @@ class Vehicle extends MX_Controller {
 		/*echo json_encode($_POST);
 		exit();*/
 		$vehicle = array(
+			'vehicle_name' => $_POST['vehicle_name'],
 			'vehicle_no' => $_POST['vehicle_no'],
 			'vehicle_type' => $_POST['vehicle_type'],
 			'vehicle_model' => $_POST['vehicle_model'],
+			'vehicle_desc' => $_POST['vehicle_desc'],
 			'fuel_type' => $_POST['fuel_type'],
 			'passanger_capacity' => $_POST['passenger_capacity'],
 			'vehicle_category' => $_POST['vehicle_category'],
@@ -224,7 +226,7 @@ class Vehicle extends MX_Controller {
 
  	public function vehicleList(){
  		$tableName =  'vehicle_master v, vehicle_category c ';
- 		$select = 'vehicle_id,vehicle_no,vehicle_type,vehicle_model,fuel_type,passanger_capacity,vehicle_category,vehicle_features,c.cat_name';
+ 		$select = 'vehicle_id,vehicle_no,vehicle_name,vehicle_type,vehicle_model,vehicle_desc,fuel_type,passanger_capacity,vehicle_category,vehicle_features,c.cat_name';
  		$where =  'v.vehicle_category = c.cat_id';
  		$data['list'] = $this->helper_model->selectwhere($select,$tableName,$where);
 
@@ -282,9 +284,11 @@ class Vehicle extends MX_Controller {
 
  	public function vehicleUpdate(){        
         $vehicle = array(
+			'vehicle_name' => $_POST['vehicle_name'],
 			'vehicle_no' => $_POST['vehicle_no'],
 			'vehicle_type' => $_POST['vehicle_type'],
 			'vehicle_model' => $_POST['vehicle_model'],
+			'vehicle_desc' => $_POST['vehicle_desc'],
 			'fuel_type' => $_POST['fuel_type'],
 			'passanger_capacity' => $_POST['passenger_capacity'],
 			'vehicle_category' => $_POST['vehicle_category'],

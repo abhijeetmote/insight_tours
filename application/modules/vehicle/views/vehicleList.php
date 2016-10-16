@@ -51,6 +51,7 @@
 									<thead>
 										<tr>
 											 
+											<th>Vehicle Name</th>
 											<th>Vehicle No</th>
 											<th>Vehicle Type</th>
 											<th>Vehicle Model</th>
@@ -67,6 +68,7 @@
 											<tr>
 												 
 
+												<td><?php echo $val->vehicle_name; ?></td>
 												<td><?php echo $val->vehicle_no; ?></td>
 												<td><?php echo $val->vehicle_type; ?></td>
 												<td><?php echo $val->vehicle_model; ?></td>

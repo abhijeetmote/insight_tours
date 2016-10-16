@@ -19,6 +19,7 @@ define('DIR_READ_MODE', 0755);
 define('DIR_WRITE_MODE', 0777);
 define('DRIVER_TABLE', 'driver_master');
 define('VENDOR_TABLE', 'vendors_master');
+define('VENDOR_BILL_TABLE', 'vendor_bill_payment_details');
 define('LEDGER_TABLE', 'ledger_master');
 define('BOOKING_TABLE', 'booking_master');
 define('PASSENGER_TABLE', 'passenger_details');
@@ -32,6 +33,7 @@ define('DRIVER_CONTEXT', 'driver');
 define('VENDOR_CONTEXT', 'vendor');
 define('CASH_CONTEXT', 'cash');
 define('BANK_CONTEXT', 'bank');
+define('PATTY_CASH_CONTEXT', 'pattycash');
 define('LEDGER_ENTITY', 'ledger');
 define('GROUP_ENTITY', 'group');
 define('REPORTING_HEAD', 'profit and loss');
@@ -54,6 +56,11 @@ define("INDIRECT", "indirect");
 define("ADVANCE_SALARY", "advance_salary");
 define("SALARY_PAID_NARRATION", "salary paid");
 define("INVOICE_PAID_NARRATION", "booking payment");
+define("ADVANCE_PAID_NARRATION", "ADVANCE payment against booking");
+define("ADVANCE_RECIVE_NARRATION", "ADVANCE Recive against booking");
+
+define("EXPENSE_ADVANCE_PAID_NARRATION", "expense payment to driver against booking");
+
 
 /*
 |--------------------------------------------------------------------------

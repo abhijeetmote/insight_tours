@@ -135,6 +135,7 @@
 								<select class="chosen-select form-control" name="travel_type" id="form-field-select-3" data-placeholder="Choose a State...">
 									<option value="Local" <?php if(isset($package) && $package[0]->travel_type == 'Local'): echo "selected"; endif; ?>>Local</option>
 									<option value="Outstation" <?php if(isset($package) && $package[0]->travel_type == 'Outstation'): echo "selected"; endif; ?>>Outstation</option>
+									<option value="Transfer" <?php if(isset($package) && $package[0]->travel_type == 'Transfer'): echo "selected"; endif; ?>>Transfer</option>
 								</select>
 							</div>
 

@@ -7,7 +7,7 @@ function pdf_create($html, $filename='', $stream=TRUE)
     $dompdf->load_html($html);
     $dompdf->render();
     if ($stream) {
-        $dompdf->stream($filename.".pdf");
+        $dompdf->stream($filename.".pdf", $stream);
     } else {
         return $dompdf->output();
     }

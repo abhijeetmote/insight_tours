@@ -45,9 +45,12 @@ class Customer extends MX_Controller {
 		$password = isset($_POST['password']) ? $_POST['password'] : "";
 		$localpackage = isset($_POST['localpackage']) ? $_POST['localpackage'] : "0";
 		$outstationpackage = isset($_POST['outstationpackage']) ? $_POST['outstationpackage'] : "0";
-		$cust_type_id=1;
+		$transferpackage = isset($_POST['transferpackage']) ? $_POST['transferpackage'] : "0";
+		$country = isset($_POST['country']) ? $_POST['country'] : "";
+		$customer_type = isset($_POST['customer_type']) ? $_POST['customer_type'] : "1";
+
 		$data = array(
-			'cust_type_id' => $cust_type_id,
+			'cust_type_id' => $customer_type,
 			'cust_firstname' => $first_name,
 			'cust_middlename' => $last_name,
 			'cust_lastname' => $last_name,
@@ -60,15 +63,16 @@ class Customer extends MX_Controller {
 			'cust_email1' => $email,
 			'cust_email2' => $alt_email,
 			'cust_address' => $address,
+			'country' => $country,
 			'cust_state' => $state,
 			'cust_city' => $city,
 			'cust_pin' => $pin,			
-			'cust_username' =>$user_name,
-			'cust_password' => md5($password),
+			'cust_username' =>$email,
+			'cust_password' => md5('travels'),
 			'ledger_id'=>'8',
-			'is_service_tax' =>'0',
 			'local_package_id' =>$localpackage,
 			'outstation_package_id' =>$outstationpackage,
+			'transfer_package_id' =>$transferpackage,
 			'isactive' =>'0',			
 			'added_by' =>'1',
 			'added_on' => date('Y-m-d h:i:s'),
@@ -222,6 +226,10 @@ class Customer extends MX_Controller {
 		$customer_id =isset($_POST['id']) ? $_POST['id'] : "";
 		$localpackage = isset($_POST['localpackage']) ? $_POST['localpackage'] : "0";
 		$outstationpackage = isset($_POST['outstationpackage']) ? $_POST['outstationpackage'] : "0";
+		$transferpackage = isset($_POST['transferpackage']) ? $_POST['transferpackage'] : "0";
+
+		$country = isset($_POST['country']) ? $_POST['country'] : "";
+		$customer_type = isset($_POST['customer_type']) ? $_POST['customer_type'] : "1";
 
 
 
@@ -238,6 +246,7 @@ class Customer extends MX_Controller {
 		}
 
 		 $customer_update = array(			
+			'cust_type_id' => $customer_type,
 			'cust_firstname' => $first_name,
 			'cust_middlename' => $last_name,
 			'cust_lastname' => $last_name,
@@ -250,15 +259,16 @@ class Customer extends MX_Controller {
 			'cust_email1' => $email,
 			'cust_email2' => $alt_email,
 			'cust_address' => $address,
+			'country' => $country,
 			'cust_state' => $state,
 			'cust_city' => $city,
 			'cust_pin' => $pin,			
 			'cust_username' =>$user_name,
 			'cust_password' => $password,
 			'ledger_id'=>$customer_ledger_id,
-			'is_service_tax' =>'0',
 			'local_package_id' =>$localpackage,
 			'outstation_package_id' =>$outstationpackage,
+			'transfer_package_id' =>$transferpackage,
 			'isactive' =>'0',			
 			'added_by' =>'1',
 			'added_on' => date('Y-m-d h:i:s'),

@@ -32,6 +32,14 @@
 				</h1>
 			</div><!-- /.page-header -->
 
+			<?php if(isset($driver[0]->driver_photo) && $driver[0]->driver_photo != ""): ?>
+			<div class="row" style="margin-bottom: 2%;">
+				<div class="col-xs-12 col-sm-22 widget-container-col ui-sortable" id="widget-container-col-1">
+					<img  style="width:20%;margin-bottom:1%;" src="<?php echo base_url()."assets/drivers/".$driver[0]->driver_photo; ?>">
+				</div>
+			</div>
+			<?php endif; ?>
+
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
@@ -207,13 +215,16 @@
 								
 							</div>
 						</div>
+						<div class="form-group files">
+							<label class="col-sm-3 no-padding-right" for="">Select Image</label>
 
-						 
-
-
-						
-
-
+							<div class="col-sm-4">
+								<input type="file" name="driverImage" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="" ></span>
+								</span>
+							</div>
+						</div>
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 								<button class="btn btn-info test" type="submit">

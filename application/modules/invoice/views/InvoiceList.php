@@ -80,7 +80,7 @@
 															</a>
 														<?php elseif($val->payment_status == "paid"): ?>
 															<a class="blue" href="<?php echo base_url().'invoice/invoiceGenerate/'.$val->invoice_id; ?>">
-																<i class="ace-icon glyphicon glyphicon-print"></i>
+																<i class="ace-icon fa fa-eye bigger-130"></i>
 															</a>
 														<?php endif; ?>
 													</div>

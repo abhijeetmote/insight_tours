@@ -54,11 +54,11 @@
 										<tr>
 											 
 											<th>Customer Name</th>
+											<th>Company Name</th>
 											<th>Mobile No</th>
 											<th>Contact No</th>
 											<th>Address</th>
 											<th>Email id</th>
-											<th>Company Name</th>
 											<th>Action</th>											
 										</tr>
 									</thead>
@@ -69,11 +69,11 @@
 												 
 
 												<td><?php echo $val->cust_firstname; ?></td>
+												<td><?php echo $val->cust_compname; ?></td>
 												<td><?php echo $val->cust_mob1; ?></td>
 												<td><?php echo $val->cust_telno; ?></td>
 												<td><?php echo $val->cust_address; ?></td>
 												<td><?php echo $val->cust_email1; ?></td>
-												<td><?php echo $val->cust_compname; ?></td>
 												<td>
 													<div class="hidden-sm hidden-xs action-buttons">
 														<a class="green" href="<?php echo base_url().'customer/update/'.$val->cust_id; ?>">

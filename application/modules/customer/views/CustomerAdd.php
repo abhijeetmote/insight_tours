@@ -33,11 +33,232 @@
 
 			<div class="row">
 				<div class="col-xs-12">
+
+					<div class="form-group">
+						<label class="col-sm-2 no-padding-right" for="">Cutomer Type<b class="red">*</b></label>
+
+						<div class="col-sm-4">
+							<select class="chosen-select form-control" id="customer_type" data-placeholder="Choose a Type...">
+								<option <?php if(isset($customer)): if($customer[0]->cust_type_id == 2): echo 'selected'; endif; endif; ?> value="2">Corporate</option>';
+								<option <?php if(isset($customer)): if($customer[0]->cust_type_id == 1): echo 'selected'; endif; endif; ?> value="1">Individual</option>';
+							</select>
+						</div>
+					</div>	
+					<div class="page-header">
+					</div>	
+				</div>	
+			</div>	
+			<div class="form-group"></div>
+
+			<!--for corporate form -->
+			<div class="row" id="corporate" <?php if(isset($customer)){ if($customer[0]->cust_type_id == 2){ echo 'style="display:block;"'; } else { echo 'style="display:none;"'; } } ?> >
+				<div class="col-xs-12">
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" id="<?php if(isset($customer)): echo "customerUpdate"; else: echo "customermaster"; endif; ?>">						
+					<form class="form-horizontal" role="form" id="<?php if(isset($customer)): echo "customerUpdate"; else: echo "customermaster"; endif; ?>">	
+
 						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> First Name<b class="red">*</b></label>
+							<label class="col-sm-2 no-padding-right" for="">Company Name</label>
+							<div class="col-sm-4">
+								<input type="text" id="company_name" name="company_name" placeholder=" Company Name" onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($customer)): echo $customer[0]->cust_compname; endif; ?>" class="col-xs-10 form-control col-sm-5 mandatory-field" />
+								<span class="help-inline col-xs-12 col-sm-7 mandatory-field">
+									<span class="middle input-text-error" id="company_name_errorlabel"></span>
+								</span>
+							</div>
+
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Company Address<b class="red">*</b></label>
+							<div class="col-sm-4">
+								<input type="text" id="address" name="address" value="<?php if(isset($customer)): echo $customer[0]->cust_address; endif; ?>" placeholder="Enter Address" class="col-xs-10 form-control col-sm-5 mandatory-field" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="address_errorlabel"></span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<input type="hidden" value="<?php if(isset($customer)): echo $customer[0]->cust_id; endif; ?>" name="id">
+							<input type="hidden" value="<?php if(isset($customer)): echo $customer[0]->ledger_id; endif; ?>" name="customer_ledger_id">
+							<input type="hidden" value="<?php if(isset($customer)): echo $customer[0]->cust_type_id; else: echo "2"; endif; ?>" name="customer_type">
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Country<b class="red">*</b></label>
+							<div class="col-sm-4">
+								<input type="text" id="country" name="country" onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($customer)): echo $customer[0]->country; endif; ?>" placeholder="Enter Country " class="col-xs-10 form-control col-sm-5 mandatory-field" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="country_errorlabel"></span>
+								</span>
+							</div>
+
+							<label class="col-sm-2 no-padding-right" for="form-field-2">State<b class="red">*</b></label>
+							<div class="col-sm-4">
+								<input type="text" id="state" name="state" onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($customer)): echo $customer[0]->cust_state; endif; ?>" placeholder="Enter State" class="col-xs-10 form-control col-sm-5 mandatory-field" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="state_errorlabel"></span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="form-field-2">PIN <b class="red">*</b></label>
+							<div class="col-sm-4">
+								<input type="text" id="pin" name="pin" value="<?php if(isset($customer)): echo $customer[0]->cust_pin; endif; ?>" onKeyUp="javascript:return check_isnumeric(event,this);" placeholder="Enter PIN" class="col-xs-10 form-control col-sm-5 mandatory-field" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="pin_errorlabel"></span>
+								</span>
+							</div>
+
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Telephone Number</label>
+
+							<div class="col-sm-4">
+								<input type="text" id="phone" name="phone" value="<?php if(isset($customer)): echo $customer[0]->cust_telno; endif; ?>" placeholder="Enter Phone Number" class="col-xs-10 form-control col-sm-5 mandatory-field" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="phone_errorlabel"></span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Email 1<b class="red">*</b></label>
+
+							<div class="col-sm-4">
+								<input type="text" name="email" value="<?php if(isset($customer)): echo $customer[0]->cust_email1; endif; ?>" placeholder="Enter Email" class="col-xs-10 form-control col-sm-5 mandatory-field" onblur="check_isemail(this,event);"/>
+							</div>
+
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Email 2<b class="red"></b></label>
+
+							<div class="col-sm-4">
+								<input type="text" name="alt_email" value="<?php if(isset($customer)): echo $customer[0]->cust_email1; endif; ?>" placeholder="Enter Email" class="col-xs-10 form-control col-sm-5" onblur="check_isemail(this,event);"/>
+							</div>
+						</div>
+						<div class="form-group">
+							
+						</div>
+						<div class="form-group">
+
+							<label class="col-sm-2 no-padding-right" for=""> Contact Person Name<b class="red">*</b></label>
+							<div class="col-sm-4">
+								<input type="text" id="contact_person_name" name="contact_person_name" onKeyUp="javascript:return check_isalphanumeric(event,this);" placeholder="Contact Person Name" value="<?php if(isset($customer)): echo $customer[0]->contact_per_name; endif; ?>" class="col-xs-10 form-control col-sm-5 mandatory-field" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="contact_person_name_errorlabel"></span>
+								</span>
+							</div>
+
+							<label class="col-sm-2 no-padding-right" for="form-field-2"> Contact Person Designation<b class="red">*</b></label>
+
+							<div class="col-sm-4">
+								<input type="text" id="contact_person_desig" name="contact_person_desig" onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($customer)): echo $customer[0]->contact_per_desg; endif; ?>" placeholder="Enter Contact Person Designation" class="col-xs-10 form-control col-sm-5 mandatory-field" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="contact_person_desig_errorlabel"></span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							
+						</div>
+
+						<div class="form-group">
+
+							<label class="col-sm-2 no-padding-right" for=""> Mobile Number<b class="red">*</b></label>
+							<div class="col-sm-4">
+								<input type="text" id="mobile" name="mobile" placeholder=" Mobile Number" value="<?php if(isset($customer)): echo $customer[0]->cust_mob1; endif; ?>" class="col-xs-10 form-control col-sm-5 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this,0);" onblur="javascript:return check_ismobile(event,this,0);"/>
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="mobile_errorlabel"></span>
+								</span>
+							</div>
+
+							<label class="col-sm-2 no-padding-right" for="">Select Local Package<b class="red"></b></label>
+
+							<div class="col-sm-4">
+								<select class="form-control" name="localpackage" id="form-field-select-3" data-placeholder="Choose a Package...">
+									<option>Select Package</option>
+									<?php
+										foreach ($package as $val) 
+										{			
+											if($val->travel_type == "Local"){
+									?>								
+											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->local_package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
+									<?php
+											}
+										}
+									?>
+									
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Select Outstation Package<b class="red"></b></label>
+
+							<div class="col-sm-4">
+								<select class="form-control" name="outstationpackage" id="form-field-select-3" data-placeholder="Choose a Package...">
+									<option>Select Package</option>
+									<?php
+										foreach ($package as $val) 
+										{			
+											if($val->travel_type == "Outstation"){
+									?>								
+											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->outstation_package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
+									<?php
+											}
+										}
+									?>
+									
+								</select>
+							</div>
+
+							<label class="col-sm-2 no-padding-right" for="">Select Transfer Package<b class="red"></b></label>
+
+							<div class="col-sm-4">
+								<select class="form-control" name="transferpackage" id="form-field-select-3" data-placeholder="Choose a Package...">
+									<option>Select Package</option>
+									<?php
+										foreach ($package as $val) 
+										{			
+											if($val->travel_type == "Transfer"){
+									?>								
+											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->outstation_package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
+									<?php
+											}
+										}
+									?>
+									
+								</select>
+							</div>
+						</div>
+						
+						<div class="clearfix form-actions">
+							<div class="col-md-offset-3 col-md-9">
+								<button class="btn btn-info test" type="submit">
+									<i class="iconcategory"></i>
+									<?php if(isset($customer)): echo "Update"; else: echo "Submit"; endif; ?>
+								</button>
+
+								&nbsp; &nbsp; &nbsp;
+								<button class="btn" type="reset">
+									<i class="ace-icon fa fa-undo bigger-110"></i>
+									Reset
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<!--for Individual form -->
+			<div class="row" id="individual" <?php if(isset($customer)){ if($customer[0]->cust_type_id == 1){ echo 'style="display:block;"'; } else { echo 'style="display:none;"'; } }else {echo 'style="display:none;"';} ?> />
+				<div class="col-xs-12">
+					<div class="alert-box"></div>
+					<!-- PAGE CONTENT BEGINS -->
+					<form class="form-horizontal" role="form" id="<?php if(isset($customer)): echo "customerUpdate1"; else: echo "customermaster1"; endif; ?>">	
+
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="form-field-2">First Name<b class="red">*</b></label>
 
 							<div class="col-sm-4">
 								<input type="text" id="first_name" name="first_name" value="<?php if(isset($customer)): echo $customer[0]->cust_firstname; endif; ?>" placeholder="Enter First Name" class="col-xs-10 form-control col-sm-5 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
@@ -46,14 +267,10 @@
 								</span>
 							</div>
 
-
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Middle Name</label>
-
-							
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Middle Name<b class="red">*</b></label>
 
 							<div class="col-sm-4">
-								<input type="text" id="middle_name" name="middle_name" value="<?php if(isset($customer)): echo $customer[0]->cust_middlename; endif; ?>" placeholder="Enter Middle Name" class="col-xs-10 form-control col-sm-5 " onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
-
+								<input type="text" id="middle_name" name="middle_name" value="<?php if(isset($customer)): echo $customer[0]->cust_middlename; endif; ?>" placeholder="Enter Middle Name" class="col-xs-10 form-control col-sm-5 mandatory-field" onKeyUp="javascript:return check_isalphanumeric(event,this);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="middle_name_errorlabel"></span>
 								</span>
@@ -71,12 +288,11 @@
 								</span>
 							</div>
 
-							<label class="col-sm-2 no-padding-right" for="form-field-2">Email<b class="red">*</b></label>
-
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Address<b class="red">*</b></label>
 							<div class="col-sm-4">
-								<input type="text" id="email" name="email" value="<?php if(isset($customer)): echo $customer[0]->cust_email1; endif; ?>" placeholder="Enter Email" class="col-xs-10 form-control col-sm-5" onblur="check_isemail(this,event);"/>
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="email_errorlabel"></span>
+								<input type="text" id="address1" name="address" value="<?php if(isset($customer)): echo $customer[0]->cust_address; endif; ?>" placeholder="Enter Address" class="col-xs-10 form-control col-sm-5 mandatory-field" />
+								<span class="help-inline col-xs-12 col-sm-7 mandatory-field">
+									<span class="middle input-text-error" id="address1_errorlabel"></span>
 								</span>
 							</div>
 						</div>
@@ -84,23 +300,22 @@
 						<input type="hidden" value="<?php if(isset($customer)): echo $customer[0]->ledger_id; endif; ?>" name="customer_ledger_id">
 						<div class="form-group">
 							
-						</div>
+						</div>						
 						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Alternative Email</label>
-
+							<label class="col-sm-2 no-padding-right" for=""> Mobile Number<b class="red">*</b></label>
 							<div class="col-sm-4">
-								<input type="text" id="alt_email" name="alt_email" value="<?php if(isset($customer)): echo $customer[0]->cust_email2; endif; ?>" placeholder="Enter Alternative Email (Optional)" class="col-xs-10 form-control col-sm-5 " />
+								<input type="text" id="mobile1" name="mobile" placeholder=" Mobile Number" value="<?php if(isset($customer)): echo $customer[0]->cust_mob1; endif; ?>" class="col-xs-10 form-control col-sm-5 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this,0);" onblur="javascript:return check_ismobile(event,this,0);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="alt_email_errorlabel"></span>
+									<span class="middle input-text-error" id="mobile1_errorlabel"></span>
 								</span>
 							</div>
 
-							<label class="col-sm-2 no-padding-right" for="form-field-2">Phone Number</label>
+							<label class="col-sm-2 no-padding-right" for="form-field-2">Email<b class="red">*</b></label>
 
 							<div class="col-sm-4">
-								<input type="text" id="phone" name="phone" value="<?php if(isset($customer)): echo $customer[0]->cust_telno; endif; ?>" placeholder="Enter Phone Number" class="col-xs-10 form-control col-sm-5" />
+								<input type="text" id="email" name="email" value="<?php if(isset($customer)): echo $customer[0]->cust_email1; endif; ?>" placeholder="Enter Email" class="col-xs-10 form-control col-sm-5 mandatory-field" onblur="check_isemail(this,event);"/>
 								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="phone_errorlabel"></span>
+									<span class="middle input-text-error" id="email_errorlabel"></span>
 								</span>
 							</div>
 						</div>
@@ -108,124 +323,11 @@
 							
 						</div>						
 						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for=""> Mobile Number<b class="red">*</b></label>
-							<div class="col-sm-4">
-								<input type="text" id="mobile" name="mobile" placeholder=" Mobile Number" value="<?php if(isset($customer)): echo $customer[0]->cust_mob1; endif; ?>" class="col-xs-10 form-control col-sm-5 mandatory-field" onKeyUp="javascript:return check_isnumeric(event,this,0);" onblur="javascript:return check_ismobile(event,this,0);"/>
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="mobile_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="">Alternative Mobile Number </label>
-							<div class="col-sm-4">
-								<input type="text" id="alt_mobile" name="alt_mobile" placeholder=" Mobile Number (Optional)" value="<?php if(isset($customer)): echo $customer[0]->cust_mob2; endif; ?>" class="col-xs-10 form-control col-sm-5 " onKeyUp="javascript:return check_isnumeric(event,this,0);" onblur="javascript:return check_ismobile(event,this,0);"/>
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="alt_mobile_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="">Company Name</label>
-							<div class="col-sm-4">
-								<input type="text" id="company_name" name="company_name" placeholder=" Company Name" onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($customer)): echo $customer[0]->cust_compname; endif; ?>" class="col-xs-10 form-control col-sm-5 " />
-								<span class="help-inline col-xs-12 col-sm-7 mandatory-field">
-									<span class="middle input-text-error" id="company_name_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for=""> Contact Person Name<b class="red">*</b></label>
-							<div class="col-sm-4">
-								<input type="text" id="contact_person_name" name="contact_person_name" onKeyUp="javascript:return check_isalphanumeric(event,this);" placeholder="Contact Person Name" value="<?php if(isset($customer)): echo $customer[0]->contact_per_name; endif; ?>" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="contact_person_name_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2"> Contact Person Designation<b class="red">*</b></label>
+							<label class="col-sm-2 no-padding-right" for="">Select Local Package<b class="red"></b></label>
 
 							<div class="col-sm-4">
-								<input type="text" id="contact_person_desig" name="contact_person_desig" onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($customer)): echo $customer[0]->contact_per_desg; endif; ?>" placeholder="Enter Contact Person Designation" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="contact_person_desig_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="form-field-2">Address<b class="red">*</b></label>
-							<div class="col-sm-4">
-								<input type="text" id="address" name="address" value="<?php if(isset($customer)): echo $customer[0]->cust_address; endif; ?>" placeholder="Enter Address" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="address_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2">State<b class="red">*</b></label>
-							<div class="col-sm-4">
-								<input type="text" id="state" name="state" onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($customer)): echo $customer[0]->cust_state; endif; ?>" placeholder="Enter State" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="state_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="form-field-2">City<b class="red">*</b></label>
-							<div class="col-sm-4">
-								<input type="text" id="city" name="city" onKeyUp="javascript:return check_isalphanumeric(event,this);" value="<?php if(isset($customer)): echo $customer[0]->cust_city; endif; ?>" placeholder="Enter City " class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="city_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2">PIN <b class="red">*</b></label>
-							<div class="col-sm-4">
-								<input type="text" id="pin" name="pin" value="<?php if(isset($customer)): echo $customer[0]->cust_pin; endif; ?>" onKeyUp="javascript:return check_isnumeric(event,this);" placeholder="Enter PIN" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="pin_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="form-field-2">User Name<b class="red">*</b></label>
-
-							<div class="col-sm-4">
-								<input type="text" id="user_name" onKeyUp="javascript:return check_isalphanumeric(event,this);" name="user_name" value="<?php if(isset($customer)): echo $customer[0]->cust_username; endif; ?>" placeholder="Enter user name " class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="user_name_errorlabel"></span>
-								</span>
-							</div>
-						</div>
-											
-						
-						<div class="form-group">
-							
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="form-field-2">Password<b class="red">*</b></label>
-
-							<div class="col-sm-4">
-								<input type="password" id="password" name="password" value="<?php if(isset($customer)): echo $customer[0]->cust_password; endif; ?>" placeholder="Enter Password" class="col-xs-10 form-control col-sm-5 mandatory-field" />
-								<span class="help-inline col-xs-12 col-sm-7">
-									<span class="middle input-text-error" id="password_errorlabel"></span>
-								</span>
-							</div>
-
-							<label class="col-sm-2 no-padding-right" for="">Select Local Package<b class="red">*</b></label>
-
-							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="localpackage" id="form-field-select-3" data-placeholder="Choose a Package...">
-									<option></option>
+								<select class="form-control" name="localpackage" id="form-field-select-3" data-placeholder="Choose a Package...">
+									<option>Select Package</option>
 									<?php
 										foreach ($package as $val) 
 										{			
@@ -239,14 +341,12 @@
 									
 								</select>
 							</div>
-						</div>	
 
-						<div class="form-group">
-							<label class="col-sm-2 no-padding-right" for="">Select Outstation Package<b class="red">*</b></label>
+							<label class="col-sm-2 no-padding-right" for="">Select Outstation Package<b class="red"></b></label>
 
 							<div class="col-sm-4">
-								<select class="chosen-select form-control" name="outstationpackage" id="form-field-select-3" data-placeholder="Choose a Package...">
-									<option></option>
+								<select class="form-control" name="transferpackage" id="form-field-select-3" data-placeholder="Choose a Package...">
+									<option>Select Package</option>
 									<?php
 										foreach ($package as $val) 
 										{			
@@ -260,7 +360,30 @@
 									
 								</select>
 							</div>
-						</div>	
+						</div>
+						<div class="form-group">
+							
+						</div>						
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Select Transfer Package<b class="red"></b></label>
+
+							<div class="col-sm-4">
+								<select class="form-control" name="localpackage" id="form-field-select-3" data-placeholder="Choose a Package...">
+									<option>Select Package</option>
+									<?php
+										foreach ($package as $val) 
+										{			
+											if($val->travel_type == "Transfer"){
+									?>								
+											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->local_package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
+									<?php
+											}
+										}
+									?>
+									
+								</select>
+							</div>
+						</div>
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 								<button class="btn btn-info test" type="submit">
@@ -276,8 +399,10 @@
 							</div>
 						</div>
 					</form>
-				</div><!-- /.col -->
-			</div><!-- /.row -->
+				</div>
+			</div>
+
+
 		</div><!-- /.page-content -->
 	</div>
 </div><!-- /.main-content -->
@@ -328,6 +453,7 @@
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
+
 	jQuery(function($) {
 		$('#id-disable-check').on('click', function() {
 			var inp = $('#form-input-readonly').get(0);
@@ -382,6 +508,17 @@
 		.next().on(ace.click_event, function(){
 			$(this).prev().focus();
 		});
-	 
+
+		$(document).on('change','#customer_type', function(e){
+        	var val = $(this).val();
+        	$('.custom_type_id').val(val);
+        	if(val == 2){
+        		$('#individual').css("display", 'none');
+        		$('#corporate').css("display", 'block');
+        	}else{
+        		$('#corporate').css("display", 'none');
+        		$('#individual').css("display", 'block');
+        	}
+    	});
 	});
 </script>

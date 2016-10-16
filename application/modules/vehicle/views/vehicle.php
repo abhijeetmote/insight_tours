@@ -68,7 +68,27 @@
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" method="post" id="<?php if(isset($vehicle)): echo "vehicle_update"; else: echo "vehicle"; endif; ?>" enctype="multipart/form-data">						
+					<form class="form-horizontal" role="form" method="post" id="<?php if(isset($vehicle)): echo "vehicle_update"; else: echo "vehicle"; endif; ?>" enctype="multipart/form-data">				
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Enter Vehicle Name<b class="red">*</b></label>
+
+							<div class="col-sm-4">
+								<input type="text" id="vehicle_name" name="vehicle_name" placeholder="Enter Vehicle Name" class="col-xs-10 form-control col-sm-5 mandatory-field" value="<?php if(isset($vehicle)): echo $vehicle[0]->vehicle_name; endif; ?>" />
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="vehicle_name_errorlabel"></span>
+								</span>
+							</div>
+
+							<label class="col-sm-2 no-padding-right" for="">Vehicle status<b class="red">*</b></label>
+
+							<div class="col-sm-4">
+								<select class="chosen-select form-control" name="vehicle_status" id="form-field-select-3" data-placeholder="Choose a State...">
+									<option <?php if(isset($vehicle)): if($vehicle[0]->vehicle_status == 1): echo 'selected'; endif; endif; ?> value="1">Active</option>';
+									<option <?php if(isset($vehicle)): if($vehicle[0]->vehicle_status == 0): echo 'selected'; endif; endif; ?> value="0">Inctive</option>';
+								</select>
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="">Enter Vehicle No<b class="red">*</b></label>
 
@@ -223,6 +243,16 @@
 						</div>
 						<div class="form-group">
 							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 no-padding-right" for="">Vehicle Description<b class="red">*</b></label>
+
+							<div class="col-sm-4">
+								<textarea id="vehicle_desc" name="vehicle_desc" placeholder="Enter Vehicle Desc" class="col-xs-10 form-control col-sm-5 mandatory-field"><?php if(isset($vehicle)): echo $vehicle[0]->vehicle_desc; endif; ?></textarea>
+								<span class="help-inline col-xs-12 col-sm-7">
+									<span class="middle input-text-error" id="vehicle_desc_errorlabel"></span>
+								</span>
+							</div>
 						</div>
 						<div class="form-group files">
 							<label class="col-sm-3 no-padding-right" for="">Select Image</label>

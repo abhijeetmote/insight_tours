@@ -169,6 +169,15 @@ class Invoice extends MX_Controller {
 					 //From transaction
 					$to_transaction = $this->Invoice_model->saveData($transaction_table,$to_data);
 
+					$data = array(
+						'booking_status' => '3'
+					);
+					$tableName = "booking_master";
+					$columnName = "booking_status";
+					$value = $value = $invoiceData[0]->booking_id;
+
+					$this->Invoice_model->updateData($tableName,$data,$columnName,$value);
+
 
 			 	 	if(isset($to_transaction) && !empty($to_transaction)){
 			 	 		$this->db->trans_commit();
@@ -232,7 +241,7 @@ class Invoice extends MX_Controller {
 
 	public function invoicePdf($invoiceId)
     {
-    	$select = "booking_id,duty_sleep_id,total_amount,invoice_no";
+    	$select = "booking_id,duty_sleep_id,total_amount,invoice_no,invoice_date";
 		$tableName = "invoice_master";
 		$column = 'invoice_id';
 		$value = $invoiceId;
@@ -242,28 +251,59 @@ class Invoice extends MX_Controller {
 			$duty_sleep_id = $invoiceData[0]->duty_sleep_id;
 			$booking_id = $invoiceData[0]->booking_id;
 			$data['invoice_no'] = $invoiceData[0]->invoice_no;
-			$select = "*";
-			$tableName = "duty_sleep_master";
-			$column = 'duty_sleep_id';
-			$value = $duty_sleep_id;
-			$data['dutySlipData'] = $this->Invoice_model->getData($select, $tableName, $column, $value);
+			$data['invoice_date'] = $invoiceData[0]->invoice_date;
+			
+			$tableName =  'duty_sleep_master d, vehicle_master v, driver_master dm';
+	 		$select = 'd.*,v.vehicle_name,vehicle_no,dm.driver_fname';
+	 		$where =  "v.vehicle_id = d.vehicle_id and dm.driver_id = d.driver_id and d.booking_id = '$booking_id'";
+	 		$data['dutySlipData'] = $this->Invoice_model->getwheredata($select,$tableName,$where);
 
 			$tableName =  'customer_master c, booking_master b , package_master p ';
 	 		$select = 'c.*,b.*,p.*';
 	 		$where =  "c.cust_id = b.cust_id and p.package_id = b.package_id and b.booking_id = '$booking_id'";
 	 		$data['booking'] = $this->Invoice_model->getwheredata($select,$tableName,$where);
 
+	 		$select = "*";
+			$tableName = "passenger_details";
+			$column = 'booking_id';
+			$value = $booking_id;
+			$data['passenger'] = $this->Invoice_model->getData($select, $tableName, $column, $value);
+
 	 		/*echo "<pre>";
 	 		print_r($data);
 	 		exit();*/
 
 	    	$this->load->helper('dompdf');
-		     
-			$html = $this->load->view('invoicehtml1', $data, true);
+
+			$html = $this->load->view('individualPdf', $data, true);
 			pdf_create($html, 'filename');
+
 		}else{
 			redirect("");
 		}
+    }
 
+    public function dutySlipPdf()
+    {
+    	$this->load->helper('dompdf');
+	     
+		$html = $this->load->view('dutySlipPdf', $data, true);
+		pdf_create($html, 'filename', array('Attachment' => 0));
+    }
+
+    public function individualPdf()
+    {
+    	$this->load->helper('dompdf');
+	     
+		$html = $this->load->view('individualPdf', $data, true);
+		pdf_create($html, 'filename', array('Attachment' => 0));
+    }
+
+    public function corporatePdf()
+    {
+    	$this->load->helper('dompdf');
+	     
+		$html = $this->load->view('corporatePdf', $data, true);
+		pdf_create($html, 'filename', array('Attachment' => 0));
     }
 }
