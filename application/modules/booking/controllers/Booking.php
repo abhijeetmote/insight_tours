@@ -18,7 +18,7 @@ class Booking extends MX_Controller {
 	public function bookingMaster()
 	{
 
-		$select = 'cust_id,cust_firstname,cust_lastname';
+		$select = '*';
 		$tableName = 'customer_master';
 		$column = "isactive";
 		$value = "1";
@@ -219,7 +219,7 @@ class Booking extends MX_Controller {
 
  	public function update($id){
 
- 		$select = 'cust_id,cust_firstname,cust_lastname';
+ 		$select = '*';
 		$tableName = 'customer_master';
 		$column = "isactive";
 		$value = "1";
@@ -1421,20 +1421,25 @@ class Booking extends MX_Controller {
 
  	public function generateDutyslip($booking_id){
 
- 		
+ 		error_reporting(E_ALL);
  		$this->load->helper('dompdf');
 	    $tableName =  'booking_master bok , duty_sleep_master dut, customer_master cus ,vehicle_master ve, users_master us,driver_master dr';
  		$select = 'bok.booking_date,bok.duty_slip_id,bok.booked_by,bok.added_on,bok.pickup_location,bok.vehicle_type,bok.booking_id,
  		bok.drop_location,bok.travel_type,cus.cust_id,cus.cust_type_id,cus.cust_firstname,cus.cust_lastname,dr.driver_fname,dr.driver_lname,
- 		cus.contact_per_name,cus.cust_mob1,ve.vehicle_no,ve.vehicle_type,ve.vehicle_model,dut.vehicle_id,dut.comments,us.user_first_name,us.user_last_name';
+ 		cus.contact_per_name,cus.cust_mob1,ve.vehicle_no,ve.vehicle_type,ve.vehicle_model,dut.vehicle_id,dut.comments,us.user_first_name,us.user_last_name,
+ 		dut.total_hrs,dut.extra_hrs,dut.total_kms,dut.extra_kms,dut.start_time,dut.end_time,dut.start_km,dut.end_km,dut.parking_fees,dut.toll_fess';
  		$where =  'bok.booking_id = '.$booking_id.' and bok.booking_id = dut.booking_id and dr.driver_id = dut.driver_id and 
  					bok.cust_id = cus.cust_id and dut.vehicle_id = ve.vehicle_id and bok.booked_by = us.user_id';
 
  		$data['dutyslipdetails'] = $this->Booking_model->getwheredata($select,$tableName,$where);
-
- 		echo "<pre>";
- 		print_r($data['dutyslipdetails']);exit;
+ 		$duty_slip_id = $data['dutyslipdetails'][0]->duty_slip_id;
+ 		$filename = "DS-".$duty_slip_id;
+ 		//echo "<pre>";
+ 		//print_r($data['dutyslipdetails']);exit;
 		$html = $this->load->view('dutySlipPdf', $data, true);
-		pdf_create($html, 'filename', array('Attachment' => 0));
+		
+		$output = pdf_create($html, 'filename', array('Attachment' => 0));
+		 file_put_contents('./assets/dutyslip/'.$filename.'.pdf', $output);
+		//$path = "./assets/dutyslip/".$filename;
  	}
 }

@@ -48,7 +48,11 @@ class Customer extends MX_Controller {
 		$transferpackage = isset($_POST['transferpackage']) ? $_POST['transferpackage'] : "0";
 		$country = isset($_POST['country']) ? $_POST['country'] : "";
 		$customer_type = isset($_POST['customer_type']) ? $_POST['customer_type'] : "1";
-
+		$customer_status = isset($_POST['cust_status']) ? $_POST['cust_status'] : "0";
+		$user_id = 0;
+		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+			$user_id = $_SESSION['userId'];
+		}
 		$data = array(
 			'cust_type_id' => $customer_type,
 			'cust_firstname' => $first_name,
@@ -73,11 +77,9 @@ class Customer extends MX_Controller {
 			'local_package_id' =>$localpackage,
 			'outstation_package_id' =>$outstationpackage,
 			'transfer_package_id' =>$transferpackage,
-			'isactive' =>'0',			
-			'added_by' =>'1',
+			'isactive' =>$customer_status,			
+			'added_by' =>$user_id,
 			'added_on' => date('Y-m-d h:i:s'),
-			'updated_by' =>'1',
-			'updated_on' => date('Y-m-d h:i:s')
 		);
 		//print_r($data);
 
@@ -163,7 +165,7 @@ class Customer extends MX_Controller {
 
  	public function customerList(){
  		$customer_table = 'customer_master';
- 		$filds = "cust_id,cust_firstname,cust_middlename,cust_lastname,cust_compname,cust_telno, cust_mob1,cust_email1,cust_address";
+ 		$filds = "cust_type_id,cust_id,cust_firstname,cust_middlename,cust_lastname,cust_compname,cust_telno, cust_mob1,cust_email1,cust_address";
  		$data['list'] = $this->Customer_model->getCustomerList($filds,$customer_table);
  		//echo "<pre>";print_r($data['list']);
         $this->header->index($this->active);
@@ -230,8 +232,12 @@ class Customer extends MX_Controller {
 
 		$country = isset($_POST['country']) ? $_POST['country'] : "";
 		$customer_type = isset($_POST['customer_type']) ? $_POST['customer_type'] : "1";
+		$customer_status = isset($_POST['cust_status']) ? $_POST['cust_status'] : "0";
 
-
+		$user_id = 0;
+		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+			$user_id = $_SESSION['userId'];
+		}
 
 		$select = '*';
 		$tableName = 'customer_master';
@@ -269,10 +275,8 @@ class Customer extends MX_Controller {
 			'local_package_id' =>$localpackage,
 			'outstation_package_id' =>$outstationpackage,
 			'transfer_package_id' =>$transferpackage,
-			'isactive' =>'0',			
-			'added_by' =>'1',
-			'added_on' => date('Y-m-d h:i:s'),
-			'updated_by' =>'1',
+			'isactive' => $customer_status,			
+			'updated_by' =>$user_id,
 			'updated_on' => date('Y-m-d h:i:s')
 		);
 		      

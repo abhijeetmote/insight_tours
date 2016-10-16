@@ -59,6 +59,7 @@
 											<th>Contact No</th>
 											<th>Address</th>
 											<th>Email id</th>
+											<th>Customer Type</th>
 											<th>Action</th>											
 										</tr>
 									</thead>
@@ -68,12 +69,13 @@
 											<tr>
 												 
 
-												<td><?php echo $val->cust_firstname; ?></td>
-												<td><?php echo $val->cust_compname; ?></td>
+												<td><?php if(isset($val->cust_firstname) && !empty($val->cust_firstname)) echo  $val->cust_firstname. "  ".$val->cust_lastname; else echo "NA"; ?></td>
+												<td><?php if(isset($val->cust_compname) && !empty($val->cust_compname)) echo $val->cust_compname;  else echo "NA"; ?></td>
 												<td><?php echo $val->cust_mob1; ?></td>
 												<td><?php echo $val->cust_telno; ?></td>
 												<td><?php echo $val->cust_address; ?></td>
 												<td><?php echo $val->cust_email1; ?></td>
+												<td><?php if($val->cust_type_id == 1 ) echo "Indivisual"; else echo "Corporate"; ?></td>
 												<td>
 													<div class="hidden-sm hidden-xs action-buttons">
 														<a class="green" href="<?php echo base_url().'customer/update/'.$val->cust_id; ?>">

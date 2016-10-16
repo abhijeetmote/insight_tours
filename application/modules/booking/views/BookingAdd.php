@@ -55,17 +55,18 @@
 								</span>
 							</div>
 
-							 <label class="col-sm-1 no-padding-right" for="form-field-2">Customer</label>
+							 <label class="col-sm-1 no-padding-right" for="form-field-2" title="select customer and Travel type to get package"><b class="red"><i><u>Customer</u></i></b></label>
 
                             <div class="col-sm-4">
-                                <select data-placeholder="Active/Inactive" name="customer_id" id="customer_id" class="chosen-select form-control" style="display: none;">
+                                <select data-placeholder="Customers List" name="customer_id" id="customer_id" class="chosen-select form-control" style="display: none;">
                                     
 									<?php 
 										foreach ($customerList as $val) {
+											if($val->cust_type_id == 1) { $cust_name = $val->cust_firstname." " . $val->cust_lastname;} else if($val->cust_type_id == 2) {$cust_name = $val->cust_compname;} else {$cust_name = $val->cust_firstname." " . $val->cust_lastname;}  
 											if(isset($booking) && $val->cust_id == $booking[0]->cust_id){
-												echo '<option selected value="'.$val->cust_id.'">'.$val->cust_firstname." " . $val->cust_lastname.'</option>';
+												echo '<option selected value="'.$val->cust_id.'">'.$cust_name.'</option>';
 											}else{
-												echo '<option value="'.$val->cust_id.'">'.$val->cust_firstname." " . $val->cust_lastname.'</option>';
+												echo '<option value="'.$val->cust_id.'">'.$cust_name.'</option>';
 											}
 										}
 									?>
@@ -98,15 +99,17 @@
                                     <span class="middle input-text-error" id="vehicale_type_errorlabel"></span>
                                 </span>
                             </div>
-                            <label class="col-sm-1 no-padding-right" for="form-field-2">Travel Type</label>
+                            <label class="col-sm-1 no-padding-right" for="form-field-2" title="select customer and Travel type to get package"><b class="red"><i><u>Travel Type</u></i></b></label>
                             <div class="col-sm-4">
                                 <select data-placeholder="Local/Outstation" name="travel_type" id="travel_type" class="chosen-select form-control" style="display: none;">
                                 	<option></option>
                                     <option <?php if(isset($booking) && $booking[0]->travel_type == "Local") { echo "selected"; }?> value="Local">Local</option>
                                     <option value="Outstation" <?php if(isset($booking) &&  $booking[0]->travel_type == "Outstation") { echo "selected"; }?>>Outstation</option>
+                                    <option value="Transfer" <?php if(isset($booking) &&  $booking[0]->travel_type == "Transfer") { echo "selected"; }?>>Transfer</option>
                                      
                                     
                                 </select>
+
                                 <span class="help-inline col-xs-12 col-sm-7">
                                     <span class="middle input-text-error" id="travel_type_errorlabel"></span>
                                 </span>
@@ -117,7 +120,7 @@
                         <br>
 
                         <div class="form-group">
-                            <label class="col-sm-2 no-padding-right" for="form-field-2">Package</label>
+                            <label class="col-sm-2 no-padding-right" for="form-field-2" title="select customer and Travel type to get package"><b class="red"><i><u>Package</u></i></b></label>
 
                             <div class="col-sm-4">
                                 <select name="package" id="package" placeholder="select package" class="form-control mandatory-field">
@@ -429,11 +432,11 @@
 			 
 		});
 
-		$(document).on('change','#vehicale_type', function() {
+		$(document).on('change','#customer_id', function() {
 			 
-			var v_type = $(this).val();
+			var cust_id = $(this).val();
 			var t_type = $("#travel_type").val();
-			if(v_type != "" && t_type != ""){
+			if(cust_id != "" && t_type != ""){
 				var obj = array.filter(function(obj){
 		            return obj.name === 'package-List-booking'
 		        })[0];
@@ -441,7 +444,7 @@
 		        var uri = obj['value'];
 
 		        jobject = {
-		            'v_type' : v_type,
+		            'cust_id' : cust_id,
 		            't_type' : t_type
 		        }
 		        
@@ -471,8 +474,9 @@
 		$(document).on('change','#travel_type', function() {
 			 
 			var t_type = $(this).val();
-			var v_type = $("#vehicale_type").val();
-			if(v_type != "" && t_type != ""){
+			 
+			var cust_id = $("#customer_id").val();
+			if(cust_id != "" && t_type != ""){
 				var obj = array.filter(function(obj){
 		            return obj.name === 'package-List-booking'
 		        })[0];
@@ -480,7 +484,7 @@
 		        var uri = obj['value'];
 
 		        jobject = {
-		            'v_type' : v_type,
+		            'cust_id' : cust_id,
 		            't_type' : t_type
 		        }
 		        
@@ -508,6 +512,8 @@
 		});
 
 	});
+
+
 	jQuery(function($) {
 
 		

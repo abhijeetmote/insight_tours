@@ -188,13 +188,52 @@ class Package extends MX_Controller {
 
  	public function packageListBooking()
 	{
-		$v_type = $this->input->post('v_type');
+		$cust_id = $this->input->post('cust_id');
 		$t_type = $this->input->post('t_type');
+ 
+		$select_cust = 'outstation_package_id,local_package_id,transfer_package_id,cust_id';
+		$tableName_cust = 'customer_master';
+		$where_cust = "cust_id = '$cust_id' ";
+
+		$cust_details = $this->helper_model->selectwhere($select_cust, $tableName_cust, $where_cust);
+		
+		  
+		  $outstation_package_id = isset($cust_details[0]->outstation_package_id) ? $cust_details[0]->outstation_package_id : 0;
+		  $local_package_id = isset($cust_details[0]->local_package_id) ? $cust_details[0]->local_package_id : 0;
+		  $transfer_package_id = isset($cust_details[0]->transfer_package_id) ? $cust_details[0]->transfer_package_id : 0;
+	 
+		 $where = "";
+		if($t_type == 'Local' && !empty($local_package_id) && $local_package_id!=0) {
+			$where = "local_package_id = package_id AND cust_id = '$cust_id' ";
+			$tableName = 'package_master , customer_master';
+		} elseif($t_type == 'Local') {
+			$where = "travel_type = 'Local' AND package_master.default = 1";
+			$tableName = 'package_master ';
+		}
+
+		if($t_type == 'Outstation' && !empty($outstation_package_id) && $local_package_id!=0) {
+			$where = "outstation_package_id = package_id AND cust_id = '$cust_id' ";
+			$tableName = 'package_master , customer_master';
+		} elseif($t_type == 'Outstation') {
+			$where = "travel_type = 'Outstation' AND package_master.default = 1 ";
+			$tableName = 'package_master ';
+		}
+
+		if($t_type == 'Transfer' && !empty($transfer_package_id) && $transfer_package_id!=0) {
+			$where = "transfer_package_id = package_id AND cust_id = '$cust_id'";
+			$tableName = 'package_master , customer_master';
+		} elseif($t_type == 'Transfer') {
+			$where = "travel_type = 'Transfer' AND package_master.default = 1 ";
+			$tableName = 'package_master ';
+		}
+
+		 
 		$select = 'package_id,package_name';
-		$tableName = 'package_master';
-		$where = "vehicle_cat_id = '$v_type' && travel_type = '$t_type'";
+		
+		//$where .= "cust_id = '$cust_id' ";
 
 		$packageList = $this->helper_model->selectwhere($select, $tableName, $where);
+		//echo "<pre>";print_r($packageList);
 		if(!empty($packageList)){
 			$response['success'] = true;
 			$list = "";

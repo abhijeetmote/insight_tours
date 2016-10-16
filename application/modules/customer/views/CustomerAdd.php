@@ -232,6 +232,16 @@
 							</div>
 						</div>
 						
+						<div class="form-group">
+						<label class="col-sm-2 no-padding-right" for="">Customer status<b class="red">*</b></label>
+
+							<div class="col-sm-4">
+								<select class=" form-control" name="cust_status" id="form-field-select-3" data-placeholder="Choose a State...">
+									<option <?php if(isset($customer)): if($customer[0]->isactive == 1): echo 'selected'; endif; endif; ?> value="1">Active</option>';
+									<option <?php if(isset($customer)): if($customer[0]->isactive == 0): echo 'selected'; endif; endif; ?> value="0">Inctive</option>';
+								</select>
+							</div>
+						</div>	
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 								<button class="btn btn-info test" type="submit">
@@ -381,6 +391,15 @@
 										}
 									?>
 									
+								</select>
+							</div>
+
+							<label class="col-sm-2 no-padding-right" for="">Customer status<b class="red">*</b></label>
+
+							<div class="col-sm-4">
+								<select class=" form-control" name="cust_status" id="form-field-select-3" data-placeholder="Choose a State...">
+									<option <?php if(isset($customer)): if($customer[0]->isactive == 1): echo 'selected'; endif; endif; ?> value="1">Active</option>';
+									<option <?php if(isset($customer)): if($customer[0]->isactive == 0): echo 'selected'; endif; endif; ?> value="0">Inctive</option>';
 								</select>
 							</div>
 						</div>
