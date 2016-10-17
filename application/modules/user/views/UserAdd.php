@@ -31,6 +31,15 @@
 				</h1>
 			</div><!-- /.page-header -->
 
+
+			<?php if(isset($user[0]->user_profile_photo) && $user[0]->user_profile_photo != ""): ?>
+			<div class="row" style="margin-bottom: 2%;">
+				<div class="col-xs-12 col-sm-22 widget-container-col ui-sortable" id="widget-container-col-1">
+					<img  style="width:20%;margin-bottom:1%;" src="<?php echo base_url().$user[0]->user_profile_photo; ?>">
+				</div>
+			</div>
+			<?php endif; ?>
+
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
@@ -140,15 +149,27 @@
 									<span class="middle input-text-error" id="mob_no_errorlabel"></span>
 								</span>
 							</div>
+
+
+								
+							<label class="col-sm-2 no-padding-right" for="">User statu</label>
+
+							<div class="col-sm-4">
+								<select class=" form-control" name="user_status" id="form-field-select-3" data-placeholder="Choose a Status...">
+									<option <?php if(isset($user)): if($user[0]->status == 1): echo 'selected'; endif; endif; ?> value="1">Active</option>';
+									<option <?php if(isset($user)): if($user[0]->status == 0): echo 'selected'; endif; endif; ?> value="0">Inctive</option>';
+								</select>
+							</div> 	
+ 
 						</div>
 
 						<?php if(isset($user)){?>
 							<div class="form-group files">
 							<label class="col-sm-2 no-padding-right" for="">User Profile Photo</label>
 							<div class="col-sm-4">
-							<img src="<?php echo base_url().$user[0]->user_profile_photo; ?>" />
-							<input type="file" id="profilephoto" name="profilephoto" />
 							
+							<input type="file" id="profilephoto" name="profilephoto" />
+							<input type="hidden" value="<?php if(isset($user)): echo $user[0]->user_profile_photo; endif; ?>" name="user_image"	>
 						</div>
 						</div>
 						<?php } else {?>
@@ -157,6 +178,7 @@
 
 							<div class="col-sm-4">
 								<input type="file" id="profilephoto" name="profilephoto" />
+								
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="profilephoto_errorlabel" ></span>
 								</span>

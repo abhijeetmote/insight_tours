@@ -39,6 +39,12 @@ class Vendor extends MX_Controller {
 		 $vendor_cst = isset($_POST['vendor_cst']) ? $_POST['vendor_cst'] : "";
 		 $vendor_gst = isset($_POST['vendor_gst']) ? $_POST['vendor_gst'] : "";
 
+		 $vendor_status = isset($_POST['vendor_status']) ? $_POST['vendor_status'] : "0";
+		 $user_id = 0;
+		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+			$user_id = $_SESSION['userId'];
+		}
+
 		 $data = array(
 			'vendor_name' => $vendor_name,
 			'vendor_contact_number' => $vendor_mobile_number,
@@ -53,8 +59,8 @@ class Vendor extends MX_Controller {
 			'vendor_vat' => $vendor_vat,
 			'vendor_cst' => $vendor_cst,
 			'vendor_gst' => $vendor_gst,
-			'status' => '1',
-			'added_by' => '1',
+			'status' => $vendor_status,
+			'added_by' => $user_id,
 			'added_on' => date('Y-m-d h:i:s')
 		);
  	$vendor_table =  VENDOR_TABLE;
@@ -196,6 +202,11 @@ class Vendor extends MX_Controller {
 
 		 $vendor_ledger_id = isset($_POST['vendor_ledger_id']) ? $_POST['vendor_ledger_id'] : "";
 
+		 $vendor_status = isset($_POST['vendor_status']) ? $_POST['vendor_status'] : "0";
+		 $user_id = 0;
+		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+			$user_id = $_SESSION['userId'];
+		}
 		 $vendor_update = array(
 			'vendor_name' => $vendor_name,
 			'vendor_contact_number' => $vendor_mobile_number,
@@ -210,8 +221,8 @@ class Vendor extends MX_Controller {
 			'vendor_vat' => $vendor_vat,
 			'vendor_cst' => $vendor_cst,
 			'vendor_gst' => $vendor_gst,
-			'status' => '1',
-			'updated_by' => '1',
+			'status' => $vendor_status,
+			'updated_by' => $user_id,
 			'updated_on' => date('Y-m-d h:i:s')
 		);
      

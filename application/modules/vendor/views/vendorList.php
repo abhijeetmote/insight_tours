@@ -208,7 +208,12 @@
 				
 				new $.fn.dataTable.Buttons( myTable, {
 					buttons: [
-					  
+					  {
+            "extend": "colvis",
+            "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+            "className": "btn btn-white btn-primary btn-bold",
+            columns: ':not(:first):not(:last)'
+            },
 					  {
 						"extend": "csv",
 						"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",

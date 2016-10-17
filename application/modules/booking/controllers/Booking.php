@@ -528,9 +528,9 @@ class Booking extends MX_Controller {
 				exit();*/
 			}
 
-			$tableName =  'booking_master b , vehicle_category v ';
-	 		$select = 'b.duty_slip_id,b.booked_by,b.added_on,b.pickup_location,b.drop_location,v.cat_name,b.package_id,b.package_id,b.travel_type,b.cust_id';
-	 		$where =  'b.vehicle_type = v.cat_id and b.booking_id = '.$booking_id.'';
+			$tableName =  'booking_master b , vehicle_category v , users_master u';
+	 		$select = 'b.duty_slip_id,b.booked_by,b.added_on,b.pickup_location,b.drop_location,v.cat_name,b.package_id,b.package_id,b.travel_type,b.cust_id,u.user_first_name,u.user_last_name';
+	 		$where =  'b.vehicle_type = v.cat_id and b.booking_id = '.$booking_id.' and b.booked_by = u.user_id';
 	 		$data['bookingDetails'] = $this->Booking_model->getwheredata($select,$tableName,$where);
 
 	 		$cust_id = $data['bookingDetails'][0]->cust_id;

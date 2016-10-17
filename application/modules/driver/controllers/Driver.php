@@ -39,7 +39,11 @@ class Driver extends MX_Controller {
 		 $driver_na_pay = isset($_POST['driver_na']) ? $_POST['driver_na'] : "";
 		 $driver_da = isset($_POST['da']) ? 2 : 1;
 		 $driver_night = isset($_POST['night']) ? 2 : 1;
-		 
+		 $driver_status = isset($_POST['driver_status']) ? $_POST['driver_status'] : "0";
+		 $user_id = 0;
+		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+			$user_id = $_SESSION['userId'];
+		}
 		 //bdate conversion
 		 if(isset($driver_dob) && !empty($driver_dob)){
 		 	$driver_dob = $this->helper_model->dbDate($driver_dob);
@@ -82,8 +86,8 @@ class Driver extends MX_Controller {
 				'driver_panno' => $driver_pan,
 				'is_da' => $driver_da,
 				'is_night_allowance' => $driver_night,
-				'isactive' => '1',
-				'added_by' => '1',
+				'isactive' => $driver_status,
+				'added_by' => $user_id,
 				'added_on' => date('Y-m-d h:i:s')
 			);
  	$driver_table =  DRIVER_TABLE;
@@ -207,6 +211,7 @@ class Driver extends MX_Controller {
 
  	public function driverUpdate(){        
 
+ 		$driver_photo_old = "";
  		$driver_fname = isset($_POST['driver_fname']) ? $_POST['driver_fname'] : "";
 		 $driver_mname = isset($_POST['driver_mname']) ? $_POST['driver_mname'] : "";
 		 $driver_lname = isset($_POST['driver_lname']) ? $_POST['driver_lname'] : "";
@@ -223,6 +228,12 @@ class Driver extends MX_Controller {
 		 $driver_da = isset($_POST['da']) ? 2 : 1;
 		 $driver_night = isset($_POST['night']) ? 2 : 1;
 		 $ledger_id = isset($_POST['ledger_id']) ? $_POST['ledger_id'] : "";
+		 $driver_status = isset($_POST['driver_status']) ? $_POST['driver_status'] : "0";
+		 $driver_photo_old = isset($_POST['driver_image']) ? $_POST['driver_image'] : "0";
+		 $user_id = 0;
+		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+			$user_id = $_SESSION['userId'];
+		}
 		 //bdate conversion
 		 if(isset($driver_dob) && !empty($driver_dob)){
 		 	$driver_dob = $this->helper_model->dbDate($driver_dob);
@@ -246,7 +257,10 @@ class Driver extends MX_Controller {
 				}
 			}
 		}
-
+		 
+		if(!isset($driver_photo) || empty($driver_photo)) {
+			$driver_photo = $driver_photo_old;
+		} 
 	 // driver data insertion start
 		 $driver_update = array(
 				'driver_fname' => $driver_fname,
@@ -265,8 +279,8 @@ class Driver extends MX_Controller {
 				'driver_na' => $driver_na_pay,
 				'is_da' => $driver_da,
 				'is_night_allowance' => $driver_night,
-				'isactive' => '1',
-				'updated_by' => '1',
+				'isactive' => $driver_status,
+				'updated_by' => $user_id,
 				'updated_on' => date('Y-m-d h:i:s')
 				
 			);

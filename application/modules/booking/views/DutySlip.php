@@ -76,7 +76,7 @@
 											foreach ($bookingDetails as $val) {
 												echo "<tr>";
 												echo "<td>"."S_".$val->duty_slip_id."</td>";
-												echo "<td>".$val->booked_by."</td>";
+												echo "<td>".$val->user_first_name. " ".$val->user_last_name."</td>";
 												echo "<td>".$val->added_on."</td>";
 												echo "<td>".$val->pickup_location."</td>";
 												echo "<td>".$val->drop_location."</td>";

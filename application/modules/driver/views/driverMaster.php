@@ -186,7 +186,20 @@
 							</div>
 						</div>
  
+						<div class="form-group">
+							
+								
+							<label class="col-sm-2 no-padding-right" for="">Driver statu</label>
 
+							<div class="col-sm-4">
+								<select class=" form-control" name="driver_status" id="form-field-select-3" data-placeholder="Choose a Status...">
+									<option <?php if(isset($driver)): if($driver[0]->isactive == 1): echo 'selected'; endif; endif; ?> value="1">Active</option>';
+									<option <?php if(isset($driver)): if($driver[0]->isactive == 0): echo 'selected'; endif; endif; ?> value="0">Inctive</option>';
+								</select>
+							</div> 	
+
+
+						</div>
 						<div class="form-group">
 							<label class="col-sm-2  no-padding-right" for="">Diver Naight Allownace</label>
 
@@ -220,6 +233,7 @@
 
 							<div class="col-sm-4">
 								<input type="file" name="driverImage" />
+								<input type="hidden" value="<?php if(isset($driver)): echo $driver[0]->driver_photo; endif; ?>" name="driver_image"/>
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="" ></span>
 								</span>

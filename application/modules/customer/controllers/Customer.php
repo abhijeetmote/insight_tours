@@ -100,10 +100,12 @@ class Customer extends MX_Controller {
 	 	 	$groupid = $this->Customer_model->getGroupId($select,$ledgertable,$context,$entity_type,$where);
 	 	 	
 	 	 	$parent_data = $groupid->ledger_account_id;
-	 	 	$reporting_head ='REPORT_HEAD_INCOME';
-	 	 	$nature_of_account ='DR';
+	 	 	$reporting_head = REPORT_HEAD_INCOME;
+	 	 	$nature_of_account = DR;
 	 	 	// ledger data preparation
-
+	 	 	if($customer_type == 2 ){
+	 	 		$first_name = $compname;
+	 	 	}
 	 	 	$leddata = array(
 			'ledger_account_name' => $first_name."_".$customer_id,
 			'parent_id' => $parent_data,	

@@ -44,7 +44,7 @@
                             <label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Name<b class="red">*</b></label>
 
                             <div class="col-sm-4">
-                                <input type="text" id="vendor_name" name="vendor_name" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_name; endif; ?>" placeholder="Enter Vendor Name" onKeyUp="javascript:return check_isalphanumeric(event,this);" class="col-xs-10 col-sm-12 mandatory-field" />
+                                <input type="text" id="vendor_name" name="vendor_name" value="<?php if(isset($vendor)): echo $vendor[0]->vendor_name; endif; ?>" placeholder="Enter Vendor Name"   class="col-xs-10 col-sm-12 mandatory-field" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_name_errorlabel"></span>
 								</span>
@@ -126,7 +126,7 @@
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> Vendor Payee Name<b class="red">*</b></label>
 
 							<div class="col-sm-4">
-								<input type="text" id="vendor_payee_name" name="vendor_payee_name" onKeyUp="javascript:return check_isalphanumeric(event,this);"  value="<?php if(isset($vendor)): echo $vendor[0]->vendor_payee_name; endif; ?>" placeholder="Enter Vendor Payee Name" class="col-xs-10 col-sm-12 mandatory-field" />
+								<input type="text" id="vendor_payee_name" name="vendor_payee_name"    value="<?php if(isset($vendor)): echo $vendor[0]->vendor_payee_name; endif; ?>" placeholder="Enter Vendor Payee Name" class="col-xs-10 col-sm-12 mandatory-field" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="vendor_payee_name_errorlabel"></span>
 								</span>
@@ -144,7 +144,7 @@
 						 
 
 
-						<div class="form-group">
+						<div class="form-group" style="display:none;">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> VAT</label>
 
 							<div class="col-sm-4">
@@ -166,7 +166,7 @@
 						
 						 
 						
-						<div class="form-group">
+						<div class="form-group" style="display:none;">
 							<label class="col-sm-2 no-padding-right" for="form-field-2"> GST</label>
 
 							<div class="col-sm-4">
@@ -179,7 +179,20 @@
 							 
 						</div>
 
-						 
+						 <div class="form-group">
+							
+								
+							<label class="col-sm-2 no-padding-right" for="">Vendor statu</label>
+
+							<div class="col-sm-4">
+								<select class=" form-control" name="vendor_status" id="form-field-select-3" data-placeholder="Choose a Status...">
+									<option <?php if(isset($vendor)): if($vendor[0]->status == 1): echo 'selected'; endif; endif; ?> value="1">Active</option>';
+									<option <?php if(isset($vendor)): if($vendor[0]->status == 0): echo 'selected'; endif; endif; ?> value="0">Inctive</option>';
+								</select>
+							</div> 	
+
+
+						</div>
 
 						
 						<div class="clearfix form-actions">

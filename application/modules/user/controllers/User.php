@@ -33,6 +33,11 @@ class User extends MX_Controller {
 		 $password = isset($_POST['password']) ? $_POST['password'] : "";
 		 $mob_no = isset($_POST['mob_no']) ? $_POST['mob_no'] : "";
 		 $profilephoto = isset($_FILES['profilephoto']) ? $_FILES['profilephoto'] : "";
+		 $user_status = isset($_POST['status']) ? $_POST['status'] : "0";
+		 $user_id = 0;
+		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+			$user_id = $_SESSION['userId'];
+		}
 
 
 
@@ -59,6 +64,8 @@ class User extends MX_Controller {
 			'password' => isset($_POST['password']) ? md5($_POST['password']) : "",
 			'user_mobile_number' => isset($_POST['mob_no']) ? $_POST['mob_no'] : "",
 			'user_profile_photo' => isset($_FILES['profilephoto']) ? $user_profile_photo : "",
+			'status' => $user_status,
+			'added_by' => $user_id,
 			'added_on' => date('Y-m-d')
 			);
   
@@ -144,6 +151,12 @@ class User extends MX_Controller {
 		 $password = isset($_POST['password']) ? $_POST['password'] : "";
 		 $mob_no = isset($_POST['mob_no']) ? $_POST['mob_no'] : "";
 		 $profilephoto = isset($_FILES['profilephoto']) ? $_FILES['profilephoto'] : "";
+		 $user_status = isset($_POST['user_status']) ? $_POST['user_status'] : "0";
+		 $user_photo_old = isset($_POST['user_image']) ? $_POST['user_image'] : "0";
+		 $user_id = 0;
+		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+			$user_id = $_SESSION['userId'];
+		}
 		 
 		 
 		  
@@ -152,8 +165,12 @@ class User extends MX_Controller {
 			$sizeinmb=25;
 			$user_profile_photo=FILE_UPLOAD.$user_fname."_".$newname;
 
+			 
 			
-			
+			if(!isset($newname) || empty($newname)) {
+			$user_profile_photo = $user_photo_old;
+			} 
+
 			  $user = array(
 			'user_id' => $_POST['user_id'],
 			'user_first_name' => $_POST['first_name'],
@@ -164,6 +181,8 @@ class User extends MX_Controller {
 			'password' => md5($_POST['password']),
 			'user_mobile_number' => $_POST['mob_no'],
 			'user_profile_photo' => $user_profile_photo,
+			'status' => $user_status,
+			'updated_by' => $user_id,
 			'updated_on' => date('Y-m-d h:i:s')
 		);
 		
