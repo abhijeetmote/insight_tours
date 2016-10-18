@@ -64,6 +64,7 @@
 
 							 <div class="col-sm-4">
                                <input type="text" id="first_name" name="first_name" placeholder="Enter First Name" class="col-xs-10 col-sm-12 mandatory-field" value="<?php if(isset($user)): echo $user[0]->user_first_name; endif; ?>" onKeyUp="javascript:return check_isalphanumeric(event,this);" />
+                               <input type="hidden" id="user_id" name="user_id"  class="col-xs-10 col-sm-12" value="<?php if(isset($user)): echo $user[0]->user_id; endif; ?>"  />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="first_name_errorlabel"></span>
 								</span>
@@ -124,7 +125,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="">Password<b class="red">*</b></label>
 							<div class="col-sm-4">
-								<input type="password" id="password" name="password" placeholder="Enter Password" class="col-xs-10 col-sm-12 mandatory-field" value="<?php if(isset($user)): echo $user[0]->password; endif; ?>" />
+								<input type="password" id="password" name="password" onblur="javascript:return check_password();" placeholder="Enter Password" class="col-xs-10 col-sm-12 mandatory-field" value="<?php if(isset($user)): echo $user[0]->password; endif; ?>" />
 								<span class="help-inline col-xs-12 col-sm-7">
 									<span class="middle input-text-error" id="password_errorlabel"></span>
 								</span>

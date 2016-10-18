@@ -295,4 +295,25 @@ public function _getLedGrpListRecur($led_grp_objects, $master_array = array(), $
                 //print_r($elements);exit;
 		return $elements;
     }
+
+
+
+  	public function send_sms($telephone_no, $msg="") {
+
+  			//echo "<br> tel".$telephone_no;
+  			//echo "<br>".$msg;
+  			$url = "http://bulkpush.mytoday.com/BulkSms/SingleMsgApi?";
+  			$post_string = "feedid=358332&username=9619118195&password=ddpda&To=$telephone_no&Text=$msg";
+						
+			//initialize curl handle
+			$curl_connection = curl_init($url);
+			curl_setopt($curl_connection, CURLOPT_POSTFIELDS, $post_string); //set the POST variables
+			$result = curl_exec($curl_connection); //run the whole process and return the response
+			curl_close($curl_connection);  //close the curl handle 
+			ob_end_flush();
+			
+          
+			 
+
+    }
 }

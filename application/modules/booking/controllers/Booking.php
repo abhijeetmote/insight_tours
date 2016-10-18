@@ -859,9 +859,18 @@ class Booking extends MX_Controller {
 		
 		
 
+		$duty_slip_id_notifi = 0;
+		$booking_id_notifi = 0;
+
 
 		$tableName = 'duty_sleep_master';
 		$result = $this->Booking_model->saveData($tableName,$dutySlip);
+
+
+		$duty_slip_id_notifi = $result;
+		$booking_id_notifi = $_POST['booking_id'];
+
+
 		if($result != false){
 
 			//vendor Bill entry if booking outsorec
@@ -994,6 +1003,8 @@ class Booking extends MX_Controller {
 				$this->addInvoice($result,$_POST['start_date'],$_POST['total_amt'],$_POST['booking_id']);
 			}
 			$this->db->trans_commit();
+
+			$notification = $this->Booking_model->sendDutyslip_notification($duty_slip_id_notifi,$booking_id_notifi);
 			$response['success'] = true;
 			$response['successMsg'] = "Successfully Submit";
 			$response['redirect'] = base_url()."booking/bookingList";

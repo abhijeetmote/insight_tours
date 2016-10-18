@@ -153,13 +153,28 @@ class User extends MX_Controller {
 		 $profilephoto = isset($_FILES['profilephoto']) ? $_FILES['profilephoto'] : "";
 		 $user_status = isset($_POST['user_status']) ? $_POST['user_status'] : "0";
 		 $user_photo_old = isset($_POST['user_image']) ? $_POST['user_image'] : "0";
+		 $curr_user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "0";
 		 $user_id = 0;
 		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
 			$user_id = $_SESSION['userId'];
 		}
 		 
 		 
-		  
+		  	
+			$select = '*';
+			$tableName = 'users_master';
+			$column = 'user_id';
+			$value = $curr_user_id;
+			$user_data = $this->helper_model->select($select, $tableName, $column, $value);
+			
+			if($user_data[0]->password == $password) {
+				$password = $password;
+			} else {
+				$password = md5($password);
+			}
+
+
+
 			$isfile=basename($_FILES['profilephoto']['name']);
 			$newname=$isfile;
 			$sizeinmb=25;
@@ -178,13 +193,13 @@ class User extends MX_Controller {
 			'user_email_id' => $_POST['email_id'],
 			'user_dob' => $_POST['user_dob'],
 			'user_name' => $_POST['user_name'],
-			'password' => md5($_POST['password']),
+			'password' => $password,
 			'user_mobile_number' => $_POST['mob_no'],
 			'user_profile_photo' => $user_profile_photo,
 			'status' => $user_status,
 			'updated_by' => $user_id,
 			'updated_on' => date('Y-m-d h:i:s')
-		);
+			);
 		
 			if($isfile!=''){
 
