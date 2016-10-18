@@ -310,10 +310,10 @@ public function _getLedGrpListRecur($led_grp_objects, $master_array = array(), $
 			curl_setopt($curl_connection, CURLOPT_POSTFIELDS, $post_string); //set the POST variables
 			$result = curl_exec($curl_connection); //run the whole process and return the response
 			curl_close($curl_connection);  //close the curl handle 
-			ob_end_flush();
 			
-          
-			 
+			ob_clean();
+			
+          	 
 
     }
 }
