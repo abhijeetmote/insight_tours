@@ -379,6 +379,16 @@
 
 								<b class="arrow"></b>
 							</li>
+
+							<li class="">
+								<a href="<?php echo base_url(); ?>vendor/vendorbillList">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Vendor Bill list
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 						</ul>
 					</li>
 

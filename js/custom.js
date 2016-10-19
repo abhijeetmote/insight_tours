@@ -55,6 +55,7 @@ var array = [
 	{name: "category-update", value: baseUrl + "vehicle/categoryUpdate"},
 	{name: "categoryList", value: baseUrl + "vehicle/categoryDelete"},
 	{name: "vehicle-img-remove", value: baseUrl + "vehicle/vehicleImgDelete"},
+	{name: "billpayment", value: baseUrl + "vendor/billPayment"},
 
 	
 	

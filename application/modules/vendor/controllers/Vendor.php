@@ -9,6 +9,9 @@ class Vendor extends MX_Controller {
 		$this->load->module('footer/footer');
 		$this->load->model('vendor/Vendor_model');
 		$this->load->model('helper/helper_model');
+		$this->load->model('payment/payment_model');
+		$this->load->model('helper/selectEnhanced');
+		$this->load->model('helper/selectEnhanced_to');
 		$this->active = "vendor";
 	}
 
@@ -268,5 +271,239 @@ class Vendor extends MX_Controller {
 		}
 
         echo json_encode($response);
+ 	}
+
+
+ 	public function vendorbillList(){
+ 		//SELECT b.*,cat_name,c.cust_type_id,c.cust_firstname,c.cust_lastname FROM booking_master b,customer_master c,vehicle_category v WHERE b.`cust_id` = c.cust_id and b.vehicle_type = v.cat_id
+ 		
+	 	 $from_date = $this->uri->segment(3);
+		 $to_date = $this->uri->segment(4);
+		 $status = $this->uri->segment(5);
+		 $vendor_id = $this->uri->segment(6);
+		 
+		 $where_extra = "";
+
+		if(($from_date!="" && $to_date!="") && ($from_date!="0" && $to_date!="0"))   {
+			$data['from_date'] = $from_date;
+			$data['to_date'] = $to_date;
+			$from_date = date("Y-m-d", strtotime($from_date));
+			$to_date = date("Y-m-d", strtotime($to_date));
+			$where_extra .= " and vb.booking_date between '$from_date' and '$to_date'";
+
+		}
+		if($vendor_id!="" && $vendor_id!="0") {
+			$data['vendor_id'] = $vendor_id;
+			$where_extra .= " and v.vendor_id = $vendor_id";
+		}
+		if($status!="" && $status!="0") {
+			$data['status'] = $status;
+			$where_extra .= " and vb.status = $status";
+		}
+		 
+ 		$tableName =  'vendor_bill_payment_details vb , vendors_master v ';
+ 		$select = 'vb.*,v.*,vb.status as pstatus';
+ 		$where =  'v.vendor_id = vb.vendor_id ';
+ 		$where .= $where_extra;
+ 		$data['vbill_list'] = $this->Vendor_model->getwheredata($select,$tableName,$where);
+ 		 //echo "<pre>";
+ 		// print_r($data['vbill_list']);
+ 		$vendor_table =  VENDOR_TABLE;
+ 		$filds = "vendor_id,vendor_name,vendor_contact_number,vendor_phone_number,vendor_address,vendor_email,vendor_pan_num,vendor_payee_name";
+ 		$data['list'] = $this->Vendor_model->getVendorLit($filds,$vendor_table); 
+ 
+        $this->header->index($this->active);
+		$this->load->view('vendorbillList', $data);
+		$this->footer->index();
+ 	}
+
+
+ 	public function paybill($bill_id)
+	{
+		$this->header->index($this->active);
+		$grp_table = LEDGER_TABLE;
+		 
+		
+ 		$vendor_table =  'vendor_bill_payment_details vb , vendors_master v ';
+ 		$select = 'vb.*,v.*';
+ 		$where =  'vb.vendor_id = v.vendor_id AND vb.vendor_bill_payment_id = '. $bill_id ;
+ 		$data['vendorbill'] = $this->Vendor_model->getwheredata($select,$vendor_table,$where);
+ 		$data['vendor_ledger_id'] = isset($data['vendorbill'][0]->vendor_ledger_id) ? $data['vendorbill'][0]->vendor_ledger_id : "";
+ 		$data['vendor_amount'] = isset($data['vendorbill'][0]->vendor_bill_payment_amount) ? $data['vendorbill'][0]->vendor_bill_payment_amount : "";
+ 		$data['bill_payment_id'] = isset($bill_id) ? $bill_id : "";
+
+		$ledger_data = $this->payment_model->getDataOrder('*',$grp_table,'parent_id','asc');
+		//echo "<pre>";
+		//print_r($ledger_data);
+		$ret_arr = $this->helper_model->_getLedGrpListRecur($ledger_data, array(), 0, array(), $entity_type="");
+		$filter_param_from = array('bank','cash');
+		
+		$filter_ledgers_from = $this->helper_model->sorted_array($ret_arr[0],0,$filter_param_from);
+		//echo "test";exit;
+		//print_r($filter_ledgers_from);exit;
+		$ledger_data = $this->selectEnhanced->__construct("from_ledger", $filter_ledgers_from, array(
+                                'useEmpty' => true,
+                                'emptyText' => '--Select--',
+                                'options' => array(
+                                                'children' =>  array(
+                                                                "type" => GROUP_CHILDREN_OPTION_DIS,
+                                                                'options' => array (
+                                                                             'nature' =>  function($arr){return isset($arr['nature'])? $arr['nature']:false;},
+                                                                             'entity_type' =>  function($arr){return isset($arr['entity_type'])? $arr['entity_type']:false;},
+                                                                             'behaviour' => function($arr){return isset($arr['behaviour'])? $arr['behaviour']:false;}
+                                                                  )
+                                    
+                                                 )                    
+                                                         
+                                 )), "optgroup");
+
+
+		$filter_param_to = array('vendor');
+
+		$filter_ledgers_to = $this->helper_model->sorted_array($ret_arr[0],0,$filter_param_to);
+		$ledger_data_to = $this->selectEnhanced_to->__construct("to_ledger", $filter_ledgers_to, array(
+                                'useEmpty' => true,
+                                'emptyText' => '--Select--',
+                                'options' => array(
+                                                'children' =>  array(
+                                                                "type" => GROUP_CHILDREN_OPTION_DIS,
+                                                                'options' => array (
+                                                                             'nature' =>  function($arr){return isset($arr['nature'])? $arr['nature']:false;},
+                                                                             'entity_type' =>  function($arr){return isset($arr['entity_type'])? $arr['entity_type']:false;},
+                                                                             'behaviour' => function($arr){return isset($arr['behaviour'])? $arr['behaviour']:false;}
+                                                                  )
+                                    
+                                                 )                    
+                                                         
+                                 )), "optgroup");
+
+		
+		$data['to_select'] = $this->selectEnhanced->render("to_ledger",'to_ledger','to_ledger','');
+		$data['from_select'] = $this->selectEnhanced_to->render("",'from_ledger','from_ledger','');		
+		$this->load->view('billPayment',$data);
+		$this->footer->index();
+	}
+
+	
+	public function billPayment()
+	{
+		//$this->header->index($this->active);
+		//echo "<pre>";
+		//print_r($_POST);
+		//echo "test";
+		 $from_ledger = isset($_POST['from_ledger']) ? $_POST['from_ledger'] : "";
+		 $to_ledger = isset($_POST['to_ledger']) ? $_POST['to_ledger'] : "";
+		 $payment_amount = isset($_POST['payment_amount']) ? $_POST['payment_amount'] : "";
+		 $narration = isset($_POST['narration']) ? $_POST['narration'] : "";
+		 $payment_mode = isset($_POST['payment_mode']) ? $_POST['payment_mode'] : "";
+		 $referance_no = isset($_POST['referance_no']) ? $_POST['referance_no'] : "";
+		 $bill_payment_id = isset($_POST['bill_payment_id']) ? $_POST['bill_payment_id'] : "";
+		 $cr = CR;
+		 $dr = DR;
+
+	 	$select = "*";
+		$ledgertable = LEDGER_TABLE ;
+		//echo "aa";
+ 	 	$where =  "ledger_account_id = '$from_ledger'";
+ 		$ledger_details = $this->payment_model->getwheresingle($select,$ledgertable,$where);
+ 		//print_r($ledger_details);
+ 	 	//echo "ee";
+ 	 	$from_ledger_name = $ledger_details->ledger_account_name;
+ 	 	 
+	 	// transaction data data insertion start
+		 $from_data = array(
+				'transaction_date' => date('Y-m-d h:i:s'),
+				'ledger_account_id' => $from_ledger,
+				'ledger_account_name' => $from_ledger_name,
+				'transaction_type' => $dr,
+				'payment_reference' => $referance_no,
+				'transaction_amount' => $payment_amount,
+				'txn_from_id' => 0,
+				'memo_desc' => $narration,
+				'added_by' => 1,
+				'added_on' => date('Y-m-d h:i:s')
+			);
+ 	$transaction_table =  TRANSACTION_TABLE;
+
+ 	$this->db->trans_begin();
+ 	 //From transaction
+ 	$from_transaction_id = $this->payment_model->saveData($transaction_table,$from_data);
+ 
+
+ 	//to leadger trans data insertion start
+ 	if(isset($from_transaction_id) && !empty($from_transaction_id)) {
+		 
+
+			 	$select = " * ";
+				$ledgertable = LEDGER_TABLE ;
+
+			 	$where =  "ledger_account_id = '$to_ledger'";
+				$ledger_details = $this->payment_model->getwheresingle($select,$ledgertable,$where);
+				
+			 	$to_ledger_name = $ledger_details->ledger_account_name;
+			 	 
+				  
+			 	// transaction data data insertion start
+				 $to_data = array(
+						'transaction_date' => date('Y-m-d h:i:s'),
+						'ledger_account_id' => $to_ledger,
+						'ledger_account_name' => $to_ledger_name,
+						'transaction_type' => $cr,
+						'payment_reference' => $referance_no,
+						'transaction_amount' => $payment_amount,
+						'txn_from_id' => $from_transaction_id,
+						'memo_desc' => $narration,
+						'added_by' => 1,
+						'added_on' => date('Y-m-d h:i:s')
+					);
+				$transaction_table =  TRANSACTION_TABLE;
+
+				 //From transaction
+				$to_transaction = $this->payment_model->saveData($transaction_table,$to_data);
+
+
+		 	 	if(isset($to_transaction) && !empty($to_transaction)){
+
+
+		 	 		 $vendor_bill_update = array(
+						'status' => 2,
+						'updated_on' => date('Y-m-d h:i:s')
+					);
+			     
+					$vendor_bill_table = 'vendor_bill_payment_details';
+					$vendor_bill_payment_id = 'vendor_bill_payment_id';
+					$bill_payment_id = $bill_payment_id;
+
+					$result = $this->Vendor_model->updateData($vendor_bill_table, $vendor_bill_update, $vendor_bill_payment_id, $bill_payment_id);
+					if(isset($result) && !empty($result)) {
+		 	 		$this->db->trans_commit();
+		 	 		$response['error'] = false;
+		 	 		$response['success'] = true;
+					$response['successMsg'] = "Payment Made SuccsessFully !!!";
+					$response['redirect'] = base_url()."vendor/vendorbillList";
+					} else {
+					$this->db->trans_rollback();
+			 		$response['error'] = true;
+			 		$response['success'] = false;
+					$response['errorMsg'] = "Error!!! Please contact IT Dept";	
+					}
+					//$response['redirect'] = base_url()."driver/driverList";
+		 	 	} else {
+			 		$this->db->trans_rollback();
+			 		$response['error'] = true;
+			 		$response['success'] = false;
+					$response['errorMsg'] = "Error!!! Please contact IT Dept";
+		 		}
+
+ 	} else {
+ 		$this->db->trans_rollback();
+ 		$response['error'] = true;
+ 		$response['success'] = false;
+		$response['errorMsg'] = "Error!!! Please contact IT Dept";
+ 	}
+
+ 	 
+	 
+	echo json_encode($response);
  	}
 }

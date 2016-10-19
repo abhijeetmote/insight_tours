@@ -311,7 +311,7 @@ public function _getLedGrpListRecur($led_grp_objects, $master_array = array(), $
 			$result = curl_exec($curl_connection); //run the whole process and return the response
 			curl_close($curl_connection);  //close the curl handle 
 			
-			ob_clean();
+			//ob_clean();
 			
           	 
 

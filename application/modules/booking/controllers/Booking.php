@@ -529,7 +529,7 @@ class Booking extends MX_Controller {
 			}
 
 			$tableName =  'booking_master b , vehicle_category v , users_master u';
-	 		$select = 'b.duty_slip_id,b.booked_by,b.added_on,b.pickup_location,b.drop_location,v.cat_name,b.package_id,b.package_id,b.travel_type,b.cust_id,u.user_first_name,u.user_last_name';
+	 		$select = 'b.booking_date,b.duty_slip_id,b.booked_by,b.added_on,b.pickup_location,b.drop_location,v.cat_name,b.package_id,b.package_id,b.travel_type,b.cust_id,u.user_first_name,u.user_last_name';
 	 		$where =  'b.vehicle_type = v.cat_id and b.booking_id = '.$booking_id.' and b.booked_by = u.user_id';
 	 		$data['bookingDetails'] = $this->Booking_model->getwheredata($select,$tableName,$where);
 
@@ -883,6 +883,7 @@ class Booking extends MX_Controller {
 					'duty_sleep_id' => $result,
 					'booking_id' => $_POST['booking_id'],
 					'booking_status' => $status,
+					'booking_date' => isset($_POST['booking_date']) ? $_POST['booking_date'] : NULL,
 					'vendor_bill_payment_amount' => $vendor_fees,
 					'status' => '1',
 					'added_by' => $user_id,
@@ -1188,6 +1189,7 @@ class Booking extends MX_Controller {
 				'duty_sleep_id' => $_POST['duty_sleep_id'],
 				'booking_status' => $status,
 				'vendor_bill_payment_amount' => $vendor_fees,
+				'booking_date' => isset($_POST['booking_date']) ? $_POST['booking_date'] : NULL,
 				'status' => '1',
 				'updated_by' => $user_id,
 				'updated_on' => date('Y-m-d h:i:s')
@@ -1213,6 +1215,7 @@ class Booking extends MX_Controller {
 				'duty_sleep_id' => $_POST['duty_sleep_id'],
 				'booking_id' => $_POST['booking_id'],
 				'booking_status' => $status,
+				'booking_date' => isset($_POST['booking_date']) ? $_POST['booking_date'] : NULL,
 				'vendor_bill_payment_amount' => $vendor_fees,
 				'status' => '1',
 				'added_by' => $user_id,

@@ -180,6 +180,7 @@
 								 	<input type="hidden" id="cust_ledger_id" name="cust_ledger_id"  class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($custlist)): echo trim($custlist[0]->ledger_account_id); else: echo 0; endif; ?>" />
 								 	<input type="hidden" id="cust_ledger_name" name="cust_ledger_name"  class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($custlist)): echo trim($custlist[0]->ledger_account_name); else: echo 0; endif; ?>" />
 								 	<input type="hidden" id="pre_advance_leg_id" name="pre_advance_leg_id"  class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($DutySlip)): echo trim($DutySlip[0]->advance_paid_flag); else: echo 0; endif; ?>" />
+								 	<input type="hidden" id="booking_date" name="booking_date"  class="col-xs-10 form-control col-sm-5 " value="<?php if(isset($bookingDetails)): echo trim($bookingDetails[0]->booking_date); else: echo 0; endif; ?>" />
 								 </div>	
 
 								 <div class="form-group">

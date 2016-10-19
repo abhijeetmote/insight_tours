@@ -167,10 +167,10 @@ class Booking_model extends CI_Model {
 				$i++;
 			}
 			$driver_no = 9702564933;
-			  $driver_msg = "You Have New Booking ". $booking_id_data ."on ".$booking_date. " From ". $booking_from. " To ".$booking_to ."Details As ".$pass_details;
+			 $driver_msg = "You Have New Booking ". $booking_id_data ."on ".$booking_date. " From ". $booking_from. " To ".$booking_to ."Details As ".$pass_details;
 
 			$result = $this->helper_model->send_sms($driver_no,$driver_msg);
-			 
 
+			 
 	}
 }
