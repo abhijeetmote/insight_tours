@@ -28,7 +28,7 @@
 					User List
 				</h1>
 			</div><!-- /.page-header -->
-
+			<a id="gritter-without-image" class="btn btn-success" class="white" href="<?php echo base_url().'user/user'; ?>">ADD New</a> 
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="alert-box"></div>

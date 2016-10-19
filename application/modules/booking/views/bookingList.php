@@ -27,7 +27,7 @@
 					Booking List
 				</h1>
 			</div><!-- /.page-header -->
-
+			
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
@@ -85,7 +85,7 @@
 								</div>	
 
 							</div>	
-
+							
 							<div class="row">
 								<div class="col-xs-12">
 									 
@@ -135,7 +135,7 @@
 							</div>
 						</div>
 			</div>	
-
+			<a id="gritter-without-image" class="btn btn-success" class="white" href="<?php echo base_url().'booking/bookingMaster'; ?>">ADD New</a> 
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
