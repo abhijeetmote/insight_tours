@@ -49,6 +49,7 @@ class Customer extends MX_Controller {
 		$country = isset($_POST['country']) ? $_POST['country'] : "";
 		$customer_type = isset($_POST['customer_type']) ? $_POST['customer_type'] : "1";
 		$customer_status = isset($_POST['cust_status']) ? $_POST['cust_status'] : "0";
+		$is_service_tax = isset($_POST['is_service_tax']) ? $_POST['is_service_tax'] : "0";
 		$user_id = 0;
 		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
 			$user_id = $_SESSION['userId'];
@@ -71,12 +72,13 @@ class Customer extends MX_Controller {
 			'cust_state' => $state,
 			'cust_city' => $city,
 			'cust_pin' => $pin,			
-			'cust_username' =>$email,
+			'cust_username' => $email,
 			'cust_password' => md5('travels'),
 			'ledger_id'=>'8',
-			'local_package_id' =>$localpackage,
-			'outstation_package_id' =>$outstationpackage,
-			'transfer_package_id' =>$transferpackage,
+			'is_service_tax'=> $is_service_tax,
+			'local_package_id' => $localpackage,
+			'outstation_package_id' => $outstationpackage,
+			'transfer_package_id' => $transferpackage,
 			'isactive' =>$customer_status,			
 			'added_by' =>$user_id,
 			'added_on' => date('Y-m-d h:i:s'),
@@ -115,6 +117,7 @@ class Customer extends MX_Controller {
 			'context' => $context,
 			'ledger_start_date' => date('Y-m-d h:i:s'),
 			'behaviour' => $reporting_head,
+			'operating_type' => 'direct',
 			'entity_type' => 3,
 			'defined_by' => 1,
 			'status' => '1',
@@ -150,6 +153,7 @@ class Customer extends MX_Controller {
 		if(isset($update_id) && !empty($update_id)){
 			
 			$this->db->trans_commit();
+			$this->send_cust_email($email,"travels",$email);
 			$response['success'] = true;
 			$response['error'] = false;
 			$response['successMsg'] = "Customer Added Successfully";
@@ -235,6 +239,7 @@ class Customer extends MX_Controller {
 		$country = isset($_POST['country']) ? $_POST['country'] : "";
 		$customer_type = isset($_POST['customer_type']) ? $_POST['customer_type'] : "1";
 		$customer_status = isset($_POST['cust_status']) ? $_POST['cust_status'] : "0";
+		$is_service_tax = isset($_POST['is_service_tax']) ? $_POST['is_service_tax'] : "0";
 
 		$user_id = 0;
 		 if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
@@ -273,7 +278,7 @@ class Customer extends MX_Controller {
 			'cust_pin' => $pin,			
 			'cust_username' =>$user_name,
 			'cust_password' => $password,
-			'ledger_id'=>$customer_ledger_id,
+			'is_service_tax'=> $is_service_tax,
 			'local_package_id' =>$localpackage,
 			'outstation_package_id' =>$outstationpackage,
 			'transfer_package_id' =>$transferpackage,
@@ -324,5 +329,19 @@ class Customer extends MX_Controller {
 		}
 
         echo json_encode($response);
+ 	}
+
+ 	public function send_cust_email($cust_username,$password,$email) {
+
+ 		//error_reporting(E_ALL);
+ 		$this->load->helper('mail');
+ 		//$booking_id = 8
+ 	 
+		$customer_msg = "Dear customer, <br> Your Registration Done Successfully <br> User Name : $cust_username <br> Password : $password";	
+		 
+		if(isset($email)) {	
+ 		mailer($email,'Registration Done Successfully',$customer_msg,false);
+ 		}
+ 		
  	}
 }

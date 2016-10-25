@@ -175,14 +175,17 @@
 									</thead>
 
 									<tbody>
-										<?php foreach ($booking_list as $val): ?>
+										<?php 
+										 
+
+										foreach ($booking_list as $val): ?>
 											 <tr>
 												 
 
 												<td><?php echo "BK_".$val->booking_id; ?></td>
 												<td><?php echo $val->booking_date; ?></td>
 												<td><?php echo $val->booked_on; ?></td>
-												<td><?php echo $val->cust_firstname . " " .$val->cust_lastname; ?></td>
+												<td><?php if($val->cust_type_id == 1) { echo $val->cust_firstname . " " .$val->cust_lastname; } elseif ($val->cust_type_id == 2) {echo $val->cust_compname; } ?></td>
 												<td><?php if($val->cust_type_id == 1) echo "Indivisual"; else echo "Corporate"; ?></td>
 												<td><?php echo $val->cat_name; ?></td>
 												<td><?php echo $val->travel_type; ?></td>
@@ -212,7 +215,7 @@
 															<i class="ace-icon fa fa-edit" title="Duty Slip"></i> 
 														</a>
 														<?php if(isset($val->duty_slip_id) && !empty($val->duty_slip_id) && $val->booking_status<3) { ?>
-														<a class="blue" href="<?php echo base_url().'booking/generateDutyslip/'.$val->booking_id; ?>">
+														<a target="_blank" class="blue" href="<?php echo base_url().'booking/generateDutyslip/'.$val->booking_id; ?>">
 															<i class="ace-icon glyphicon glyphicon-print" title="Generate Duty Slip"></i>
 														</a>
 														<?php }?>

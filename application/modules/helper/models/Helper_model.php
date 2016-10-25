@@ -303,7 +303,7 @@ public function _getLedGrpListRecur($led_grp_objects, $master_array = array(), $
   			//echo "<br> tel".$telephone_no;
   			//echo "<br>".$msg;
   			$url = "http://bulkpush.mytoday.com/BulkSms/SingleMsgApi?";
-  			$post_string = "feedid=358332&username=9619118195&password=ddpda&To=$telephone_no&Text=$msg";
+  			$post_string = "feedid=361682&username=9850275160&password=tdwtm&To=$telephone_no&Text=$msg";
 						
 			//initialize curl handle
 			$curl_connection = curl_init($url);
@@ -311,7 +311,7 @@ public function _getLedGrpListRecur($led_grp_objects, $master_array = array(), $
 			$result = curl_exec($curl_connection); //run the whole process and return the response
 			curl_close($curl_connection);  //close the curl handle 
 			
-			//ob_clean();
+			ob_clean();
 			
           	 
 

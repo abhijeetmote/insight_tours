@@ -35,6 +35,99 @@
 					<!-- PAGE CONTENT BEGINS -->
 					<div class="row">
 						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>Cust Type</label>
+	                             <div class="col-sm-3">
+									<select style="width:240px;" data-placeholder="Customer Type" name="cust_type" id="cust_type" class="chosen-select form-control">
+											<option <?php if(isset($c_type) && $c_type == 1) { echo "selected"; }?> value="1">Indivisual</option>
+											<option <?php if(isset($c_type) && $c_type == 2) { echo "selected"; }?> value="2">Corporate</option>
+	                                </select>
+	                                 
+									 
+								</div>
+	                            
+	                            <div class="individual" <?php if(isset($c_type) && $c_type == 2) { echo "style='display:none;'"; }?> >
+	                            	<label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>Form Date</label>
+		                            <div class="col-sm-3">
+										<div class="input-group">
+										<input type="text" data-date-format="dd-mm-yyyy" class="date-picker col-xs-10 col-sm-12" id="from_date" name="from_date" placeholder="Enter from Date" value="<?php if(isset($from_date)): echo  $from_date; endif; ?>">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar bigger-110"></i>
+										</span>
+
+										</div>
+										 
+									</div>
+
+									<label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>To Date</label>
+		                             <div class="col-sm-3">
+										<div class="input-group">
+										<input type="text" data-date-format="dd-mm-yyyy" class="date-picker col-xs-10 col-sm-12" id="to_date" name="to_date" placeholder="Enter User Booking Date" value="<?php if(isset($to_date)): echo $to_date; endif; ?>">
+										<span class="input-group-addon">
+											<i class="fa fa-calendar bigger-110"></i>
+										</span>
+										</div>									 
+									</div>
+	                            </div>
+
+								<div class="corporate" <?php if(isset($c_type) && $c_type == 2) { echo "style='display:block;'"; } else { echo "style='display:none;'"; } ?> >
+									<label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>Select Year</label>
+		                             <div class="col-sm-3">
+										<select style="width:240px;" data-placeholder="Customer Type" id="month" class="chosen-select form-control">
+											<option value="">Select Month</option>
+											<?php
+												foreach ($months as $key=>$val) 
+												{			
+											?>								
+													<option value="<?php echo $key; ?>" ><?php echo $val; ?></option>
+											<?php
+												}
+											?>
+		                                </select>
+									</div>
+
+									<label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"> * </b>Select Month</label>
+		                             <div class="col-sm-3">
+										<select style="width:240px;" data-placeholder="Customer Type" id="year" class="chosen-select form-control">
+											<option value="">Select Year</option>
+											<?php
+												foreach ($years as $val) 
+												{			
+											?>								
+													<option value="<?php echo $val; ?>" ><?php echo $val; ?></option>
+											<?php
+												}
+											?>
+		                                </select>
+									</div>
+								</div>
+                   		 	</div>            		 	 
+						</div>
+					</div>	
+		
+					<div class="clearfix form-actions">
+						<div class="col-md-offset-3 col-md-9">
+							<button class="btn btn-info invoice_filter" type="button">
+								<i class="iconcategory"></i>
+								Submit
+							</button>
+
+							&nbsp; &nbsp; &nbsp;
+							<button class="btn b_reset" type="reset">
+								<i class="ace-icon fa fa-undo bigger-110 "></i>
+								Reset
+							</button>
+						</div>
+					</div>
+				</div>	
+			</div>	
+
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="alert-box"></div>
+					<!-- PAGE CONTENT BEGINS -->
+					<div class="row">
+						<div class="col-xs-12">
 
 							<div class="clearfix">
 								<div class="pull-right tableTools-container"></div>
@@ -53,9 +146,14 @@
 										<tr>
 											 
 											<th>Invoice ID</th>
+											<th>Customer Name</th>
+											<th>Company Name</th>
 											<th>Invoice Date/Time</th>
-											<th>Payment Mode</th>
+											<th>Cutomer Type</th>
+											<th>Service Tax</th>
 											<th>Total Amount</th>
+											<th>Adv Amount</th>
+											<th>Final Amount</th>
 											<th>Payment Status</th>
 											<th>Action</th>
 
@@ -68,25 +166,34 @@
 												 
 
 												<td><?php echo $val->invoice_id; ?></td>
+												<td><?php if($val->cust_type_id == 1){ echo $val->cust_firstname." ".$val->cust_lastname; } else { echo "NA"; } ?></td>
+												<td><?php if($val->cust_type_id == 2){ echo $val->cust_compname; } else { echo "NA"; } ?></td>
 												<td><?php echo $val->invoice_date; ?></td>
-												<td><?php echo $val->payment_mode; ?></td>
-												<td><?php echo $val->total_amount ?></td>
+												<td><?php if($val->cust_type_id == 2){ echo 'Corporate'; } else { echo "Individual"; } ?></td>
+												<td><?php echo number_format($val->service_tax_amt + $val->education_cess_amt + $val->sec_education_cess_amt, 2); ?></td>
+												<td><?php echo number_format($val->total_amount, 2) ?></td>
+												<td><?php echo number_format($val->adv_amount, 2) ?></td>
+												<td><?php echo number_format($val->final_amount, 2) ?></td>
 												<td><?php echo ucfirst($val->payment_status); ?></td>
 												<td>
 													<div class="hidden-sm hidden-xs action-buttons">
-														<?php if($val->payment_status != "paid"): ?>
-															<a class="green" href="<?php echo base_url()."invoice/invoicePaid/".$val->invoice_id ?>">
-																<i class="ace-icon fa fa-pencil bigger-130"></i>
-															</a>
-														<?php elseif($val->payment_status == "paid"): ?>
-															<a class="blue" href="<?php echo base_url().'invoice/invoiceGenerate/'.$val->invoice_id; ?>">
-																<i class="ace-icon fa fa-eye bigger-130"></i>
-															</a>
-														<?php endif; ?>
+														<?php if($val->payment_status == "unpaid" && $val->final_invoice_id != 0){  ?>
+																<a class="green" href="<?php echo base_url()."invoice/invoicePaid/".$val->final_invoice_id."/".$val->cust_id ?>">
+																	<i class="ace-icon fa fa-pencil bigger-130"></i>
+																</a>
+														<?php  } ?>
+
+														<?php if($val->final_invoice_id == 0){ ?>
+														
+															<a class="blue" href="<?php echo base_url()."invoice/invoiceGenerate/".$val->invoice_id."/".$val->cust_id."/".$val->cust_type_id."/".$val->completed_month."/".$val->completed_year; ?>">
+															<i class="ace-icon fa fa-print bigger-130"></i></a>
+														<?php }else{ ?>
+
+															<a download class="blue" href="<?php echo base_url(). "assets/pdf/".$val->final_invoice_no.".pdf"; ?>">
+															<i class="ace-icon fa fa-download bigger-130"></i></a>
+														<?php } ?>
+														
 													</div>
-
-
-													 
 												</td>
 											</tr>
 										<?php endforeach; ?>
@@ -154,87 +261,90 @@
 
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
-			jQuery(function($) {
-				//initiate dataTables plugin
-				var myTable = 
-				$('#dynamic-table')
-				//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
-				.DataTable( { 
-			    } );
-			
-				
-				
-				$.fn.dataTable.Buttons.swfPath = "<?php echo base_url(); ?>components/datatables.net-buttons-swf/index.html"; //in Ace demo ./components will be replaced by correct assets path
-				$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
-				
-				new $.fn.dataTable.Buttons( myTable, {
-					buttons: [
-					   {
-			            "extend": "colvis",
-			            "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
-			            "className": "btn btn-white btn-primary btn-bold",
-			            columns: ':not(:first):not(:last)'
-			            },
-					  {
-						"extend": "csv",
-						"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
-						"className": "btn btn-white btn-primary btn-bold"
-					  },
-					   
-					  {
-						"extend": "print",
-						"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
-						"className": "btn btn-white btn-primary btn-bold",
-						autoPrint: false,
-						message: 'This print was produced using the Print button for DataTables'
-					  }		  
-					]
-				} );
-				myTable.buttons().container().appendTo( $('.tableTools-container') );
-				
-				 
-			
-			})
-		</script>
+	jQuery(function($) {
 
-		<script type="text/javascript">
-	$(document).on('click','.b_details', function(e){
-	    e.preventDefault();
-	    
-        var id = $(this).attr('id');
-        
-        var obj = array.filter(function(obj){
-            return obj.name === 'passenger-detail-view'
-        })[0];
+		$('.date-picker').datepicker({
+			autoclose: true,
+			todayHighlight: true
+		})
+		//initiate dataTables plugin
+		var myTable = 
+		$('#dynamic-table')
+		//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+		.DataTable( { 
+	    } );
+	
+		
+		
+		$.fn.dataTable.Buttons.swfPath = "<?php echo base_url(); ?>components/datatables.net-buttons-swf/index.html"; //in Ace demo ./components will be replaced by correct assets path
+		$.fn.dataTable.Buttons.defaults.dom.container.className = 'dt-buttons btn-overlap btn-group btn-overlap';
+		
+		new $.fn.dataTable.Buttons( myTable, {
+			buttons: [
+			  
+			  {
+				"extend": "csv",
+				"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+				"className": "btn btn-white btn-primary btn-bold"
+			  },
+			   
+			  {
+				"extend": "print",
+				"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+				"className": "btn btn-white btn-primary btn-bold",
+				autoPrint: false,
+				message: 'This print was produced using the Print button for DataTables'
+			  }		  
+			]
+		} );
+		myTable.buttons().container().appendTo( $('.tableTools-container') );
+		
+		 
+	
+	})
+</script>
 
-        var uri = obj['value'];
+<script type="text/javascript">
+	$(document).on('click','.invoice_filter', function() {
+		var baseUrl = $('#baseUrl').val();
+		var from_date = $("#from_date").val();
+		var to_date = $("#to_date").val();
+		var cust_type = $("#cust_type").val();
+		var month = $("#month").val();
+		var year = $("#year").val();
 
-        jobject = {
-            'id' : id
-        }
+		if(cust_type == 2){
+			from_date = month;
+			to_date = year;
+		}else{
+			if(from_date == ""){
+				from_date=0;
+			}
+			if(to_date == ""){
+				to_date = 0;
+			}
+			if(from_date !="" && to_date == "") {
+				alert("select To date");
+				return false;
+			}
+			if(to_date !="" && from_date == "") {
+				alert("select from date");
+				return false;
+			}
+		}
+		window.location.href = baseUrl+"invoice/invoiceList/"+cust_type+"/"+from_date+"/"+to_date;
+	});
 
-        var point = $(this);
-        
-        $.ajax({
-            url: uri,
-            method: 'POST',
-            crossDomain: true,
-            data: jobject,
-            dataType: 'json',
-            beforeSend: function (xhr) {
-                //$('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
-            },
-            success: function (data) {
-                if(data.success == true){
-                	$('#pass_data').html(data.successMsg);
+	$(document).on('click','#cust_type', function() {
+		var cust_type = $(this).val();
 
-                }else{
-
-                }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                console.log(thrownError);
-            }
-        });
+		if(cust_type == 2){
+			$('.individual').css('display', 'none');
+			$('.corporate').css('display', 'block');
+		}else{
+			$('.corporate').css('display', 'none');
+			$('.individual').css('display', 'block');
+		}
+		 
 	});
 </script>

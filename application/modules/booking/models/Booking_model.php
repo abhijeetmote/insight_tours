@@ -152,22 +152,22 @@ class Booking_model extends CI_Model {
 			$i = 1;
 			foreach ($pass_data as $pass_data) {
 				//$passenger_number = isset($pass_data[0]->passenger_number) ? $pass_data[0]->passenger_number : "NA";
-				 
-				 $passenger_number = 9702564933;
+				 $passenger_number = $pass_data->passenger_number;
+				 $passenger_number = 9768711665;
 				 $passenger_name = isset($pass_data->passenger_name) ? $pass_data->passenger_name : "NA";
 				$pickup_address = isset($pass_data->pickup_address) ? $pass_data->pickup_address : "NA";
 				 $drop_address = isset($pass_data->pickup_address) ? $pass_data->pickup_address : "NA";
 
 				 $passenger_msg = "New Toure Shedule by CMP Name on ".$booking_date." From ".$booking_from." To ".$booking_to." Details as ". "Driver Name : ". 
-				$driver_name ." ,No : ".$driver_no. " ,vehicle name ". $vname." vehicle no : ".$vno."& your Pickup Point is : ".$pickup_address;
+				$driver_name ." ,No : ".$driver_no. " ,vehicle name ". $vname.", vehicle no : ".$vno."& your Pickup Point is : ".$pickup_address;
 
 				$result = $this->helper_model->send_sms($passenger_number,$passenger_msg);
 
 				$pass_details .=  "  ".$i. ". " .$passenger_name. " , ".$passenger_number." Pickup Point ".$pickup_address;
 				$i++;
 			}
-			$driver_no = 9702564933;
-			 $driver_msg = "You Have New Booking ". $booking_id_data ."on ".$booking_date. " From ". $booking_from. " To ".$booking_to ."Details As ".$pass_details;
+			$driver_no = 9768711665;
+			 $driver_msg = "You Have New Booking ". $booking_id_data ."on ".$booking_date. " From ". $booking_from. " To ".$booking_to .". Passenger Details : ".$pass_details;
 
 			$result = $this->helper_model->send_sms($driver_no,$driver_msg);
 

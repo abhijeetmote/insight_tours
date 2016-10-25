@@ -676,12 +676,15 @@ function ajaxCall(id, postData, method, sucessCallBack, failCallBack, timeout) {
         dataType: 'json',
         beforeSend: function (xhr) {
             $('.icon'+id).addClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
+            $('.btn-info').attr('disabled');
+            
         },
         success: function (data) {
             console.log("data");
             console.log(data);
             if(data.success == true) {
             $('.icon'+id).removeClass('ace-icon fa fa-spinner fa-spin orange bigger-125');
+             $('.btn-info').attr('enabled');
             $('.alert-box').html('<div class="alert alert-block alert-success">\
                     <button type="button" class="close" data-dismiss="alert">\
                         <i class="ace-icon fa fa-times"></i>\

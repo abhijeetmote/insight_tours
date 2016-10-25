@@ -304,6 +304,16 @@
 
 								<b class="arrow"></b>
 							</li>
+
+							<li class="">
+								<a href="<?php echo base_url(); ?>driver/driverbillList">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Driver Advance Salary Report
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 						</ul>
 					</li>
 
@@ -333,7 +343,7 @@
 							</li>
 
 							<li class="">
-								<a href="<?php echo base_url(); ?>User/viewuser">
+								<a href="<?php echo base_url(); ?>user/viewuser">
 									<i class="menu-icon fa fa-caret-right"></i>
 
 									User list
@@ -533,6 +543,16 @@
 									<i class="menu-icon fa fa-caret-right"></i>
 
 									Journal Voucher
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+
+							<li class="">
+								<a href="<?php echo base_url(); ?>payment/driverSal">
+									<i class="menu-icon fa fa-caret-right"></i>
+
+									Driver Salary
 								</a>
 
 								<b class="arrow"></b>

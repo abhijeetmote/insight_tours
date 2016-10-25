@@ -95,7 +95,7 @@ class User extends MX_Controller {
 			    $response['success'] = true;
 				$response['error'] = false;
 				$response['successMsg'] = "Successfully Submit";
-				$response['redirect'] = base_url()."User/viewuser";
+				$response['redirect'] = base_url()."user/viewuser";
 			} else{
 				$response['success'] = false;
 				$response['error'] = true;
@@ -216,7 +216,7 @@ class User extends MX_Controller {
 		if($result == true){
 			$response['success'] = true;
 			$response['successMsg'] = "Record Updated";
-			$response['redirect'] = base_url()."User/viewuser";
+			$response['redirect'] = base_url()."user/viewuser";
         }else{
         	$response['success'] = false;
 			$response['successMsg'] = "Something wrong please try again";

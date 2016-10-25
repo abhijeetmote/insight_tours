@@ -443,4 +443,48 @@ class Driver extends MX_Controller {
 		$response['driver'] = $holidays;
 		echo json_encode($response);
  	}
+
+ 	public function driverbillList(){
+ 		//SELECT b.*,cat_name,c.cust_type_id,c.cust_firstname,c.cust_lastname FROM booking_master b,customer_master c,vehicle_category v WHERE b.`cust_id` = c.cust_id and b.vehicle_type = v.cat_id
+ 		
+	 	 $from_date = $this->uri->segment(3);
+		 $to_date = $this->uri->segment(4);
+		 //$status = $this->uri->segment(5);
+		 $driver_id = $this->uri->segment(5);
+		 
+		 $where_extra = "";
+
+		if(($from_date!="" && $to_date!="") && ($from_date!="0" && $to_date!="0"))   {
+			$data['from_date'] = $from_date;
+			$data['to_date'] = $to_date;
+			$from_date = date("Y-m-d", strtotime($from_date));
+			$to_date = date("Y-m-d", strtotime($to_date));
+			$where_extra .= " and transaction_date between '$from_date' and '$to_date'";
+
+		}
+		if($driver_id!="" && $driver_id!="0") {
+			$data['driver_id'] = $driver_id;
+			$where_extra .= " and driver_id = $driver_id";
+		}
+		/*if($status!="" && $status!="0") {
+			$data['status'] = $status;
+			$where_extra .= " and vb.status = $status";
+		}*/
+		 
+ 		$tableName =  'advance_salary ad, driver_master d';
+ 		$select = 'd.*,ad.*';
+ 		$where =  'd.ledger_id = ad.ledger_account_id ';
+ 		$where .= $where_extra;
+ 		$data['driversal_list'] = $this->driver_model->getwheredata($select,$tableName,$where);
+ 		 //echo "<pre>";
+ 		// print_r($data['vbill_list']);
+
+ 		$driver_table =  DRIVER_TABLE;
+ 		$filds = "driver_id,driver_fname,driver_mname,driver_lname,driver_add,driver_photo,driver_bdate,driver_mobno,driver_mobno1,driver_licno,driver_licexpdate,driver_panno,is_da,is_night_allowance,ledger_id";
+ 		$data['list'] = $this->driver_model->getDriverLit($filds,$driver_table);
+
+        $this->header->index($this->active);
+		$this->load->view('driver_adv_sal_list', $data);
+		$this->footer->index();
+ 	}
 }

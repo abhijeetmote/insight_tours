@@ -55,7 +55,7 @@
 				<div class="col-xs-12">
 					<div class="alert-box"></div>
 					<!-- PAGE CONTENT BEGINS -->
-					<form class="form-horizontal" role="form" id="<?php if(isset($customer)): echo "customerUpdate"; else: echo "customermaster"; endif; ?>">	
+					<form class="form-horizontal" role="form" id="<?php if(isset($customer)): echo "customerUpdate"; else: echo "customerMaster"; endif; ?>">	
 
 						<div class="form-group">
 							<label class="col-sm-2 no-padding-right" for="">Company Name</label>
@@ -178,11 +178,11 @@
 									<?php
 										foreach ($package as $val) 
 										{			
-											if($val->travel_type == "Local"){
+											//if($val->travel_type == "Local"){
 									?>								
 											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->local_package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
 									<?php
-											}
+											//}
 										}
 									?>
 									
@@ -201,11 +201,11 @@
 									<?php
 										foreach ($package as $val) 
 										{			
-											if($val->travel_type == "Outstation"){
+											//if($val->travel_type == "Outstation"){
 									?>								
 											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->outstation_package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
 									<?php
-											}
+											//}
 										}
 									?>
 									
@@ -220,11 +220,11 @@
 									<?php
 										foreach ($package as $val) 
 										{			
-											if($val->travel_type == "Transfer"){
+											///if($val->travel_type == "Transfer"){
 									?>								
 											<option value="<?php echo $val->package_id ?>" <?php if(isset($customer) && $val->package_id == $customer[0]->outstation_package_id): echo "selected"; endif; ?>><?php echo $val->package_name; ?></option>
 									<?php
-											}
+											//}
 										}
 									?>
 									
@@ -239,6 +239,15 @@
 								<select class=" form-control" name="cust_status" id="form-field-select-3" data-placeholder="Choose a State...">
 									<option <?php if(isset($customer)): if($customer[0]->isactive == 1): echo 'selected'; endif; endif; ?> value="1">Active</option>';
 									<option <?php if(isset($customer)): if($customer[0]->isactive == 0): echo 'selected'; endif; endif; ?> value="0">Inctive</option>';
+								</select>
+							</div>
+
+							<label class="col-sm-2 no-padding-right" for="">Is Service Tax<b class="red">*</b></label>
+
+							<div class="col-sm-4">
+								<select class=" form-control" name="is_service_tax" id="form-field-select-3" data-placeholder="Choose a State...">
+									<option <?php if(isset($customer)): if($customer[0]->is_service_tax == 1): echo 'selected'; endif; endif; ?> value="1">Yes</option>';
+									<option <?php if(isset($customer)): if($customer[0]->is_service_tax == 0): echo 'selected'; endif; endif; ?> value="0">No</option>';
 								</select>
 							</div>
 						</div>	

@@ -495,7 +495,7 @@
 										<label class="col-sm-2  no-padding-right" for="">End Time</label>
 
 										<div class="col-sm-4">
-											<input type="text" id="end_time"  name="end_time" placeholder="Enter End Time" class="col-xs-10 form-control col-sm-5 date-timepicker1"  value="<?php if(isset($DutySlip)): echo $newDateTime = date('d/m/Y h:i A', strtotime($DutySlip[0]->end_time)); endif; ?>"  />
+											<input type="text" id="end_time"  name="end_time" placeholder="Enter End Time" class="col-xs-10 form-control col-sm-5 date-timepicker1"  value="<?php  if(!empty($DutySlip[0]->end_time) && $DutySlip[0]->end_time!= NULL && $DutySlip[0]->end_time!='0000-00-00 00:00:00'){ echo "test".$newDateTime = date('d/m/Y h:i A', strtotime($DutySlip[0]->end_time)); } else {echo NULL;}  ?>"  />
 											<span class="help-inline col-xs-12 col-sm-7">
 												<span class="middle input-text-error" id="end_time_errorlabel"></span>
 											</span>
@@ -596,7 +596,7 @@
 											<select <?php if($DutySlip[0]->status >=3) echo "disabled";?> data-placeholder="Select Status" name="tour_status" id="tour_status" class="chosen-select form-control" style="display: none;">
 			                                    <option <?php if(isset($DutySlip) && $DutySlip[0]->status == 1) { echo "selected"; }?> value="1">Pending</option>
 			                                    <option value="2" <?php if(isset($DutySlip) &&  $DutySlip[0]->status == 2) { echo "selected"; }?>>On Tour</option>
-			                                    <option value="3" <?php if(isset($DutySlip) &&  $DutySlip[0]->status == 3) { echo "selected"; }?>>End Tour</option>
+			                                    <option value="3" <?php if(isset($DutySlip) &&  $DutySlip[0]->status == 2) { echo "enabled"; } else { echo "disabled"; } if(isset($DutySlip) &&  $DutySlip[0]->status == 3) { echo "selected"; }?>>End Tour</option>
 			                                    <option disabled <?php if(isset($DutySlip) && $DutySlip[0]->status == 4) { echo "selected"; }?> value="4">Cancel</option>
 			                                    <option disabled <?php if(isset($DutySlip) && $DutySlip[0]->status == 5) { echo "selected"; }?> value="5">UnPaid</option>
 			                                    <option disabled value="6" <?php if(isset($DutySlip) &&  $DutySlip[0]->status == 6) { echo "selected"; }?>>Paid</option>

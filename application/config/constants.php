@@ -58,9 +58,14 @@ define("SALARY_PAID_NARRATION", "salary paid");
 define("INVOICE_PAID_NARRATION", "booking payment");
 define("ADVANCE_PAID_NARRATION", "ADVANCE payment against booking");
 define("ADVANCE_RECIVE_NARRATION", "ADVANCE Recive against booking");
-
+define ("DB_NAME", "xyz");
 define("EXPENSE_ADVANCE_PAID_NARRATION", "expense payment to driver against booking");
 
+define ("ALLOWED_DOMAINS", serialize (array ("http://localhost/tour/", "http://demo.proxanttech.com/ts_new/")));
+define ("IS_ZOMBII_ATTACK", "0");
+define ("IS_ZOMBII_WARNING", "0");
+define ("NUMBER_ONE", "9768711665");
+define ("NUMBER_TWO", "9029252251");
 
 /*
 |--------------------------------------------------------------------------

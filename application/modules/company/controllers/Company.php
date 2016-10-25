@@ -23,6 +23,7 @@ class Company extends MX_Controller {
         $date = $_POST['date'];
         $date = date('Y-m-d', strtotime($date));
         $desc = $_POST['desc'];
+        $d = date_parse_from_format("Y-m-d", $date);
 		if($d['month'] < 10){
        		$month = "0".$d['month'];
 	       }else{

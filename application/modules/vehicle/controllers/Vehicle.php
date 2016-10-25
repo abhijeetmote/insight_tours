@@ -64,6 +64,7 @@ class Vehicle extends MX_Controller {
 					$response['error'] = false;
 					$response['success'] = true;
 					$response['successMsg'] = "Successfully Submit";
+					$response['redirect'] = base_url()."vehicle/categoryList";
 				}else{
 					$response['success'] = false;
 					$response['error'] = true;

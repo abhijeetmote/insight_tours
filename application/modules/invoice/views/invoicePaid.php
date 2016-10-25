@@ -66,8 +66,31 @@
 	                    </div>
                     </div>
 
-                    <input type="hidden" name="invoiceId" value="<?php echo $invoiceId; ?>">
+                    <div class="form-group">
+                        <label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"></b>Discount</label>	
+               			<div class="col-sm-4">
+                            <input type="text" id="discount" name="discount" placeholder="Enter Discount" class="col-xs-10 form-control col-sm-5" onKeyUp="javascript:return check_isnumeric(event,this,0);" />
+							<span class="help-inline col-xs-12 col-sm-7">
+								<span class="middle input-text-error" id="discount_errorlabel"></span>
+							</span>
+                        </div>
+
+                        <label class="col-sm-1 no-padding-right" for="form-field-2"><b class="red"></b>TDS</label>	
+
+	                    <div class="col-sm-4">
+                            <input type="text" id="tds" name="tds" placeholder="Enter Tds" class="col-xs-10 form-control col-sm-5" onKeyUp="javascript:return check_isnumeric(event,this,0);" />
+							<span class="help-inline col-xs-12 col-sm-7">
+								<span class="middle input-text-error" id="tds_errorlabel"></span>
+							</span>
+	                    </div>
+                    </div>
+
+                    <input type="hidden" name="final_invoiceId" value="<?php echo $final_invoiceId; ?>">
                     <input type="hidden" name="customerLedger" value="<?php echo $ledgerId; ?>">
+                    <!-- <input type="hidden" name="cust_type_id" value="<?php echo $cust_type_id; ?>">
+                    <input type="hidden" name="completed_month" value="<?php echo $completed_month; ?>">
+                    <input type="hidden" name="completed_year" value="<?php echo $completed_year; ?>"> -->
+                    <input type="hidden" name="cust_id" value="<?php echo $cust_id; ?>">
                     
                     <div class="form-group">
                 		

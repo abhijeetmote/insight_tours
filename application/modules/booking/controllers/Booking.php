@@ -12,6 +12,7 @@ class Booking extends MX_Controller {
 		$this->load->model('helper/selectEnhanced_to');
 		$this->load->model('helper/helper_model');
 		$this->load->model('account/account_model');
+		$this->load->helper('mail');
 		$this->active = "booking";
 	}
 
@@ -114,6 +115,7 @@ class Booking extends MX_Controller {
  	 		} else {
 
  	 			$this->db->trans_commit();
+ 	 			
 				$response['success'] = true;
 				$response['error'] = false;
 				$response['successMsg'] = "Booking Added Successfully";
@@ -131,7 +133,9 @@ class Booking extends MX_Controller {
 		$response['errorMsg'] = "Error!!! Please contact IT Dept";
  	}
  	//exit;
- 	 
+ 	if(isset($booking_id)) {
+	$this->send_booking_email($booking_id,1);
+	} 
 	echo json_encode($response);
  	}
 
@@ -172,7 +176,7 @@ class Booking extends MX_Controller {
 		}
 
  		$tableName =  'customer_master c, booking_master b , vehicle_category v ';
- 		$select = 'b.*,cat_name,c.cust_type_id,c.cust_firstname,c.cust_lastname';
+ 		$select = 'b.*,cat_name,c.cust_type_id,c.cust_firstname,c.cust_lastname,c.cust_compname';
  		$where =  'c.cust_id = b.cust_id and b.vehicle_type = v.cat_id';
  		$where .= $where_extra;
  		$data['booking_list'] = $this->Booking_model->getwheredata($select,$tableName,$where);
@@ -493,7 +497,9 @@ class Booking extends MX_Controller {
 		$response['redirect'] = base_url()."booking/bookingList";
  	}
 
- 	 
+	 if(isset($booking_id)) {
+	$this->send_booking_email($booking_id,2);
+	}
 	echo json_encode($response);
  	}
 
@@ -684,17 +690,16 @@ class Booking extends MX_Controller {
 		$start_date = NULL;
 		$end_date = NULL;
 
-		/*if(isset($_POST['start_date']) && !empty($_POST['start_date']) &&
+		if(isset($_POST['start_date']) && !empty($_POST['start_date']) &&
 		   isset($_POST['end_date']) && !empty($_POST['end_date']) ) {
-			$status = 3;
+			//$status = 3;
 			$start_date = $_POST['start_date'];
 			$end_date = $_POST['end_date'];
 		} else if(isset($_POST['start_date']) && !empty($_POST['start_date'])) {
-			$status = 2;
+			//$status = 2;
 			$start_date = $_POST['start_date'];
-		} else {
-			$status = 1;
-		}*/
+		} 
+		
 		$status = $_POST['tour_status'];
 		$user_id = 0;
 		if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
@@ -1001,11 +1006,15 @@ class Booking extends MX_Controller {
 			$value = $_POST['booking_id'];
 			$this->Booking_model->updateData($tableName,$data,$columnName,$value);
 			if($_POST['end_date'] != ""){
-				$this->addInvoice($result,$_POST['start_date'],$_POST['total_amt'],$_POST['booking_id']);
+				//$this->addInvoice($result,$_POST['start_date'],$_POST['total_amt'],$_POST['booking_id']);
 			}
 			$this->db->trans_commit();
 
+			if(isset($booking_id_notifi)) {
+				$this->send_dutysleep_email($booking_id_notifi);
+			}
 			$notification = $this->Booking_model->sendDutyslip_notification($duty_slip_id_notifi,$booking_id_notifi);
+			 
 			$response['success'] = true;
 			$response['successMsg'] = "Successfully Submit";
 			$response['redirect'] = base_url()."booking/bookingList";
@@ -1032,6 +1041,9 @@ class Booking extends MX_Controller {
 			$status = 1;
 		}*/
 		$status = $_POST['tour_status'];
+		$cust_id = $_POST['cust_id'];
+		$booking_id = $_POST['booking_id'];
+
 		//echo $status;exit;
 		$user_id = 0;
 		if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
@@ -1237,94 +1249,144 @@ class Booking extends MX_Controller {
 
 		if($status >= 3) {
 
-				 $driver_payment = $_POST['driver_payment'];
-				$dri_id = $_POST['driver'];
-				$select = 'l.ledger_account_id,l.ledger_account_name';
-				$tableName = 'ledger_master l , driver_master c';
-				$where = "c.ledger_id = l.ledger_account_id AND c.driver_id = $dri_id";
-				$driver_data = $this->Booking_model->getwheredata($select,$tableName,$where);
+			$driver_payment = $_POST['driver_payment'];
+			$dri_id = $_POST['driver'];
+			$select = 'l.ledger_account_id,l.ledger_account_name';
+			$tableName = 'ledger_master l , driver_master c';
+			$where = "c.ledger_id = l.ledger_account_id AND c.driver_id = $dri_id";
+			$driver_data = $this->Booking_model->getwheredata($select,$tableName,$where);
 
-				if(!isset($driver_data) || empty($driver_data)){
+			if(!isset($driver_data) || empty($driver_data)){
 
-					$this->db->trans_rollback();
-					$response['success'] = false;
-					$response['successMsg'] = "Error!!! Please contact IT Dept";
-				}else{
+				$this->db->trans_rollback();
+				$response['success'] = false;
+				$response['successMsg'] = "Error!!! Please contact IT Dept";
+			}else{
 
-					$driver_ledger_id = $driver_data[0]->ledger_account_id;
-					$driver_ledger_name = $driver_data[0]->ledger_account_name;
-					$tottalexp = $total_expense;
-
-
-					$dr = DR;
-					$cr = CR;
-					$select = " * ";
-					$ledgertable = LEDGER_TABLE ;
-
-				 	$where =  "ledger_account_id = '$driver_payment'";
-					$ledger_details = $this->Booking_model->getwheresingle($select,$ledgertable,$where);
-					
-				 	$from_ledger_name = $ledger_details->ledger_account_name;
-
-						// transaction data insertion start (expense payment)
-						 	$from_data = array(
-								'transaction_date' => date('Y-m-d h:i:s'),
-								'ledger_account_id' => $driver_payment,
-								'ledger_account_name' => $from_ledger_name,
-								'transaction_type' => $cr,
-								'payment_reference' => $_POST['booking_id'],
-								'transaction_amount' => $tottalexp,
-								'txn_from_id' => 0,
-								'memo_desc' => EXPENSE_ADVANCE_PAID_NARRATION." : ".$_POST['booking_id'],
-								'added_by' => $user_id,
-								'added_on' => date('Y-m-d h:i:s')
-							);
-							$transaction_table =  TRANSACTION_TABLE;
-
-							//From transaction
-						 	$from_transaction_id = $this->Booking_model->saveData($transaction_table,$from_data);
-						 
-
-						 	//to leadger trans data insertion start
-						 	if(isset($from_transaction_id) && !empty($from_transaction_id)) {
-								 
-							 	 
-								  
-							 	// transaction data data insertion start
-								 $to_data = array(
-										'transaction_date' => date('Y-m-d h:i:s'),
-										'ledger_account_id' => $driver_ledger_id,
-										'ledger_account_name' => $driver_ledger_name,
-										'transaction_type' => $dr,
-										'payment_reference' => $_POST['booking_id'],
-										'transaction_amount' => $tottalexp,
-										'txn_from_id' => $from_transaction_id,
-										'memo_desc' => EXPENSE_ADVANCE_PAID_NARRATION." : ".$_POST['booking_id'],
-										'added_by' => $user_id,
-										'added_on' => date('Y-m-d h:i:s')
-									);
-								$transaction_table =  TRANSACTION_TABLE;
-
-								 //From transaction
-								$to_transaction = $this->Booking_model->saveData($transaction_table,$to_data);
+				$driver_ledger_id = $driver_data[0]->ledger_account_id;
+				$driver_ledger_name = $driver_data[0]->ledger_account_name;
+				$tottalexp = $total_expense;
 
 
-						 	 	if(!isset($to_transaction) && empty($to_transaction)){
-						 	 		$this->db->trans_rollback();
-							 		$response['error'] = true;
-							 		$response['success'] = false;
-									$response['errorMsg'] = "Error!!! Please contact IT Dept";
-						 	 	}  
+				$dr = DR;
+				$cr = CR;
+				$select = " * ";
+				$ledgertable = LEDGER_TABLE ;
 
-						 	} else {
-						 		$this->db->trans_rollback();
-						 		$response['error'] = true;
-						 		$response['success'] = false;
-								$response['errorMsg'] = "Error!!! Please contact IT Dept";
-						 	}
+			 	$where =  "ledger_account_id = '$driver_payment'";
+				$ledger_details = $this->Booking_model->getwheresingle($select,$ledgertable,$where);
+				
+			 	$from_ledger_name = $ledger_details->ledger_account_name;
 
-				} 
+				//transaction data insertion start (expense payment)
+			 	$from_data = array(
+					'transaction_date' => date('Y-m-d h:i:s'),
+					'ledger_account_id' => $driver_payment,
+					'ledger_account_name' => $from_ledger_name,
+					'transaction_type' => $cr,
+					'payment_reference' => $_POST['booking_id'],
+					'transaction_amount' => $tottalexp,
+					'txn_from_id' => 0,
+					'memo_desc' => EXPENSE_ADVANCE_PAID_NARRATION." : ".$_POST['booking_id'],
+					'added_by' => $user_id,
+					'added_on' => date('Y-m-d h:i:s')
+				);
+				$transaction_table =  TRANSACTION_TABLE;
+
+				//From transaction
+			 	$from_transaction_id = $this->Booking_model->saveData($transaction_table,$from_data);
+			 
+
+			 	//to leadger trans data insertion start
+			 	if(isset($from_transaction_id) && !empty($from_transaction_id)) {
+					 
+				 	 
+					  
+				 	// transaction data data insertion start
+					 $to_data = array(
+							'transaction_date' => date('Y-m-d h:i:s'),
+							'ledger_account_id' => $driver_ledger_id,
+							'ledger_account_name' => $driver_ledger_name,
+							'transaction_type' => $dr,
+							'payment_reference' => $_POST['booking_id'],
+							'transaction_amount' => $tottalexp,
+							'txn_from_id' => $from_transaction_id,
+							'memo_desc' => EXPENSE_ADVANCE_PAID_NARRATION." : ".$_POST['booking_id'],
+							'added_by' => $user_id,
+							'added_on' => date('Y-m-d h:i:s')
+						);
+					$transaction_table =  TRANSACTION_TABLE;
+
+					 //From transaction
+					$to_transaction = $this->Booking_model->saveData($transaction_table,$to_data);
+
+
+			 	 	if(!isset($to_transaction) && empty($to_transaction)){
+			 	 		$this->db->trans_rollback();
+
+				 		$response['error'] = true;
+				 		$response['success'] = false;
+						$response['errorMsg'] = "Error!!! Please contact IT Dept";
+			 	 	}  
+
+			 	} else {
+			 		$this->db->trans_rollback();
+			 		$response['error'] = true;
+			 		$response['success'] = false;
+					$response['errorMsg'] = "Error!!! Please contact IT Dept";
+			 	}
+
+			} 
+
+			$select = "is_service_tax";
+			$ledgertable = "customer_master";
+		 	$where =  "cust_id = '$cust_id'";
+			$customer_details = $this->Booking_model->getwheresingle($select,$ledgertable,$where);
+			$is_service_tax = $customer_details->is_service_tax;
+
+			$tableName =  'booking_master b , package_master p ';
+	 		$select = 'p.*';
+	 		$where =  "p.package_id = b.package_id and b.booking_id = '$booking_id'";
+	 		$package = $this->Booking_model->getwheredata($select,$tableName,$where);
+
+	 		$extra_kms = $_POST['extra_kms'];
+			$extra_hrs = $_POST['extra_hrs'];
+			$toll_fess = $_POST['toll_fess'];
+			$parking_fees = $_POST['parking_fees'];
+			$total_amt = $_POST['total_amt'];
+
+
+			if($is_service_tax == 1){
+				$km = $extra_kms * $package[0]->charge_distance;
+				$hr = $extra_hrs * $package[0]->charge_hour;
+				$package_amt = $package[0]->package_amt;
+				$extra_charges = $km + $hr;
+				$gross_amt = $km + $hr + $package_amt;
+				$service_tax = ($gross_amt * 14.5)/100;
+				$education_cess = (($gross_amt + $service_tax) * 2)/100;
+				$sec_education_cess = (($education_cess + $gross_amt + $service_tax) * 1)/100;
+				$total_amount = $gross_amt + $service_tax + $education_cess + $sec_education_cess + $toll_fess + $parking_fees;
+			}else{
+				
+				$gross_amt = $total_amt;
+				$service_tax = 0;
+				$education_cess = 0;
+				$sec_education_cess = 0;
+				$total_amount = $total_amt;
 			}
+
+			$final_amount = $total_amount - $advance_paid;
+
+			
+			$tableName =  'invoice_master';
+	 		$select = 'invoice_id';
+			$column = 'duty_sleep_id';
+			$value = $_POST['duty_sleep_id'];
+			$dutySlipDetails = $this->Booking_model->getData($select, $tableName, $column, $value);
+			if(empty($dutySlipDetails)){
+				$this->addInvoice($_POST['duty_sleep_id'],$_POST['start_date'],$_POST['booking_id'],$gross_amt,$service_tax,$education_cess,$sec_education_cess,$total_amount,$advance_paid,$final_amount,$cust_id);
+			}
+		}
 
 
 		$duty_table = 'duty_sleep_master';
@@ -1342,20 +1404,14 @@ class Booking extends MX_Controller {
 		$duty_sleep_id = $_POST['duty_sleep_id'];
 		$booking_update = $this->Booking_model->updateData($booking_table, $updatdbooking, $booking_column, $duty_sleep_id);
 
+		
+
+		//echo "tets";
 		if($result != false){
-			if(strtolower($_POST['payment_status']) != "paid" && $_POST['end_date'] != ""){
-				$tableName =  'invoice_master';
-		 		$select = 'invoice_id';
-				$column = 'duty_sleep_id';
-				$value = $_POST['duty_sleep_id'];
-				$dutySlipDetails = $this->Booking_model->getData($select, $tableName, $column, $value);
-				if(empty($dutySlipDetails)){
-					$this->addInvoice($_POST['duty_sleep_id'],$_POST['start_date'],$_POST['total_amt'],$_POST['booking_id']);
-				}else{
-					$this->updateInvoice($_POST['total_amt'],$_POST['start_date'],$_POST['duty_sleep_id']);
-				}
-			}
+			
 			$this->db->trans_commit();
+			//$this->generateDutyslip($_POST['booking_id']);
+ 	 		//$this->send_dutysleep_attach($_POST['booking_id'],$_POST['duty_sleep_id']);
 			$response['success'] = true;
 			$response['successMsg'] = "Successfully Updated";
 			$response['redirect'] = base_url()."booking/bookingList";
@@ -1371,7 +1427,7 @@ class Booking extends MX_Controller {
 
 
 
-	public function addInvoice($duty_sleep_id,$start_date,$total_amt,$booking_id){
+	public function addInvoice($duty_sleep_id,$start_date,$booking_id,$gross_amt,$service_tax,$education_cess,$sec_education_cess,$total_amount,$advance_paid,$final_amount,$cust_id){
 		$invoice_no = strtoupper($this->generateRandomString(4));
 		$user_id = 0;
 		if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
@@ -1382,13 +1438,22 @@ class Booking extends MX_Controller {
 			'invoice_no' => $invoice_no,
 			'duty_sleep_id' => $duty_sleep_id,
 			'booking_id' => $booking_id,
+			'cust_id' => $cust_id,
 			'invoice_start_date' => $start_date,
 			'invoice_date' => date('Y-m-d h:i:s'),
 			'payment_mode' => 'cash',
-			'total_amount' => $total_amt,
+			'gross_amt' => $gross_amt,
+			'service_tax_amt' => $service_tax,
+			'education_cess_amt' => $education_cess,
+			'sec_education_cess_amt' => $sec_education_cess,
+			'total_amount' => $total_amount,
+			'adv_amount' => $advance_paid,
+			'final_amount' => $final_amount,
 			'transaction_id' => 0,
 			'bank_name' => '',
 			'status' => 1,
+			'completed_month' => date('m'),
+			'completed_year' => date('Y'),
 			'added_by' => $user_id,
 			'added_on' => date('Y-m-d h:i:s')
 		);
@@ -1397,7 +1462,7 @@ class Booking extends MX_Controller {
 		return $this->Booking_model->saveData($tableName,$invoiceData);
 	}
 
-	public function updateInvoice($total_amt,$start_date,$duty_sleep_id){
+	public function updateInvoice($duty_sleep_id,$start_date,$gross_amt,$service_tax,$education_cess,$sec_education_cess,$total_amount,$advance_paid,$final_amount,$cust_id){
 
 		$user_id = 0;
 		if(isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
@@ -1406,10 +1471,18 @@ class Booking extends MX_Controller {
 		$invoiceData = array(
 			'invoice_start_date' => $start_date,
 			'payment_mode' => 'cash',
-			'total_amount' => $total_amt,
+			'gross_amt' => $gross_amt,
+			'service_tax_amt' => $service_tax,
+			'education_cess_amt' => $education_cess,
+			'sec_education_cess_amt' => $sec_education_cess,
+			'total_amount' => $total_amount,
+			'adv_amount' => $advance_paid,
+			'final_amount' => $final_amount,
 			'transaction_id' => 0,
 			'bank_name' => '',
 			'status' => 1,
+			'completed_month' => date('m'),
+			'completed_year' => date('Y'),
 			'updated_by' => $user_id,
 			'updated_on' => date('Y-m-d h:i:s')
 		);
@@ -1455,5 +1528,399 @@ class Booking extends MX_Controller {
 		$output = pdf_create($html, 'filename', array('Attachment' => 0));
 		 file_put_contents('./assets/dutyslip/'.$filename.'.pdf', $output);
 		//$path = "./assets/dutyslip/".$filename;
+ 	}
+
+ 	public function send_booking_email($booking_id,$email_flag) {
+
+ 		//error_reporting(E_ALL);
+ 		$this->load->helper('mail');
+ 		//$booking_id = 10;
+ 		//$email_flag = 3;
+ 		$tableName =  'customer_master c, booking_master b , vehicle_category v ';
+ 		$select = 'b.*,cat_name,c.cust_type_id,c.cust_firstname,c.cust_lastname,c.cust_compname,c.cust_email1,c.cust_email2';
+ 		$where =  "c.cust_id = b.cust_id and b.vehicle_type = v.cat_id and b.booking_id = '$booking_id'";
+ 		$booking_details = $this->Booking_model->getwheredata($select,$tableName,$where);
+ 		/*echo "<pre>";
+ 		print_r($booking_details);exit;*/
+ 		$tableName =  PASSENGER_TABLE;
+ 		$select = '*';
+ 		$where =  "booking_id = '$booking_id'";
+ 		$passenger_details = $this->Booking_model->getwheredata($select,$tableName,$where);
+
+ 		 
+
+ 		//echo "<pre>";print_r($passenger_details);exit;
+ 		if($passenger_details == true){
+ 			
+ 			foreach ($passenger_details as $val) {
+ 				$passbody .='<tr>
+ 							<td>'.ucfirst($val->passenger_name).'</td>	
+ 							<td>'.ucfirst($val->passenger_number).'</td>
+ 							<td>'.ucfirst($val->pickup_address).'</td>
+ 							<td>'.ucfirst($val->drop_address).'</td>
+ 							</tr>';	
+ 			}
+ 			
+ 			
+ 		}
+
+ 		$booking_body = "";
+
+ 			foreach ($booking_details as $val) {
+
+ 				if($val->cust_type_id == 2){
+					$booked_by = $val->cust_compname;
+				}elseif($val->cust_type_id == 1){
+					$booked_by = $val->cust_firstname. " " .$val->cust_lastname;
+				} else {
+					$booked_by = $val->cust_firstname. " " .$val->cust_lastname;
+				}
+				$cust_email1 = $val->cust_email1;
+				$cust_email2 = $val->cust_email2;
+				$booking_body .= "<tr>";
+				$booking_body .= "<td>"."BK_".$val->booking_id."</td>";
+				$booking_body .= "<td>".$booked_by."</td>";
+				$booking_body .= "<td>".date('d/m/Y H:i:s', strtotime($val->booking_date))."</td>";
+				$booking_body .= "<td>".$val->pickup_location."</td>";
+				$booking_body .= "<td>".$val->drop_location."</td>";
+				$booking_body .= "<td>".$val->travel_type."</td>";
+				$booking_body .= "<td>".$val->cat_name."</td>";
+				$booking_body .= "</tr>";
+
+			}
+
+
+		//echo $booking_body;	
+		if($email_flag == 1 ) {
+		$booking_msg = "Dear customer, <br> Your booking has been confirm with following details <br> ";	
+		} else if($email_flag == 2 ) {
+			$booking_msg = "Dear customer, <br> Your booking has been Updated with following details <br> ";	
+		}  
+		$booking_follter = " <br> Thanks & Regards ";
+ 		$booking_data ="<div>
+						<div>
+							<h5>
+								Booking Details
+							</h5>							
+						</div>
+
+						<div>
+							<div>
+								<table border='1' cellpadding='0' cellspacing='0' >
+									<thead >
+										<tr>
+											<th>
+												Booking Id
+											</th>
+
+											<th>
+												Booked By
+											</th>
+											<th>
+												Booked Time
+											</th>
+											<th>
+												Pickup Address
+											</th>
+											<th>
+												Drop Address
+											</th>
+											<th>
+												Tour
+											</th>
+											<th>
+												Vehicle Type
+											</th>
+
+										</tr>
+									</thead>
+
+									<tbody>".
+									$booking_body
+									."</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div>
+						<div>
+							<h5>
+								Passenger Details
+							</h5>							
+						</div>
+
+						<div>
+							<div>
+								<table border='1' cellpadding='0' cellspacing='0'>
+									<thead >
+										<tr>
+											<th>
+												Passenger Name
+											</th>
+
+											<th>
+												Passenger Number
+											</th>
+											<th>
+												Pickup Address
+											</th>
+
+											<th>
+												Drop Address
+											</th>
+											
+										</tr>
+									</thead>
+
+									<tbody>".
+									$passbody
+									."</tbody>
+								</table>
+							</div>
+						</div>
+					</div>";			
+
+		
+		 			
+		$booking_body = $booking_msg.$booking_data.$booking_follter;
+		
+		if(isset($cust_email1)) {	
+ 		mailer($cust_email1,'New Booking Confirm',$booking_body,false);
+ 		}
+ 		
+ 	}
+
+
+ 	public function send_dutysleep_email($booking_id) {
+
+ 		//error_reporting(E_ALL);
+ 		$this->load->helper('mail');
+ 		//$booking_id = 9;
+ 		//$email_flag = 1;
+ 		$tableName =  'customer_master c, booking_master b , vehicle_category v ,duty_sleep_master d';
+ 		$select = 'b.*,d.*,cat_name,c.cust_type_id,c.cust_firstname,c.cust_lastname,c.cust_compname,c.cust_email1,c.cust_email2';
+ 		$where =  "c.cust_id = b.cust_id and b.vehicle_type = v.cat_id and d.booking_id = b.booking_id and b.booking_id = '$booking_id'";
+ 		$booking_details = $this->Booking_model->getwheredata($select,$tableName,$where);
+ 		 
+ 		$tableName =  PASSENGER_TABLE;
+ 		$select = '*';
+ 		$where =  "booking_id = '$booking_id'";
+ 		$passenger_details = $this->Booking_model->getwheredata($select,$tableName,$where);
+
+ 		 
+ 		$tableName =  DRIVER_MASTER;
+ 		$driver_id = $booking_details[0]->driver_id;
+ 		$select = '*';
+ 		$where =  "driver_id = '$driver_id'";
+ 		$driver_details = $this->Booking_model->getwheredata($select,$tableName,$where);
+ 		 
+ 		if($driver_details == true){
+ 			
+ 			foreach ($driver_details as $val) {
+ 				$driverbody .='<tr>
+ 							<td>'.ucfirst($val->driver_fname." ".$val->driver_lname).'</td>	
+ 							<td>'.ucfirst($val->driver_mobno. ", ".$val->driver_mobno1).'</td>
+ 							<td>'.ucfirst($val->driver_licno).'</td>
+ 							</tr>';	
+ 			}
+ 			
+ 			
+ 		}
+
+ 		$driver_data = "<div>
+						<div>
+							<h5>
+								Driver Details
+							</h5>							
+						</div>
+
+						<div>
+							<div>
+								<table border='1' cellpadding='0' cellspacing='0'>
+									<thead >
+										<tr>
+											<th>
+												Driver Name
+											</th>
+
+											<th>
+												Driver Number
+											</th>
+											<th>
+												Licence No
+											</th>
+ 											
+										</tr>
+									</thead>
+
+									<tbody>".
+									$driverbody
+									."</tbody>
+								</table>
+							</div>
+						</div>
+					</div>";
+
+ 		 
+
+ 		//echo "<pre>";print_r($passenger_details);exit;
+ 		if($passenger_details == true){
+ 			
+ 			foreach ($passenger_details as $val) {
+ 				$passbody .='<tr>
+ 							<td>'.ucfirst($val->passenger_name).'</td>	
+ 							<td>'.ucfirst($val->passenger_number).'</td>
+ 							<td>'.ucfirst($val->pickup_address).'</td>
+ 							<td>'.ucfirst($val->drop_address).'</td>
+ 							</tr>';	
+ 			}
+ 			
+ 			
+ 		}
+
+ 		$booking_body = "";
+
+ 			foreach ($booking_details as $val) {
+
+ 				if($val->cust_type_id == 2){
+					$booked_by = $val->cust_compname;
+				}elseif($val->cust_type_id == 1){
+					$booked_by = $val->cust_firstname. " " .$val->cust_lastname;
+				} else {
+					$booked_by = $val->cust_firstname. " " .$val->cust_lastname;
+				}
+				$cust_email1 = $val->cust_email1;
+				$cust_email2 = $val->cust_email2;
+				$booking_body .= "<tr>";
+				$booking_body .= "<td>"."BK_".$val->booking_id."</td>";
+				$booking_body .= "<td>".$booked_by."</td>";
+				$booking_body .= "<td>".date('d/m/Y H:i:s', strtotime($val->booking_date))."</td>";
+				$booking_body .= "<td>".$val->pickup_location."</td>";
+				$booking_body .= "<td>".$val->drop_location."</td>";
+				$booking_body .= "<td>".$val->travel_type."</td>";
+				$booking_body .= "<td>".$val->cat_name."</td>";
+				$booking_body .= "</tr>";
+
+			}
+
+
+		//echo $booking_body;	
+		 
+			$booking_msg = "Dear customer, <br> Your Duty sleep has been generated with following Details ";	
+		 
+		$booking_follter = " <br> Thanks & Regards ";
+ 		$booking_data ="<div>
+						<div>
+							<h5>
+								Booking Details
+							</h5>							
+						</div>
+
+						<div>
+							<div>
+								<table border='1' cellpadding='0' cellspacing='0' >
+									<thead >
+										<tr>
+											<th>
+												Booking Id
+											</th>
+
+											<th>
+												Booked By
+											</th>
+											<th>
+												Booked Time
+											</th>
+											<th>
+												Pickup Address
+											</th>
+											<th>
+												Drop Address
+											</th>
+											<th>
+												Tour
+											</th>
+											<th>
+												Vehicle Type
+											</th>
+
+										</tr>
+									</thead>
+
+									<tbody>".
+									$booking_body
+									."</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div>
+						<div>
+							<h5>
+								Passenger Details
+							</h5>							
+						</div>
+
+						<div>
+							<div>
+								<table border='1' cellpadding='0' cellspacing='0'>
+									<thead >
+										<tr>
+											<th>
+												Passenger Name
+											</th>
+
+											<th>
+												Passenger Number
+											</th>
+											<th>
+												Pickup Address
+											</th>
+
+											<th>
+												Drop Address
+											</th>
+											
+										</tr>
+									</thead>
+
+									<tbody>".
+									$passbody
+									."</tbody>
+								</table>
+							</div>
+						</div>
+					</div>";			
+
+		
+		 
+		$booking_body = $booking_msg.$booking_data.$driver_data.$booking_follter;
+		 
+		if(isset($cust_email1)) {	
+ 		mailer($cust_email1,'New Booking Confirm',$booking_body,false);
+ 		}
+ 		
+ 	}
+
+ 	public function send_dutysleep_attach($booking_id,$duty_sleep_id) {
+ 		//echo "testtest";exit;
+ 		error_reporting(E_ALL);
+ 		$this->load->helper('mail');
+ 		 
+	 	$tableName =  'customer_master c, booking_master b , vehicle_category v ';
+ 		$select = 'b.*,cat_name,c.cust_type_id,c.cust_firstname,c.cust_lastname,c.cust_compname,c.cust_email1,c.cust_email2';
+ 		$where =  "c.cust_id = b.cust_id and b.vehicle_type = v.cat_id and b.booking_id = '$booking_id'";
+ 		$booking_details = $this->Booking_model->getwheredata($select,$tableName,$where);
+ 		/*echo "<pre>";
+ 		print_r($booking_details);exit;*/
+ 		$cust_email1 = $booking_details[0]->cust_email1;
+		$booking_msg = "Dear customer, <br> Your Tour has been Successfully Completed Please find Details of tours attach below  ";	
+		 echo "dutysleep/DS-'.$duty_sleep_id.'.pdf";
+		if(isset($cust_email1)) {	
+ 		mailer($cust_email1,'New Booking Confirm',$booking_msg,'dutysleep/DS-'.$duty_sleep_id.'.pdf');
+ 		}
+ 		
  	}
 }

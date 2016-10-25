@@ -19,7 +19,7 @@ var array = [
 	{name: "booking_update", value: baseUrl + "booking/Bookingupdate"},
 	{name: "bookingList", value: baseUrl + "booking/bookingDelete"},
 	{name: "passenger-detail-view", value: baseUrl + "booking/passengerList"},
-	{name: "customermaster", value: baseUrl + "customer/addcustomer"},
+	{name: "customerMaster", value: baseUrl + "customer/addcustomer"},
 	{name: "customerUpdate", value: baseUrl + "customer/customerUpdate"},
 	{name: "customermaster1", value: baseUrl + "customer/addcustomer"},
 	{name: "customerUpdate1", value: baseUrl + "customer/customerUpdate"},
@@ -56,6 +56,7 @@ var array = [
 	{name: "categoryList", value: baseUrl + "vehicle/categoryDelete"},
 	{name: "vehicle-img-remove", value: baseUrl + "vehicle/vehicleImgDelete"},
 	{name: "billpayment", value: baseUrl + "vendor/billPayment"},
+{name: "invoice-pdf-mail", value: baseUrl + "invoice/invoicePdfMail"},
 
 	
 	

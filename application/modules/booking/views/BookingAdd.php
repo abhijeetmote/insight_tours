@@ -284,7 +284,7 @@
 							<div class="col-md-offset-3 col-md-9">
 								<?php if(!isset($booking[0]->duty_slip_id)) { ?>
 								<button class="btn btn-info test" type="submit">
-									<i class="iconcategory"></i>
+									<i class="icon<?php if(isset($booking)): echo "booking_update"; else: echo "bookingmaster"; endif; ?>"></i>
 									Submit
 								</button>
 								<?php }?>
